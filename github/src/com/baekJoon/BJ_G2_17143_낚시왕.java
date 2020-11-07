@@ -1,4 +1,4 @@
-package com.ssafy.algo.baekjoon;
+package com.baekJoon;
 
 import java.io.BufferedReader;
 import java.io.IOException;
