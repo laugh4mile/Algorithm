@@ -10,7 +10,7 @@ import java.util.StringTokenizer;
 public class SWEA_2115_벌꿀채취 {
 	static BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
 	static StringTokenizer tokens;
-	static int T,N,M,C,map[][],result[], burtong1[], burtong2[], sum, max=Integer.MIN_VALUE, sum2, max2=Integer.MIN_VALUE;
+	static int T,N,M,C,map[][],result[], burtong1[], burtong2[], max=Integer.MIN_VALUE, max2=Integer.MIN_VALUE, answer;
 	static boolean isSelected[];
 	public static void main(String[] args) throws NumberFormatException, IOException {
 		input = new BufferedReader(new StringReader(src));
@@ -39,18 +39,17 @@ public class SWEA_2115_벌꿀채취 {
 //			}
 			combi(0,0);
 //			System.out.println();
-			System.out.println("#"+t+" " + max);
-//			System.out.println(max2);
+//			System.out.println("#"+t+" " + (max+max2));
+			System.out.println("#"+t+" " + answer);
+			answer = 0;
 			max = Integer.MIN_VALUE;
+			max2 = Integer.MIN_VALUE;
+			
 		}
 	}
 	private static void combi(int cnt, int start) {
 		if(cnt == 2) {
-//			System.out.println(Arrays.toString(result));
-			
 			checkPosition();
-			
-
 			
 			return;
 		}
@@ -59,6 +58,7 @@ public class SWEA_2115_벌꿀채취 {
 			combi(cnt+1, i+1);
 		}
 	}
+
 	private static void checkPosition() {
 		// 첫번째 일꾼이 처음선택한 벌통의 위치
 		int r1 = result[0]/N;
@@ -69,7 +69,6 @@ public class SWEA_2115_벌꿀채취 {
 		
 //		System.out.println("r1 , c1 : " + r1 +", " +c1);
 //		System.out.println("r2 , c2 : " + r2 +", " +c2);
-		
 		
 		if(!isIn(r1, c1+M-1)) { // 짤리면 리턴
 			return;
@@ -84,56 +83,40 @@ public class SWEA_2115_벌꿀채취 {
 			burtong1[i] = map[r1][c1+i];
 			burtong2[i] = map[r2][c2+i];
 		}
-//		System.out.println(Arrays.toString(burtong1));
-//		System.out.println(Arrays.toString(burtong2));
-		subset(0);
+//		System.out.println();
+		max = max2 = 0;
 		
+		subset(0,burtong1,1);
+		subset(0,burtong2,2);
+		answer = Math.max(answer, max+max2);
+//		System.out.println(Arrays.toString(burtong1) + " " + max);
+//		System.out.println(Arrays.toString(burtong2) + " " + max2);
+//		System.out.println(max+max2);
 	}
-	private static void subset(int cnt) {
+
+	private static void subset(int cnt, int[] burtong, int num) {
 		if(cnt == M) {
-			int check1 = 0;
-			int check2 = 0;
+			int sum1 = 0, answer1 = 0;
 			for(int i=0; i<M; i++) {
 				if(isSelected[i]) {
-					check1 += burtong1[i];
-					check2 += burtong2[i];
 //					System.out.print(burtong1[i]+" ");
-//					sum += Math.pow(burtong1[i], 2);
-//					sum2 += Math.pow(burtong2[i], 2);
+					sum1 += burtong[i];
+					answer1 += Math.pow(burtong[i], 2);
 				}
 			}
-			if(check1 > C) {
+			if(sum1 > C) {
 				return;
 			}
-			if(check2 > C) {
-				return;
-			}
-			for(int i=0; i<M; i++) {
-				if(isSelected[i]) {
-					sum += Math.pow(burtong1[i], 2);
-//					sum += Math.pow(burtong2[i], 2);
-				}
-			}
-			for(int i=0; i<M; i++) {
-				if(isSelected[i]) {
-//					sum += Math.pow(burtong1[i], 2);
-					sum2 += Math.pow(burtong2[i], 2);
-				}
-			}
-			if(max < sum+sum2) {
-				max = sum+sum2;
-			}
-			if(max2 < sum2) {
-				max2 = sum2;
-			}
-			sum = 0;
-			sum2 = 0;
+			if (num == 1)
+				   max = Math.max(max, answer1);
+				else
+				   max2 = Math.max(max2, answer1);
 			return;
 		}
 		isSelected[cnt] = true;
-		subset(cnt+1);
+		subset(cnt+1,burtong,num);
 		isSelected[cnt] = false;
-		subset(cnt+1);
+		subset(cnt+1,burtong,num);
 	}
 	static boolean isIn(int r, int c) {
 		return (r>=0 && c>=0 && r<N && c<N);
