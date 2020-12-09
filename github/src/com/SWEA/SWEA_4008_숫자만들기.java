@@ -5,42 +5,27 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.Stack;
 import java.util.StringTokenizer;
 
 public class SWEA_4008_숫자만들기 {
 	static BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
 	static StringTokenizer tokens;
-	static int T,N, num[], max, min;
-	static char operator[],result[];
-	static boolean isSelected[];
+	static int T,N, num[] , operator[], min, max;
+	static Stack<Integer> stack;
 	public static void main(String[] args) throws NumberFormatException, IOException {
 		input = new BufferedReader(new StringReader(src));
 		T = Integer.parseInt(input.readLine());
 		for(int t=1; t<=T; t++) {
-			max = Integer.MIN_VALUE;
-			min = Integer.MAX_VALUE;
 			N = Integer.parseInt(input.readLine());
 			num = new int[N];
-			operator = new char[N-1];
-			result = new char[N-1];
-			isSelected = new boolean[N-1];
+			operator = new int[4];
 			tokens = new StringTokenizer(input.readLine());
-			int plus = Integer.parseInt(tokens.nextToken());
-			int minus = Integer.parseInt(tokens.nextToken());
-			int mul = Integer.parseInt(tokens.nextToken());
-			int div = Integer.parseInt(tokens.nextToken());
-			int cnt = 0;
-			for(int i=0; i<plus; i++) {
-				operator[cnt++] = '+';
-			}
-			for(int i=0; i<minus; i++) {
-				operator[cnt++] = '-';
-			}
-			for(int i=0; i<mul; i++) {
-				operator[cnt++] = '*';
-			}
-			for(int i=0; i<div; i++) {
-				operator[cnt++] = '/';
+			for(int i=0; i<4; i++) {
+				operator[i] = Integer.parseInt(tokens.nextToken());
 			}
 			tokens = new StringTokenizer(input.readLine());
 			for(int i=0; i<N; i++) {
@@ -49,54 +34,55 @@ public class SWEA_4008_숫자만들기 {
 			
 //			System.out.println(Arrays.toString(operator));
 //			System.out.println(Arrays.toString(num));
-			permutation(0);
 			
-			System.out.println("#"+t+" "+ (max-min));
+			stack = new Stack<>();
+			min = Integer.MAX_VALUE;
+			max = Integer.MIN_VALUE;
+			dfs(0);
+			
+			System.out.println("#"+t+" "+(max-min));
 			
 		}
 	}
 
-	private static void permutation(int cnt) {
-		if(cnt == N-1) {
-			int value = calculation(result);
-			if(value > max) {
-				max = value;
-			}
+	private static void dfs(int depth) {
+		if(depth == N-1) {
+			int value = calculation();
 			if(value < min) {
 				min = value;
 			}
+			if(value > max) {
+				max = value;
+			}
 			return;
 		}
-		for(int i=0; i<N-1; i++) {
-			if(isSelected[i]) continue;
-			result[cnt] =  operator[i];
-			
-			isSelected[i] = true;
-			permutation(cnt+1);
-			isSelected[i] = false;
-		}
 		
+		for(int i=0; i<4; i++) {
+			if(operator[i] > 0) {
+				operator[i]--;
+				stack.push(i);
+				dfs(depth+1);
+				stack.pop();
+				operator[i]++;
+			}
+		}
 	}
 
-	private static int calculation(char[] result) {
+	private static int calculation() {
 		int value = num[0];
-//		System.out.println(value);
-		for(int i=0; i<N-1; i++) {
-			if(result[i]=='+') {
+		for(int i=0; i<stack.size(); i++) {
+			int op = stack.get(i);
+			if(op==0) {
 				value = value + num[i+1];
-//				System.out.println(value);
 			}
-			if(result[i]=='-') {
+			if(op==1) {
 				value = value - num[i+1];
-//				System.out.println(value);
 			}
-			if(result[i]=='*') {
+			if(op==2) {
 				value = value * num[i+1];
-//				System.out.println(value);
 			}
-			if(result[i]=='/') {
+			if(op==3) {
 				value = value / num[i+1];
-//				System.out.println(value);
 			}
 		}
 		return value;
@@ -133,5 +119,6 @@ public class SWEA_4008_숫자만들기 {
 			"8 5 6 8 9 2 6 4 3 2 \r\n" + 
 			"12\r\n" + 
 			"2 1 6 2\r\n" + 
-			"2 3 7 9 4 5 1 9 2 5 6 4 ";
+			"2 3 7 9 4 5 1 9 2 5 6 4 \r\n"+
+			"";
 }
