@@ -4,8 +4,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringReader;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -14,220 +15,247 @@ import java.util.StringTokenizer;
 public class BJ_G5_3190_뱀 {
 	static BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
 	static StringTokenizer tokens;
-	static int N, K, map[][], L, dir=4, cnt; // dir 1:상 2:하 3:좌 4:우
-	static boolean gameOver;
-	static List<move> list = new ArrayList<>();
-	static node head = new node(0, 0);
-	static node tail = new node(0, 0);
-	static Queue<node> queue = new LinkedList<>(); 
-	
+	static int N, K, L, d=0, playTime, before;
+	static boolean gameOver, body;
+	static Queue<Move> queue = new LinkedList<>();
+	static List<Node> list = new ArrayList<>();
+	static Deque<Node> deque = new ArrayDeque<>();
 	public static void main(String[] args) throws NumberFormatException, IOException {
-		input = new BufferedReader (new StringReader(src));
+		//input = new BufferedReader(new StringReader(src));
 		N = Integer.parseInt(input.readLine());
-		map = new int[N][N];
 		K = Integer.parseInt(input.readLine());
-		for(int k=0; k<K; k++) {
+		for(int k=0; k<K; k++) { // 사과는 list에 담을거임
 			tokens = new StringTokenizer(input.readLine());
-			int ax = Integer.parseInt(tokens.nextToken())-1;
-			int ay = Integer.parseInt(tokens.nextToken())-1;
-			map[ax][ay] = 2;
+			int r = Integer.parseInt(tokens.nextToken()) -1 ;
+			int c = Integer.parseInt(tokens.nextToken()) -1 ;
+			list.add(new Node(r, c));
 		}
-		
 		L = Integer.parseInt(input.readLine());
-		for(int l=0; l<L; l++) {
+		for(int l=0; l<L; l++) { // 이동 정보는 queue에 담을거임
 			tokens = new StringTokenizer(input.readLine());
-			int s = Integer.parseInt(tokens.nextToken());
-			char d = tokens.nextToken().charAt(0);
-			list.add(new move(s, d));
+			int t = Integer.parseInt(tokens.nextToken());
+			char dir = tokens.nextToken().charAt(0);
+			int distance = t - before;
+			before = t;
+			queue.offer(new Move(distance, dir));
 		}
-		for(int x[]: map) {
-			System.out.println(Arrays.toString(x));
-		}
-		System.out.println(list);
-		
-		
-		queue.offer(new node(0, 0));
-		
-		for(int i=0; i<L; i++) {
-			move(list.get(i).s);
-			System.out.println("==================================");
-			for(int x[]: map) {
-				System.out.println(Arrays.toString(x));
+		deque.offerFirst(new Node(0, 0)); // 처음 시작은 0,0 에서 시작
+		d = 0; // 처음 방향은 0 (우)
+		palygame();
+		System.out.println(playTime);
+	}
+	private static void palygame() {
+		int sr = 0;
+		int sc = 0;
+		while(!queue.isEmpty()) { // 
+			Move front = queue.poll();
+			char dir = front.d;
+			int l = front.l;
+			// 방향도 조절해야함
+			sr = deque.getFirst().r;
+			sc = deque.getFirst().c;
+			
+			if(d==0){ // 우
+				go0(sr,sc,l,dir);// 시작r, 시작c, 이동할 거리, 다음 방향
 			}
-			System.out.println("==================================");
+			else if(d==1){ // 상
+				go1(sr,sc,l,dir);// 시작r, 시작c, 이동할 거리, 다음 방향
+			}
+			else if(d==2){ // 좌
+				go2(sr,sc,l,dir);// 시작r, 시작c, 이동할 거리, 다음 방향
+			}
+			else if(d==3){ // 하
+				go3(sr,sc,l,dir);// 시작r, 시작c, 이동할 거리, 다음 방향
+			}
 			if(gameOver) {
 				break;
 			}
-			changeDir(i);
 		}
-		if(gameOver) {
-			cnt++;
+		if(!gameOver) {
+			if(d==0){ // 우
+				go0(sr,sc,N,'X');// 시작r, 시작c, 이동할 거리, 다음 방향
+			}
+			else if(d==1){ // 상
+				go1(sr,sc,N,'X');// 시작r, 시작c, 이동할 거리, 다음 방향
+			}
+			else if(d==2){ // 좌
+				go2(sr,sc,N,'X');// 시작r, 시작c, 이동할 거리, 다음 방향
+			}
+			else if(d==3){ // 하
+				go3(sr,sc,N,'X');// 시작r, 시작c, 이동할 거리, 다음 방향
+			}
 		}
-		for(int x[]: map) {
-			System.out.println(Arrays.toString(x));
+	}
+	
+	private static void go0(int sr, int sc, int l, char nextDir) {
+		for(int i=1; i<=l; i++) {
+			playTime++;
+			int nc = sc + i;
+			if(isIn(nc) && !isBreak(sr, nc)) {
+				if(checkApple(sr,nc)) { // 사과가 있는 지점이라면 first만 추가
+					deque.offerFirst(new Node(sr, nc));
+				}else { // 사과가 없는 지점이라면 first 추가 후 last 삭제
+					deque.offerFirst(new Node(sr, nc));
+					deque.pollLast();
+				}
+			}else { // 범위를 벗어나거나 몸에 부딛힌다면
+				gameOver = true;
+				break;
+			}
 		}
-		System.out.println(cnt);
+		
+		if(nextDir =='L') {
+			d = 1;
+		}else { // dir == 'D'
+			d = 3;
+		}
+	}
+	
+	private static void go1(int sr, int sc, int l, char nextDir) {
+		for(int i=1; i<=l; i++) {
+			playTime++;
+			int nr = sr - i;
+			if(isIn(nr) && !isBreak(nr, sc)) {
+				if(checkApple(nr,sc)) { // 사과가 있는 지점이라면 first만 추가
+					deque.offerFirst(new Node(nr, sc));
+				}else { // 사과가 없는 지점이라면 first 추가 후 last 삭제
+					deque.offerFirst(new Node(nr, sc));
+					deque.pollLast();
+				}
+			}else { // 범위를 벗어나거나 몸에 부딛힌다면
+				gameOver = true;
+				break;
+			}
+		}
+		if(nextDir =='L') {
+			d = 2;
+		}else { // dir == 'D'
+			d = 0;
+		}
+	}
+	
+	private static void go2(int sr, int sc, int l, char nextDir) {
+		for(int i=1; i<=l; i++) {
+			playTime++;
+			int nc = sc - i;
+			if(isIn(nc) && !isBreak(sr, nc)) {
+				if(checkApple(sr,nc)) { // 사과가 있는 지점이라면 first만 추가
+					deque.offerFirst(new Node(sr, nc));
+				}else { // 사과가 없는 지점이라면 first 추가 후 last 삭제
+					deque.offerFirst(new Node(sr, nc));
+					deque.pollLast();
+				}
+			}else { // 범위를 벗어나거나 몸에 부딛힌다면
+				gameOver = true;
+				break;
+			}
+		}
+		if(nextDir =='L') {
+			d = 3;
+		}else { // dir == 'D'
+			d = 1;
+		}
+	}
+	
+	private static void go3(int sr, int sc, int l, char nextDir) {
+		for(int i=1; i<=l; i++) {
+			playTime++;
+			int nr = sr + i;
+			if(isIn(nr) && !isBreak(nr, sc)) {
+				if(checkApple(nr,sc)) { // 사과가 있는 지점이라면 first만 추가
+					deque.offerFirst(new Node(nr, sc));
+				}else { // 사과가 없는 지점이라면 first 추가 후 last 삭제
+					deque.offerFirst(new Node(nr, sc));
+					deque.pollLast();
+				}
+			}else { // 범위를 벗어나거나 몸에 부딛힌다면
+				gameOver = true;
+				break;
+			}
+		}
+		if(nextDir =='L') {
+			d = 0;
+		}else { // dir == 'D'
+			d = 2;
+		}
 	}
 	
 	
 	
-	private static void move(int sec) {
-		if(dir == 1) { // 방향 : ^
-			
-			int start	= (head.r-1);
-			int end		= (head.r-sec);
-			for(int i=start; i>=end; i--) {
-				if(!isIn(i) || map[i][head.c] == 1) {
-					gameOver = true;
-					break;
-				}else {
-					cnt++;
-					if(map[i][head.c] == 0) {
-						map[i][head.c] = 1;
-						head.r = i;
-						map[tail.r][tail.c] = 0;
-						tail.r--;
-					}else { // 2
-						map[i][head.c] = 1;
-						head.r = i;
-					}
-					System.out.println("위쪽 ㄱㄱ : "+head);
-				}
-			}
-		}else if(dir == 2) { // 방향 : v 
-			int start	= (head.r+1);
-			int end		= (head.r+sec);
-			for(int i=start; i<=end; i++) {
-				if(!isIn(i) || map[i][head.c] == 1) {
-					gameOver = true;
-					break;
-				}else {
-					cnt++;
-					if(map[i][head.c] == 0) {
-						map[i][head.c] = 1;
-						head.r = i;
-						map[tail.r][tail.c] = 0;
-						tail.r++;
-					}else { // 2
-						map[i][head.c] = 1;
-						head.r = i;
-					}
-					System.out.println("아래쪽 ㄱㄱ : "+head);
-				}
-			}
-		}else if(dir == 3) { // 방향 : < 
-			int start	= (head.c-1);
-			int end		= (head.c-sec);
-			for(int i=start; i>=end; i++) {
-				if(!isIn(i) || map[head.r][i] == 1) {
-					gameOver = true;
-					break;
-				}else {
-					cnt++;
-					if(map[head.r][i] == 0) {
-						map[head.r][i] = 1;
-						head.c = i;
-						map[tail.r][tail.c] = 0;
-						tail.c--;
-					}else { // 2
-						map[head.r][i] = 1;
-						head.c = i;
-					}
-					System.out.println("왼쪽 ㄱㄱ : "+head);
-				}
-			}
-		}else if(dir == 4) { // 방향 : >
-			int start	= (head.c+1);
-			int end		= (head.c+sec);
-			for(int i=start; i<=end; i++) {
-				if(!isIn(i) || map[head.r][i] == 1) {
-					gameOver = true;
-					break;
-				}else {
-					cnt++;
-					if(map[head.r][i] == 0) {
-						System.out.println(head.r + " " + i);
-						map[head.r][i] = 1;
-						head.c = i;
-						System.out.println("tail : "+ tail);
-						map[tail.r][tail.c] = 0;
-						tail.c = (tail.c + 1);
-					}else { // 2
-						map[head.r][i] = 1;
-						head.c = i;
-					}
-					System.out.println("오른쪽 ㄱㄱ : "+head);
-				}
+	private static boolean checkApple(int r, int c) {
+		boolean flag = false;
+		int size = list.size();
+		int deleteIndex = 0;
+		for(int i=0; i<size; i++) {
+			if(list.get(i).r == r && list.get(i).c == c) {
+				flag = true;
+				deleteIndex = i;
+				break; // 더 볼 필요가 없음
 			}
 		}
+		
+		if(flag) { // r,c에 사과가 있다면 true 리턴
+			list.remove(deleteIndex); // 먹은 사과는 리스트에서 삭제
+			return true;
+		}
+		return false;
+	}
+	
+	static boolean isBreak(int r, int c) {
+		boolean flag = false; //
+		int size = deque.size();
+		for(int i=0; i<size; i++) {
+			Node front = deque.poll();
+			if(r==front.r && c==front.c) {
+				flag = true;
+			}
+			deque.offer(front); // 다시 원상 복구 해야함 
+		}
+		if(flag) { // 만약 겹치는 놈이 있다 -> 내몸에 부딛힌다 -> true리턴
+			body = true;
+			return true;
+		}
+		return false;
+	}
+	
+	static boolean isIn(int n) {
+		return (n>=0 && n<N);
 	}
 
-	static boolean isIn (int x) {
-		return (x>=0 && x<N);
-	}
-
-	private static void changeDir(int i) {
-		char direction = list.get(i).d;
-		if(direction == 'L'){ // 왼쪽으로 턴
-			if(dir == 1) { // 이전방향 : ^
-				dir = 3;
-			}else if(dir == 2) { // 이전방향 : v 
-				dir = 4;
-			}else if(dir == 3) { // 이전방향 : < 
-				dir = 2;
-			}else if(dir == 4) { // 이전방향 : >
-				dir = 1;
-			}
-		}else { // 오른쪽으로 턴
-			if(dir == 1) { // 이전방향 : ^
-				dir = 4;
-			}else if(dir == 2) { // 이전방향 : v 
-				dir = 3;
-			}else if(dir == 3) { // 이전방향 : < 
-				dir = 1;
-			}else if(dir == 4) { // 이전방향 : >
-				dir = 2;
-			}
-		}
-	}
-	static class node{
+	static class Node {
 		int r;
 		int c;
-		public node(int r, int c) {
+		public Node(int r, int c) {
 			super();
 			this.r = r;
 			this.c = c;
 		}
 		@Override
 		public String toString() {
-			return "node [r=" + r + ", c=" + c + "]";
+			return "Node [r=" + r + ", c=" + c + "]";
 		}
-		
 	}
-
-	static class move{
-		int s;
+	static class Move{
+		int l;
 		char d;
-		
-		public move(int s, char d) {
+		public Move(int l, char d) {
 			super();
-			this.s = s;
+			this.l = l;
 			this.d = d;
 		}
-
 		@Override
 		public String toString() {
-			return "dir [s=" + s + ", d=" + d + "]";
+			return "Move [l=" + l + ", d=" + d + "]";
 		}
 	}
-	
 	static String src =
 			"10\r\n" + 
-			"4\r\n" + 
-			"1 2\r\n" + 
-			"1 3\r\n" + 
-			"1 4\r\n" + 
+			"5\r\n" + 
 			"1 5\r\n" + 
+			"1 3\r\n" + 
+			"1 2\r\n" + 
+			"1 6\r\n" + 
+			"1 7\r\n" + 
 			"4\r\n" + 
 			"8 D\r\n" + 
 			"10 D\r\n" + 
