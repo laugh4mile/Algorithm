@@ -20,10 +20,11 @@ public class BJ_G3_2933_미네랄 {
 	static char map[][];
 	static Queue<Integer> queue = new LinkedList<>();
 	public static void main(String[] args) throws NumberFormatException, IOException {
-//		input = new BufferedReader(new StringReader(src));
+		input = new BufferedReader(new StringReader(src));
 		tokens = new StringTokenizer(input.readLine());
 		R = Integer.parseInt(tokens.nextToken());
 		C = Integer.parseInt(tokens.nextToken());
+		
 		map = new char[R][C];
 		for(int r=0; r<R; r++) {
 			String line = input.readLine();
@@ -38,100 +39,77 @@ public class BJ_G3_2933_미네랄 {
 			queue.offer(stick);
 		}
 		
-//		for(char x[] : map) {
-//			System.out.println(Arrays.toString(x));
-//		}
 		while(!queue.isEmpty()) {
 			int front = R-queue.poll(); // 거꾸로 봐야함
 			stickThrow(front, dir); // 맵을 부숨. dir = false : 좌, true : 우
+			Queue<Node> q = new LinkedList<>();
+			isVisited = new boolean[R][C];
+			for(int c=0; c<C;c++) {
+				if(map[R-1][c] == 'x') {
+					q.offer(new Node(R-1, c));
+					isVisited[R-1][c] = true;
+				}
+			}
+			while(!q.isEmpty()) {
+				Node node = q.poll();
+				for(int d=0; d<4; d++) {
+					int nr = node.r + dr[d];
+					int nc = node.c + dc[d];
+					if(isIn(nr, nc) && !isVisited[nr][nc] && map[nr][nc] == 'x') {
+						q.offer(new Node(nr, nc));
+						isVisited[nr][nc] = true;
+					}
+				}
+			}
+			List<Node> list = new ArrayList<>();
 			for(int r=0; r<R; r++) {
 				for(int c=0; c<C; c++) {
-					isVisited = new boolean[R][C];
 					if(!isVisited[r][c] && map[r][c] == 'x') {
-						bfs(r,c);
+						list.add(new Node(r, c));
 					}
 				}	
 			}
+			if(list.size() != 0) {
+				drop(list);// 리스트를 바닥또는 x에 닿을때까지 내린다.
+			}
+			
 		}
-		for(char x[] : map) {
-			System.out.println(Arrays.toString(x));
+		for(int r=0; r<R; r++) {
+			for(int c=0; c<C; c++) {
+				System.out.print(map[r][c]);
+			}
+			System.out.println();
 		}
 	}
 
-	private static void bfs(int r, int c) {
-		Queue<Node> q = new LinkedList<>();
-		List<Node> list = new ArrayList<>();
-		list.add(new Node(r, c));
-		q.offer(new Node(r, c));
-		isVisited[r][c] = true;
-		boolean flag = false;
-		while(!q.isEmpty()) {
-			Node front = q.poll();
-			if(front.r == R-1) {
-				flag = true;
-			}
-			for(int d=0; d<4; d++) {
-				int nr = front.r + dr[d];
-				int nc = front.c + dc[d];
-				if(isIn(nr, nc) && !isVisited[nr][nc] && map[nr][nc] == 'x') {
-					q.offer(new Node(nr, nc));
-					isVisited[nr][nc] = true;
-					list.add(new Node(nr, nc));
-				}
-			}
+	
+	private static void drop(List<Node> list) {
+		for(Node node : list) {
+			map[node.r][node.c] = '.';
 		}
-		
-		if(!flag) {
-			
-			List<Node> list2 = new ArrayList<>(); // 열중에 가장 r이 큰값만 담을 리스트
-			
-			Collections.sort(list);
-			int cs = -1;
-			for(int i=0; i<list.size(); i++) {
-				if(list.get(i).c != cs) {
-					cs = list.get(i).c; 
-					list2.add(list.get(i));
+		int cnt = 0;
+		outer : for(int i=1; i<R; i++) {
+			for(Node node : list) {
+				if(node.r+i>=R || map[node.r+i][node.c] == 'x') {
+					break outer;
 				}
 			}
-			int min = Integer.MAX_VALUE; // 차이값의 최소 : 내려갈 칸 수
-			for(int i=0; i<list2.size(); i++) {
-				if(R - list2.get(i).r-1 < min) {
-					min = R - list2.get(i).r - 1; 
-				}
-			}
-//		System.out.println(min);
-			if(min != 0) { // 내려갈 칸수가 0이아니면 min만큼 내릴거임 
-				for(int i=0; i<list.size(); i++) {
-					map[list.get(i).r][list.get(i).c] = '.';
-				}
-				for(int i=0; i<list.size(); i++) {
-					map[list.get(i).r+min][list.get(i).c] = 'x';
-				}
-			}
+			cnt = i;
 		}
-		
-		
+		for(Node node : list) {
+			map[node.r+cnt][node.c] = 'x';
+		}
 		
 	}
-	
-	static class Node implements Comparable<Node>{
+
+
+	static class Node {
 		int r;
 		int c;
 		public Node(int r, int c) {
 			super();
 			this.r = r;
 			this.c = c;
-		}
-		@Override
-		public String toString() {
-			return "Node [r=" + r + ", c=" + c + "]";
-		}
-		@Override
-		public int compareTo(Node o) {
-			if(this.c == o.c) {
-				return Integer.compare(o.r, this.r);
-			}
-			return Integer.compare(this.c, o.c);
 		}
 	}
 	
@@ -162,15 +140,17 @@ public class BJ_G3_2933_미네랄 {
 	}
 
 	static String src =
-			"8 8\r\n" + 
-			"........\r\n" + 
-			"........\r\n" + 
-			"...x.xx.\r\n" + 
-			"...xxx..\r\n" + 
-			"..xxx...\r\n" + 
-			"..x.xxx.\r\n" + 
-			"..x...x.\r\n" + 
-			".xxx..x.\r\n" + 
-			"5\r\n" + 
-			"6 6 4 3 1";
+			"10 10\r\n" + 
+			"xxxxxxxxxx\r\n" + 
+			"....x.....\r\n" + 
+			"...xxx....\r\n" + 
+			".....x....\r\n" + 
+			"....xx....\r\n" + 
+			".....x....\r\n" + 
+			"xxxxxx....\r\n" + 
+			"..x.......\r\n" + 
+			".xxxx.....\r\n" + 
+			"...xxxxxxx\r\n" + 
+			"10\r\n" + 
+			"9 8 7 6 5 4 3 2 1 1";
 }
