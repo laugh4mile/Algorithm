@@ -4,53 +4,37 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringReader;
-import java.util.Arrays;
+import java.util.StringTokenizer;
 
 public class BJ_B1_2999_비밀이메일 {
 	static BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
-	static String str;
-	static int R,C, min = Integer.MAX_VALUE;
-	static char [][] ch;
-	static char [] arr;
-	public static void main(String[] args) throws IOException {
-//		input = new BufferedReader(new StringReader(src));
-		str = input.readLine();
-		
-		int len = str.length();
-		arr = new char[len];
-		for(int i=0; i<len; i++) {
-			arr[i] = str.charAt(i);
-		}
-		for(int i=1; i<=len; i++) {
-			if(len % i == 0) {
-				int num = len/i;
-				if(min > Math.abs(num-i)) {
-					min = Math.abs(num-i);
-					R = Math.min(num, i);
-					C = Math.max(num, i);
-				}
+	static StringTokenizer tokens;
+
+	public static void main(String[] args) throws NumberFormatException, IOException {
+		input = new BufferedReader(new StringReader(src));
+		String str = input.readLine();
+		int N = str.length();
+		int sqrt = (int) Math.sqrt(N);
+		int R = 0, C = 0;
+		for(int i=1; i<=sqrt; i++) {
+			if(N%i==0) {
+				R = i;
+				C = N/i;
 			}
 		}
-//		System.out.println(R+ " "+C);
-		ch = new char[R][C];
-//		System.out.println(Arrays.toString(c));
 		int cnt = 0;
-		for(int r=0; r<R; r++) {
-			for(int c=0; c<C; c++) {
-				ch[r][c] = arr[cnt++];
-			}	
-		}
-//		for(char []x : ch) {
-//			System.out.println(Arrays.toString(x));
-//		}
-		
-		
+		char map[][] = new char[R][C];
 		for(int c=0; c<C; c++) {
 			for(int r=0; r<R; r++) {
-				System.out.print(ch[r][c]);
-			}
-		}	
+				map[r][c] = str.charAt(cnt++);
+			}	
+		}
+		for(int r=0; r<R; r++) {
+			for(int c=0; c<C; c++) {
+				System.out.print(map[r][c]);
+			}	
+		}
 	}
-	static String src = 
-			"abcd";
+	static String src =
+			"boudonuimilcbsai";
 }
