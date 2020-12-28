@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -85,88 +84,89 @@ public class BJ_G5_15683_감시 {
 			fillDown(r, c);
 			fillLeft(r, c);
 			fillRight(r, c);
-		}
-		switch (dir) {
-		case 0:// 상
-			switch (cam) {
-			case 1:
-				fillUp(r, c);
+		}else {
+			switch (dir) {
+			case 0:// 상
+				switch (cam) {
+				case 1:
+					fillUp(r, c);
+					break;
+				case 2:
+					fillUp(r, c);
+					fillDown(r, c);
+					break;
+				case 3:
+					fillUp(r, c);
+					fillLeft(r, c);
+					break;
+				case 4:
+					fillUp(r, c);
+					fillLeft(r, c);
+					fillDown(r, c);
+					break;
+				}
 				break;
-			case 2:
-				fillUp(r, c);
-				fillDown(r, c);
+			case 1: // 하
+				switch (cam) {
+				case 1:
+					fillDown(r, c);
+					break;
+				case 2:
+					fillUp(r, c);
+					fillDown(r, c);
+					break;
+				case 3:
+					fillLeft(r, c);
+					fillDown(r, c);
+					break;
+				case 4:
+					fillLeft(r, c);
+					fillDown(r, c);
+					fillRight(r, c);
+					break;
+				}
 				break;
-			case 3:
-				fillUp(r, c);
-				fillLeft(r, c);
+			case 2: // 좌
+				switch (cam) {
+				case 1:
+					fillLeft(r, c);
+					break;
+				case 2:
+					fillLeft(r, c);
+					fillRight(r, c);
+					break;
+				case 3:
+					fillDown(r, c);
+					fillRight(r, c);
+					break;
+				case 4:
+					fillDown(r, c);
+					fillRight(r, c);
+					fillUp(r, c);
+					break;
+				}
 				break;
-			case 4:
-				fillUp(r, c);
-				fillLeft(r, c);
-				fillDown(r, c);
+			case 3: // 우
+				switch (cam) {
+				case 1:
+					fillRight(r, c);
+					break;
+				case 2:
+					fillLeft(r, c);
+					fillRight(r, c);
+					break;
+				case 3:
+					fillRight(r, c);
+					fillUp(r, c);
+					break;
+				case 4:
+					fillRight(r, c);
+					fillUp(r, c);
+					fillLeft(r, c);
+					break;
+				}
 				break;
 			}
-			break;
-		case 1: // 하
-			switch (cam) {
-			case 1:
-				fillDown(r, c);
-				break;
-			case 2:
-				fillUp(r, c);
-				fillDown(r, c);
-				break;
-			case 3:
-				fillLeft(r, c);
-				fillDown(r, c);
-				break;
-			case 4:
-				fillLeft(r, c);
-				fillDown(r, c);
-				fillRight(r, c);
-				break;
-			}
-			break;
-		case 2: // 좌
-			switch (cam) {
-			case 1:
-				fillLeft(r, c);
-				break;
-			case 2:
-				fillLeft(r, c);
-				fillRight(r, c);
-				break;
-			case 3:
-				fillDown(r, c);
-				fillRight(r, c);
-				break;
-			case 4:
-				fillDown(r, c);
-				fillRight(r, c);
-				fillUp(r, c);
-				break;
-			}
-			break;
-		case 3: // 우
-			switch (cam) {
-			case 1:
-				fillRight(r, c);
-				break;
-			case 2:
-				fillLeft(r, c);
-				fillRight(r, c);
-				break;
-			case 3:
-				fillRight(r, c);
-				fillUp(r, c);
-				break;
-			case 4:
-				fillRight(r, c);
-				fillUp(r, c);
-				fillLeft(r, c);
-				break;
-			}
-			break;
 		}
 	}
 	static void fillUp(int r, int c) {
@@ -224,4 +224,3 @@ public class BJ_G5_15683_감시 {
 			"0 0 0 2 0 0 0\r\n" + 
 			"0 0 0 0 0 0 4";
 }
-
