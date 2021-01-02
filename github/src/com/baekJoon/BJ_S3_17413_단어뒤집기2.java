@@ -11,28 +11,38 @@ public class BJ_S3_17413_단어뒤집기2 {
 	public static void main(String[] args) throws IOException {
 		input = new BufferedReader(new StringReader(src));
 		String str = input.readLine();
-		int n = str.length();
+		int size = str.length();
 		
-		char arr[] = new char[n];
-		
-		for(int i=0; i<n; i++) {
-			arr[i] = str.charAt(i);
-		}
-		System.out.println(Arrays.toString(arr));
-		int start = 0, end = 0;
-		for(int i=0; i<n; i++) {
-			if(arr[i] == '<' && i>0) {
-				start = i;
-				for(int j=i; j<n; j++) {
-					if(arr[j] == '>') {
-						end = j;
+		StringBuffer sb = new StringBuffer();
+		StringBuffer temp = new StringBuffer();
+		for(int i=0; i<size; i++) {
+			if(str.charAt(i) == '<') { // 꺽새가 나오면
+				if(temp.length() != 0) {
+					sb.append(temp.reverse()); // temp에 쌓은걸 뒤집어서 저장함
+					temp.setLength(0); // <- 새로운 팁을 배웠다.
+				}
+				for(int j=i; j<size; j++) {
+					sb.append(str.charAt(j));
+					if(str.charAt(j) == '>') { // 꺽새가 닫힐때 까지 저장
 						i = j;
 						break;
 					}
 				}
+			}else if(str.charAt(i) == ' '){ // 공백이 나오면
+				if(temp.length() != 0) {
+					sb.append(temp.reverse()); // temp에 쌓은걸 뒤집어서 저장함
+					temp.setLength(0); // <- 새로운 팁을 배웠다.
+				}
+				sb.append(' '); // 공백을 넣는걸 잊지말자
+			}else { // 이제 깡 문자가 나올 경우이다
+				temp.append(str.charAt(i));
 			}
 		}
+		if(temp.length() != 0) { // temp가 비어있지 않다면
+			sb.append(temp.reverse());
+		}
+		System.out.println(sb);
 	}
 	static String src = 
-			"<ab cd>ef gh<ij kl>";
+			"<   space   >space space space<    spa   c e>";
 }
