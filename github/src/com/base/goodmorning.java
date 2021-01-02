@@ -8,7 +8,7 @@ public class goodmorning {
 	static int result[];
 	static boolean isSelected[];
 	public static void main(String[] args) {
-		N = 5;
+		N = 6;
 		R = 2;
 		num = new int [N];
 		result = new int[R];
@@ -29,7 +29,7 @@ public class goodmorning {
 			for(int i=0; i<N; i++) {
 				if(isSelected[i]) {
 					ccnt++;
-					System.out.print(num[i]);
+//					System.out.print(num[i]);
 				}
 			}
 			System.out.println();
