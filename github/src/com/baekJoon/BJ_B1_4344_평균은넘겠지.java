@@ -19,7 +19,7 @@ import java.util.StringTokenizer;
  * [출력사항]
  */
 
-public class BJ_B1_4344_평균은넘겠지 {
+public class BJ_B1_4344_평균은넘겠지 { 
 	static BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
 	static int T,N, score[];
 	public static void main(String[] args) throws NumberFormatException, IOException {
