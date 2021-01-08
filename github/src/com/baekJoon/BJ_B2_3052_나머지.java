@@ -17,7 +17,7 @@ import java.io.StringReader;
  * [출력사항]
  */
 
-public class BJ_B2_3052_나머지 {
+public class BJ_B2_3052_나머지 { 
 
 	static BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
 	static int[] nums;
