@@ -16,7 +16,7 @@ import java.util.StringTokenizer;
  * @caution
  * [고려사항]
  * [입력사항]
- * [출력사항]
+ * [출력사항] 
  */
 
 public class BJ_B1_4344_평균은넘겠지 { 
