@@ -45,7 +45,7 @@ public class BJ_G4_1967_트리의지름 {
 
 	private static void dfs(int n, int sum) {
 		if(sumVal < sum) {
-			sumVal = sum;
+			sumVal = sum; 
 			startNode = n;
 			
 		}
