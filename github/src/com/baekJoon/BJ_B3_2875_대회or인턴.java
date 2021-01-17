@@ -26,7 +26,7 @@ public class BJ_B3_2875_대회or인턴 {
 				K--;
 			}
 		}
-//		System.out.println(N +" "+M);
+
 		if(N/2 >= M) {
 			System.out.println(M);
 		}else {
