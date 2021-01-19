@@ -3,7 +3,7 @@ package com.programmers;
 import java.util.HashMap;
 import java.util.Map;
 
-public class 해시_L1_완주하지못한선수 {
+public class 프로그래머스_L1_완주하지못한선수 {
 	 public String solution(String[] participant, String[] completion) {
 	        String answer = "";
 	        
