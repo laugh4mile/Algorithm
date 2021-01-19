@@ -3,7 +3,7 @@ package com.base;
 import java.util.Arrays;
 
 public class goodmorning {
-	static int N,R, ccnt;
+	static int N,R, ccnt,cc;
 	static int num[];
 	static int result[];
 	static boolean isSelected[];
@@ -19,10 +19,10 @@ public class goodmorning {
 		}
 		
 //		permutation(0);
-//		combination(0,0);
-		subSet(0);
-		System.out.println(ccnt);
-		
+		combination(0,0);
+//		subSet(0);
+//		System.out.println(ccnt);
+		System.out.println(cc);
 	}
 	private static void subSet(int cnt) {
 		if(cnt == N) {
@@ -43,6 +43,7 @@ public class goodmorning {
 	private static void combination(int start, int cnt) {
 		if(cnt == R) {
 			System.out.println(Arrays.toString(result));
+			cc++;
 			return;
 		}
 		for(int i = start; i<N; i++) {
