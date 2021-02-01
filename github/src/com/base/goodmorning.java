@@ -24,7 +24,7 @@ public class goodmorning {
 //		System.out.println(ccnt);
 		System.out.println(cc);
 	}
-	private static void subSet(int cnt) {
+	private static void subSet(int cnt) { 
 		if(cnt == N) {
 			for(int i=0; i<N; i++) {
 				if(isSelected[i]) {
