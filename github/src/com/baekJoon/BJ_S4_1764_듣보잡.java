@@ -43,7 +43,7 @@ public class BJ_S4_1764_듣보잡 {
 			output.append(list.get(i)+"\n");
 		}
 		
-		output.close();
+		output.close(); 
 	}
 
 	static String src =
