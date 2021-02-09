@@ -11,7 +11,7 @@ public class BJ_S1_10844_쉬운계단수 {
     static int mod = 1_000_000_000;
 
     public static void main(String[] args) throws NumberFormatException, IOException {
-        input = new BufferedReader(new StringReader(src));
+        input = new BufferedReader(new StringReader(src)); 
         N = Integer.parseInt(input.readLine());
         System.out.println(dp(N));
     }
