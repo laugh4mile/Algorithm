@@ -7,17 +7,6 @@ import java.io.StringReader;
 import java.util.Arrays;
 import java.util.StringTokenizer;
 
-/**
- * @author yhs
- * @date 2020. 8. 3
- * @see https://www.acmicpc.net/problem/4344
- * @mem 14800KB
- * @time 124ms
- * @caution
- * [고려사항]
- * [입력사항]
- * [출력사항] 
- */
 
 public class BJ_B1_4344_평균은넘겠지 { 
 	static BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
