@@ -8,7 +8,7 @@ import java.util.Arrays;
 import java.util.StringTokenizer;
 
 
-public class BJ_B1_4344_평균은넘겠지 { 
+public class BJ_B1_4344_평균은넘겠지 {  
 	static BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
 	static int T,N, score[];
 	public static void main(String[] args) throws NumberFormatException, IOException {
