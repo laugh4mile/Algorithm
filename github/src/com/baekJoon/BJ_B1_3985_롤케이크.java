@@ -14,7 +14,7 @@ public class BJ_B1_3985_롤케이크 {
 	public static void main(String[] args) throws NumberFormatException, IOException {
 		input = new BufferedReader(new StringReader(src));
 		L = Integer.parseInt(input.readLine());
-		N = Integer.parseInt(input.readLine());
+		N = Integer.parseInt(input.readLine()); 
 		
 		arr = new int[L+1];
 		int a1 = 0;
