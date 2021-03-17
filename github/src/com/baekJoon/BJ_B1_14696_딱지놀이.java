@@ -12,7 +12,6 @@ public class BJ_B1_14696_딱지놀이 {
 	static int N;
 	static long aScore[], bScore[];
 	public static void main(String[] args) throws NumberFormatException, IOException {
-		input = new BufferedReader(new StringReader(src));
 		N = Integer.parseInt(input.readLine());
 		aScore = new long[N];
 		bScore = new long[N];
