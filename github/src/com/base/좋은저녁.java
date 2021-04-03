@@ -23,7 +23,7 @@ public class 좋은저녁 {
 		input = new BufferedReader(new StringReader(src));
 		tokens = new StringTokenizer(input.readLine());
 		N = Integer.parseInt(tokens.nextToken());
-		M = Integer.parseInt(tokens.nextToken());
+		M = Integer.parseInt(tokens.nextToken()); 
 		V = Integer.parseInt(tokens.nextToken());
 		
 		list = new List[N+1];
