@@ -37,7 +37,7 @@ public class P2 {
 			cnt++;
 		}
 		System.out.println(map);
-		return answer;
+		return answer; 
 	}
 	
 	public static void main(String[] args) {
