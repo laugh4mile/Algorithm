@@ -10,13 +10,13 @@ public class 프로그래머스_L3_순위 {
 	static List<Integer> list1[];
     static List<Integer> list2[];
     static boolean isVisited[];
-    static int sum[][];
+    static int sum[];
     
     public int solution(int n, int[][] results) {
         int answer = 0;
         list1 = new List[n+1];
         list2 = new List[n+1];
-        sum = new int[n+1][2];
+        sum = new int[n+1];
         
         for(int i=0; i<n+1; i++){
             list1[i] = new ArrayList<>();
@@ -30,23 +30,16 @@ public class 프로그래머스_L3_순위 {
         
         for(int i=1; i<n+1; i++){
             isVisited = new boolean[n+1];
-            bfs(i, list1,0);
+            bfs(i, list1);
             isVisited = new boolean[n+1];
-            bfs(i, list2,1);
-        }
-        for(int i=1; i<n+1; i++){
-            // System.out.println(sum[i][0] + sum[i][1]);
-            if(sum[i][0] + sum[i][1] == n-1){
+            bfs(i, list2);
+            if(sum[i] == n-1){
                 answer++;
             }
         }
-        for(int[] x : sum){
-            System.out.println(Arrays.toString(x));
-        }
-        
         return answer;
     }
-    static void bfs(int num, List<Integer> list[], int dir){
+    static void bfs(int num, List<Integer> list[]){
         Queue<Integer> queue = new LinkedList<>();
         queue.offer(num);
         isVisited[num] = true;
@@ -60,11 +53,10 @@ public class 프로그래머스_L3_순위 {
                 if(!isVisited[child]){
                     queue.offer(child);
                     isVisited[child] = true;
-                    // sum[child][dir] = sum[front][dir]+1;
                     cnt++;
                 }
             }
         }
-        sum[num][dir] = cnt;
+        sum[num] += cnt;
     }
 }
