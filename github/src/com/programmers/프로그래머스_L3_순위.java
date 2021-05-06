@@ -6,7 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
-public class ÇÁ·Î±×·¡¸Ó½º_L3_¼øÀ§ {
+public class í”„ë¡œê·¸ëž˜ë¨¸ìŠ¤_L3_ìˆœìœ„ {
 	static List<Integer> list1[];
     static List<Integer> list2[];
     static boolean isVisited[];
