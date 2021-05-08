@@ -6,7 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
-public class ÇÁ·Î±×·¡¸Ó½º_L3_³×Æ®¿öÅ© {
+public class í”„ë¡œê·¸ë˜ë¨¸ìŠ¤_L3_ë„¤íŠ¸ì›Œí¬ {
 	public int solution(int n, int[][] computers) {
         int answer = 0;
         boolean[] isVisited = new boolean[n];
