@@ -92,7 +92,6 @@ public class 프로그래밍4 {
 	}
 
 	private static int bfs(int start, int end, int[] traps) {
-//		System.out.println(start);
 		Queue<Integer> queue = new LinkedList<>();
 		queue.offer(start);
 		isVisited[start][0] = true;
