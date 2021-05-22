@@ -23,7 +23,7 @@ public class 프로그래밍4 {
 	static int min = Integer.MAX_VALUE;
 	public static int solution(int n, int start, int end, int[][] roads, int[] traps) {
         int answer = 0;
-        graph = new List[n+1];
+        graph = new List[n+1]; 
         graph2 = new List[n+1];
         isVisited = new boolean[n+1][2];
         for(int i=0; i<n+1; i++) {
