@@ -1,2 +1,2 @@
 # Algorithm
-Algorithm solution 
+알고리즘 부수기
