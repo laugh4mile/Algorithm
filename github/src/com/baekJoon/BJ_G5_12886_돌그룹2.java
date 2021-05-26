@@ -29,6 +29,7 @@ public class BJ_G5_12886_돌그룹2 {
 	private static void dfs(int[] stones) {
 		if(stones[0] == stones[1] && stones[1] == stones[2]) {
 			answer = true;
+			return;
 		}
 		isVisited[stones[0]][stones[1]] = true;
 		isVisited[stones[1]][stones[0]] = true;
