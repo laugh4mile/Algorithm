@@ -7,7 +7,7 @@ import java.io.StringReader;
 import java.util.Arrays;
 import java.util.StringTokenizer;
 
-public class BJ_G5_12886_돌그룹2 {
+public class BJ_G5_12886_돌그룹2 { 
 	static BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
 	static StringTokenizer tokens;
 	static boolean isVisited[][] = new boolean[1000][1000];
