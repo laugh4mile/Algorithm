@@ -20,7 +20,7 @@ public class BJ_G4_2473_세용액 {
 		for(int i=0; i<N; i++) {
 			arr[i] = Integer.parseInt(tokens.nextToken());
 		}
-		Arrays.sort(arr);
+		Arrays.sort(arr); 
 		
 		long min = Long.MAX_VALUE;
 		long answer1 = 0, answer2 = 0, answer3 = 0;
