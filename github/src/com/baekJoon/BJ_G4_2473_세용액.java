@@ -31,7 +31,7 @@ public class BJ_G4_2473_세용액 {
 			k=N-1;
 			while(j<k) {
 				sum = Math.abs(arr[i] + arr[j] + arr[k]);
-				if(sum<min) {
+				if(sum<min) { 
 					min = sum;
 					answer1 = arr[i];
 					answer2 = arr[j];
