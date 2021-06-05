@@ -27,7 +27,7 @@ public class BJ_G4_2473_세용액 {
 		int j = 0, k = 0;
 		long sum = 0;
 		for(int i=0; i<N-2; i++) {
-			j=i+1;
+			j=i+1; 
 			k=N-1;
 			while(j<k) {
 				sum = Math.abs(arr[i] + arr[j] + arr[k]);
