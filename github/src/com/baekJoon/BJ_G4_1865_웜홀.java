@@ -12,7 +12,7 @@ public class BJ_G4_1865_웜홀 {
 
 	public static void main(String[] args) throws NumberFormatException, IOException {
 		input = new BufferedReader(new StringReader(src));
-		
+		 
 	}
 
 	static String src =
