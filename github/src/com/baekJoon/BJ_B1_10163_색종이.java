@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.util.Arrays;
+import java.util.Stack;
 import java.util.StringTokenizer;
 
 public class BJ_B1_10163_색종이 {
@@ -37,6 +38,22 @@ public class BJ_B1_10163_색종이 {
 //		for(int x[]: map) {
 //			System.out.println(Arrays.toString(x));
 //		}
+		String str = "sib al";
+		System.out.println(str.substring(1));
+		StringBuilder sb = new StringBuilder();
+		sb.append("zz");
+		int num = 122;
+		
+		sb.append(num);
+		String answer = sb.toString();
+		Stack<Character> stack = new Stack<>();
+		float fl = (float) 18.1;
+		double num2 = 2.5;
+		int num3 = (int) num2;
+		System.out.println(num2 - num3);
+		sb.append(num2);
+		System.out.println("answer : " + answer);
+		String temmp = Float.toString(fl);
 		int result[] = new int[N+1];
 		for(int i=0; i<map.length; i++) {
 			for(int j=0; j<map.length; j++) {
