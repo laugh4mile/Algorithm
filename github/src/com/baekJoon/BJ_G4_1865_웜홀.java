@@ -18,7 +18,7 @@ public class BJ_G4_1865_웜홀 {
 	static String src =
 
 			"2\r\n" + 
-			"3 3 1\r\n" + 
+			"3 3 1\r\n" +  
 			"1 2 2\r\n" + 
 			"1 3 4\r\n" + 
 			"2 3 1\r\n" + 
