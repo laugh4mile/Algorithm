@@ -9,10 +9,30 @@ import java.util.StringTokenizer;
 public class BJ_G4_1865_웜홀 {
 	static BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
 	static StringTokenizer tokens;
-
+	static int testCase,N,M,W, S,E,T;
 	public static void main(String[] args) throws NumberFormatException, IOException {
 		input = new BufferedReader(new StringReader(src));
-		  
+		testCase = Integer.parseInt(input.readLine());
+		for(int t=0; t<testCase; t++) {
+			tokens = new StringTokenizer(input.readLine());
+			N = Integer.parseInt(tokens.nextToken());
+			M = Integer.parseInt(tokens.nextToken());
+			W = Integer.parseInt(tokens.nextToken());
+			
+			for(int m=0; m<M; m++) {
+				tokens = new StringTokenizer(input.readLine());
+				S = Integer.parseInt(tokens.nextToken());
+				E = Integer.parseInt(tokens.nextToken());
+				T = Integer.parseInt(tokens.nextToken());
+			}
+
+			for(int w=0; w<W; w++) {
+				tokens = new StringTokenizer(input.readLine());
+				S = Integer.parseInt(tokens.nextToken());
+				E = Integer.parseInt(tokens.nextToken());
+				T = Integer.parseInt(tokens.nextToken());
+			}
+		}
 	}
 
 	static String src =
