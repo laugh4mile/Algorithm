@@ -26,7 +26,7 @@ public class BJ_G4_1865_웜홀 {
 				T = Integer.parseInt(tokens.nextToken());
 			}
 
-			for(int w=0; w<W; w++) {
+			for(int w=0; w<W; w++) { 
 				tokens = new StringTokenizer(input.readLine());
 				S = Integer.parseInt(tokens.nextToken());
 				E = Integer.parseInt(tokens.nextToken());
