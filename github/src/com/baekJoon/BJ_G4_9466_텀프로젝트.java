@@ -44,7 +44,7 @@ public class BJ_G4_9466_텀프로젝트 {
 			for(int i=1; i<N+1; i++) {
 				isVisited = new boolean[N+1];
 				if(!isTeamed[i]) {
-					checkCycle(i, i);
+					checkCycle(i, i); 
 				}
 			}
 			
