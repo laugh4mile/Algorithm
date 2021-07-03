@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -55,7 +56,7 @@ public class BJ_S1_1446_지름길 {
 		distance[start] = 0;
 		
 	}
-	static class Node{
+	static class Node implements Comparator<Node>{
 		int endPoint;
 		int value;
 		public Node(int endPoint, int value) {
@@ -67,7 +68,12 @@ public class BJ_S1_1446_지름길 {
 		public String toString() {
 			return "Node [endPoint=" + endPoint + ", value=" + value + "]";
 		}
-	}
+		@Override
+		public int compare(Node o1, Node o2) {
+			return Integer.compare(o1.endPoint, o2.endPoint);
+		}
+		
+	} 
 	static String src =
 
 			"5 150\r\n" + 
