@@ -71,7 +71,7 @@ public class BJ_S1_1446_지름길 {
 		@Override
 		public int compare(Node o1, Node o2) {
 			return Integer.compare(o1.endPoint, o2.endPoint);
-		}
+		} 
 		
 	} 
 	static String src =
