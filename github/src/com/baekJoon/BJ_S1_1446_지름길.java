@@ -35,7 +35,7 @@ public class BJ_S1_1446_지름길 {
 		graph = new List[10001];
 		for(int i=0; i<graph.length; i++) {
 			distance[i] = i;
-			graph[i] = new ArrayList<>();
+			graph[i] = new ArrayList<>(); 
 		}
 		
 		
