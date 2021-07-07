@@ -32,7 +32,7 @@ public class BJ_S1_1446_지름길 {
 		input = new BufferedReader(new StringReader(src));
 		distance = new int[10001]; 
 		isVisited = new boolean[10001];
-		graph = new List[10001];
+		graph = new List[10001]; 
 		for(int i=0; i<graph.length; i++) {
 			distance[i] = i;
 			graph[i] = new ArrayList<>(); 
