@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -26,18 +27,15 @@ public class BJ_S1_1446_지름길 {
 	static BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
 	static StringTokenizer tokens;
 	static int N, D, distance[], INF = Integer.MAX_VALUE;
-	static boolean isVisited[];
 	static List<Node> graph[];
 	public static void main(String[] args) throws NumberFormatException, IOException {
 		input = new BufferedReader(new StringReader(src));
 		distance = new int[10001]; 
-		isVisited = new boolean[10001];
 		graph = new List[10001]; 
 		for(int i=0; i<graph.length; i++) {
 			distance[i] = i;
 			graph[i] = new ArrayList<>(); 
 		}
-		
 		
 		tokens = new StringTokenizer(input.readLine());
 		N = Integer.parseInt(tokens.nextToken());
@@ -50,11 +48,26 @@ public class BJ_S1_1446_지름길 {
 			graph[start].add(new Node(end, d));
 		}
 		dijkstra(0);
+
+		for(int i=0; i<151; i++) {
+			System.out.println(i+" : "+distance[i]);
+		}
+		System.out.println(distance[D]);
 	}
 	private static void dijkstra(int start) {
-		isVisited[start] = true;
-		distance[start] = 0;
+		if(start > D) {
+			return;
+		}
+		if(distance[start+1] > distance[start] + 1) {
+			distance[start+1] = distance[start] + 1;
+		}
 		
+		for(int i=0; i<graph[start].size(); i++) {
+			if(distance[start] + graph[start].get(i).value < distance[graph[start].get(i).endPoint]) {
+				distance[graph[start].get(i).endPoint] = distance[start] + graph[start].get(i).value;
+			}
+		}
+		dijkstra(start+1);
 	}
 	static class Node implements Comparator<Node>{
 		int endPoint;
