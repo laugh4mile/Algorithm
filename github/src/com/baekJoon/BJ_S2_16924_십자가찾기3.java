@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
-public class BJ_S2_16924_십자가찾기 {
+public class BJ_S2_16924_십자가찾기3 {
 	static BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
 	static BufferedWriter output = new BufferedWriter(new OutputStreamWriter(System.out));
 	static StringTokenizer tokens;
@@ -65,24 +65,39 @@ public class BJ_S2_16924_십자가찾기 {
 		output.close();
 	}
 	private static void fillCross(int r, int c) {
-		int size = 1;
-		while(true) {
-			for(int nr= r-size; nr<=r+size; nr++) {
-				if(!isIn(nr,c) || map[nr][c] !='*') return;
+		int size = Integer.MAX_VALUE;
+		
+		for(int d=0; d<4; d++) {
+			int nr = r;
+			int nc = c;
+			int cnt = 0;
+			while(true) {
+				nr = nr+dr[d];
+				nc = nc+dc[d];
+				if(!isIn(nr, nc) || (isIn(nr, nc) && map[nr][nc] == '.')) {
+					if(size > cnt) {
+						size = cnt;
+					}
+					break;
+				}
+				cnt++;
 			}
-			for(int nc=c-size; nc<=c+size; nc++) {
-				if(!isIn(r,nc) || map[r][nc] !='*') return;
-			}
+		}
+		if(size!=0) {
 			for(int nr=r-size; nr<=r+size; nr++) {
 				isChecked[nr][c] = true;
 			}
 			for(int nc=c-size; nc<=c+size; nc++) {
 				isChecked[r][nc] = true;
 			}
-			list.add(new Cross(r+1, c+1, size));
-			size++;
+			for(int k=size; k>0; k--) {
+				list.add(new Cross(r+1, c+1, k));
+			}
 		}
+		
 	}
+	static int dr[] = {-1,0,1,0};
+	static int dc[] = {0,1,0,-1};
 	static boolean isIn(int r, int c){
 		return (r>=0 && r<N && c>=0 && c<M);
 	}
@@ -97,16 +112,13 @@ public class BJ_S2_16924_십자가찾기 {
 			this.c = c;
 			this.k = k;
 		}
-		@Override
-		public String toString() {
-			return "Cross [r=" + r + ", c=" + c + ", k=" + k + "]";
-		}
 	}
 	static String src =
-			"5 5\r\n"
-			+ ".*...\r\n"
-			+ "****.\r\n"
-			+ ".****\r\n"
-			+ "..**.\r\n"
-			+ ".....";
+			"6 8\r\n"
+			+ "....*...\r\n"
+			+ "...**...\r\n"
+			+ "..*****.\r\n"
+			+ "...**...\r\n"
+			+ "....*...\r\n"
+			+ "........";
 }
