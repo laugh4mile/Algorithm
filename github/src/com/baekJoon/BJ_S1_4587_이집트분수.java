@@ -9,7 +9,7 @@ import java.util.StringTokenizer;
 public class BJ_S1_4587_이집트분수 {
 	static BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
 	static StringTokenizer tokens;
-	static int M,N;
+	static long M,N;
 	public static void main(String[] args) throws NumberFormatException, IOException {
 		input = new BufferedReader(new StringReader(src));
 		while(true) {
@@ -27,12 +27,13 @@ public class BJ_S1_4587_이집트분수 {
 					// N과 nextN의 최소 공배수가 분모이다.
 					// 최소 공배수는 N * nextN / 최대 공약수이다.
 					// 따라서 최대 공약수를 먼저 구한다.
-					int gcd = getGcd(N, nextN);
-					int lcm = N * nextN / gcd;
+					long gcd = getGcd(N, nextN);
 					
-					int newM1 = (lcm/N)*M;
-					int newM2 = lcm/nextN;
-					int newM = newM1 - newM2;
+					long lcm = N * nextN / gcd;
+					
+					long newM1 = (lcm/N)*M;
+					long newM2 = lcm/nextN;
+					long newM = newM1 - newM2;
 					
 					// 새로나온 분자와 분모를 약분해서 분모가 1000000이 넘지 않아야 한다.
 					// 약분은 분자 분모의 최대공약수로 나눌 거임.
@@ -53,18 +54,18 @@ public class BJ_S1_4587_이집트분수 {
 		}
 	}
 
-	private static int getGcd(int a, int b) {
-		int temp = 0;
-		while(b>0) {
-			temp = a;
-			a = b;
-			b = temp%b;
+	private static long getGcd(long newM, long lcm) {
+		long temp = 0;
+		while(lcm>0) {
+			temp = newM;
+			newM = lcm;
+			lcm = temp%lcm;
 		}
-		return a;
+		return newM;
 	}
 
 	static String src =
-			"3 4\r\n" + 
+//			"3 4\r\n" + 
 //			"2 7\r\n" + 
 //			"9 20\r\n" + 
 //			"17 69\r\n" + 
@@ -78,5 +79,6 @@ public class BJ_S1_4587_이집트분수 {
 //			"4 73\r\n" + 
 //			"50 89\r\n" + 
 //			"8 97\r\n" + 
+			"3 999983\r\n" + 
 			"0 0";
 }
