@@ -9,7 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.StringTokenizer;
 
-public class BJ_G5_20056_마법사상어와파이어볼 {
+public class BJ_G5_20056_마법사상어와파이어볼2 {
 	static BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
 	static StringTokenizer tokens;
 	static int N,M,K,map[][];
@@ -31,10 +31,10 @@ public class BJ_G5_20056_마법사상어와파이어볼 {
 			list.add(new FireBall(r, c, m, s, d));
 			map[r][c] = 1;
 		}
-//		for(int x[] : map) {
-//			System.out.println(Arrays.toString(x));
-//		}
-//		System.out.println(list);
+		for(int x[] : map) {
+			System.out.println(Arrays.toString(x));
+		}
+		System.out.println(list);
 		for(int k=0; k<K; k++) {
 			move();
 		}
@@ -49,8 +49,12 @@ public class BJ_G5_20056_마법사상어와파이어볼 {
 	private static void move() {
 		for(int i=0; i<list.size(); i++) {
 			FireBall front = list.get(i);
-			int nr = (front.r + N + ((front.s % N) * dr[front.d]))%N;
-			int nc = (front.c + N + ((front.s % N) * dc[front.d]))%N;
+			int nr = front.r + dr[front.d] * front.s;
+			int nc = front.c + dc[front.d] * front.s;
+			if(nr > N-1) nr = nr%N;
+			if(nr < 0) nr = N - (Math.abs(nr) % N);
+			if(nc > N-1) nc = nc%N;
+			if(nc < 0) nc = N - (Math.abs(nc) % N);
 			map[front.r][front.c]--;
 			map[nr][nc]++;
 			list.get(i).r = nr;
@@ -63,14 +67,14 @@ public class BJ_G5_20056_마법사상어와파이어볼 {
 				}
 			}
 		}
-//		System.out.println();
-//		for(int x[] : map) {
-//			System.out.println(Arrays.toString(x));
-//		}
-//		System.out.println(list);
+		System.out.println();
+		for(int x[] : map) {
+			System.out.println(Arrays.toString(x));
+		}
+		System.out.println(list);
 	}
 	private static void combine(int r, int c, int cnt) { //cnt 는 겹친 파이어볼의 개수
-		
+		map[r][c] = 4;
 		int sumM = 0;
 		int sumS = 0;
 		int temp = -1;
@@ -93,7 +97,6 @@ public class BJ_G5_20056_마법사상어와파이어볼 {
 		sumM = sumM / 5;
 		sumS = sumS / cnt;
 		if(sumM > 0) { // 질량이 0 이상이어야 함
-			map[r][c] = 4;
 			if(!flag) { // 합쳐지는 파이어볼의 방향이 모두 홀수이거나 모두 짝수인 경우
 				// 방향은 0,2,4,6
 				for(int d=0; d<7; d+=2) {
@@ -105,8 +108,6 @@ public class BJ_G5_20056_마법사상어와파이어볼 {
 					list.add(new FireBall(r, c, sumM, sumS, d));
 				}
 			}
-		}else {
-			map[r][c] = 0;
 		}
 	}
 	static class FireBall{
@@ -131,7 +132,7 @@ public class BJ_G5_20056_마법사상어와파이어볼 {
 	static int dr[] = {-1,-1,0,1,1,1,0,-1}; // 8 방향. 순서 중요함.
 	static int dc[] = {0,1,1,1,0,-1,-1,-1};
 	static String src =
-			"4 2 3\r\n"
-			+ "1 1 5 2 2\r\n"
+			"4 2 1\r\n"
+			+ "1 1 5 2 6\r\n"
 			+ "1 4 7 1 6";
 }
