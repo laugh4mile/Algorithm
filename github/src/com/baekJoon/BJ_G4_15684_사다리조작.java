@@ -29,16 +29,35 @@ public class BJ_G4_15684_사다리조작 {
 		for(int x[] : ladder) {
 			System.out.println(Arrays.toString(x));
 		}
+		
+		combination(0, 0);
+		
 		for(int c=0; c<C; c++) {
+			if(game(c) == c) {
+				
+			}
+		}
+	}
+	
+	private static void combination(int start, int cnt) {
+		if(cnt == 2) {
+			return;
+		}
+		
+		for(int i=start; i<R*(C-1); i++) {
 			
 		}
 	}
 
-	static String src =
-			"5 5 6\r\n"
-			+ "1 1\r\n"
-			+ "3 2\r\n"
-			+ "2 3\r\n"
-			+ "5 1\r\n"
+	private static int game(int start) {
+		return 0;
+	}
+
+	static String src = 
+			"5 5 6\r\n" 
+			+ "1 1\r\n" 
+			+ "3 2\r\n" 
+			+ "2 3\r\n" 
+			+ "5 1\r\n" 
 			+ "5 4";
 }
