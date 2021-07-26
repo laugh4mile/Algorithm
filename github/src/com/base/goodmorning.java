@@ -18,8 +18,8 @@ public class goodmorning {
 			num[i] = i+1;
 		}
 		
-		permutation(0); 
-//		combination(0,0);
+//		permutation(0); 
+		combination(0,0);
 //		subSet(0);
 //		System.out.println(ccnt);
 		System.out.println(cc);
@@ -40,6 +40,11 @@ public class goodmorning {
 		isSelected[cnt] = false;
 		subSet(cnt+1);
 	}
+	
+	
+	
+	
+	
 	private static void combination(int start, int cnt) {
 		if(cnt == R) {
 			System.out.println(Arrays.toString(result));
@@ -51,6 +56,10 @@ public class goodmorning {
 			combination(i+1, cnt+1);
 		}
 	}
+	
+	
+	
+	
 	private static void permutation(int cnt) {
 		if(cnt == R) {
 			System.out.println(Arrays.toString(result));
