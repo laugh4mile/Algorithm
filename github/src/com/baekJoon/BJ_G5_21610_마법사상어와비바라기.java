@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -13,6 +12,7 @@ public class BJ_G5_21610_마법사상어와비바라기 {
 	static BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
 	static StringTokenizer tokens;
 	static int N,M,map[][];
+	static boolean isVisited[][];
 	static List<Cloud> list = new ArrayList<>();
 	public static void main(String[] args) throws NumberFormatException, IOException {
 		input = new BufferedReader(new StringReader(src));
@@ -20,6 +20,7 @@ public class BJ_G5_21610_마법사상어와비바라기 {
 		N = Integer.parseInt(tokens.nextToken());
 		M = Integer.parseInt(tokens.nextToken());
 		map = new int[N][N];
+		isVisited = new boolean[N][N];
 		
 		for(int r=0; r<N; r++) {
 			tokens = new StringTokenizer(input.readLine());
@@ -28,9 +29,6 @@ public class BJ_G5_21610_마법사상어와비바라기 {
 			}
 		}
 		
-		for(int x[] : map) {
-			System.out.println(Arrays.toString(x));
-		}
 		list.add(new Cloud(N-2, 0));
 		list.add(new Cloud(N-2, 1));
 		list.add(new Cloud(N-1, 0));
@@ -40,16 +38,54 @@ public class BJ_G5_21610_마법사상어와비바라기 {
 			int d = Integer.parseInt(tokens.nextToken())-1; // 0 부터 할거임
 			int s = Integer.parseInt(tokens.nextToken());
 			move(d,s);
-			System.out.println(list);
+			copyWater();
+			list.clear();
+			makeCloud();
+			
 		}
+		int answer = 0;
+		for(int r=0; r<N; r++) {
+			for(int c=0; c<N; c++) {
+				answer += map[r][c];
+			}
+		}
+		System.out.println(answer);
 	}
 	
-	private static void move(int d, int s) {
+	private static void makeCloud() {
+		for(int r=0; r<N; r++) {
+			for(int c=0; c<N; c++) {
+				if(map[r][c] >= 2 && !isVisited[r][c]) {
+					list.add(new Cloud(r, c));
+					map[r][c] = map[r][c] - 2;
+				}
+				if(isVisited[r][c]) {
+					isVisited[r][c] = false;
+				}
+			}
+		}
+	}
+
+	private static void copyWater() {
 		for(int i=0; i<list.size(); i++) {
+			int cnt = 0;
+			for(int d=1; d<8; d=d+2) {
+				int nr = list.get(i).r + dr[d];
+				int nc = list.get(i).c + dc[d];
+				if(isIn(nr, nc) && map[nr][nc] != 0) {
+					cnt++;
+				}
+			}
+			map[list.get(i).r][list.get(i).c] = map[list.get(i).r][list.get(i).c] + cnt;
+		}
+	}
+
+	private static void move(int d, int s) {
+		for(int i=0; i<list.size(); i++) { // 구름 이동 & 각 구름에서 비가 내려, 각 칸의 바구니에 저장된 물의 양이 1 증가
 			list.get(i).r = (N + list.get(i).r + dr[d]*(s%N)) % N;
 			list.get(i).c = (N + list.get(i).c + dc[d]*(s%N)) % N;
 			map[list.get(i).r][list.get(i).c]++;
-			
+			isVisited[list.get(i).r][list.get(i).c] = true;
 		}
 	}
 
