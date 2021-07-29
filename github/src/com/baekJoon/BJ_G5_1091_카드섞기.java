@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringReader;
-import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class BJ_G5_1091_카드섞기 {
