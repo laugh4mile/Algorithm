@@ -4,16 +4,21 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringReader;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.PriorityQueue;
+import java.util.Queue;
 import java.util.StringTokenizer;
 
-public class BJ_G4_16235_나무재테크 {
+public class BJ_G4_16235_나무재테크2 {
 	static BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
 	static StringTokenizer tokens;
 	static int N,M,K,map[][], add[][]; // map 은 양분이다.
-	static List<Tree> list = new LinkedList<>();
+	static List<Tree> list = new ArrayList<>();
+	static PriorityQueue<Tree> queue = new PriorityQueue<>();
+	static Queue<Tree> temp = new LinkedList<>();
 	public static void main(String[] args) throws NumberFormatException, IOException {
 		input = new BufferedReader(new StringReader(src));
 		tokens = new StringTokenizer(input.readLine());
@@ -26,10 +31,12 @@ public class BJ_G4_16235_나무재테크 {
 			for(int c=0; c<N; c++) {
 				map[r][c] = 5; //가장 처음에 양분은 모든 칸에 5만큼 들어있다.
 			}	
+		}
+		for(int r=0; r<N; r++) {
 			tokens = new StringTokenizer(input.readLine());
 			for(int c=0; c<N; c++) {
 				add[r][c] = Integer.parseInt(tokens.nextToken());
-			}
+			}	
 		}
 		for(int m=0; m<M; m++) {
 			tokens = new StringTokenizer(input.readLine());
@@ -37,50 +44,63 @@ public class BJ_G4_16235_나무재테크 {
 			int c = Integer.parseInt(tokens.nextToken())-1;
 			int age = Integer.parseInt(tokens.nextToken());
 			list.add(new Tree(r, c, age, true));
+			queue.offer(new Tree(r, c, age, true));
 		} // 입력 끝
 		
 		while(K-- > 0) {
 			spring();
 			summer();
-			if(list.size() == 0) break;
+			if(queue.isEmpty()) break;
 			fall();
 			winter();
 		}
-		System.out.println(list.size());
+		System.out.println(queue.size());
 	}
 	private static void spring() {
-		Collections.sort(list); // 어린 나무순으로 정렬
-		for(int i=0; i<list.size(); i++) {
-			Tree tree = list.get(i);
+		while(!queue.isEmpty()) {
+			Tree tree = queue.poll();
 			if(map[tree.r][tree.c] < tree.age) { // 자기 나이보다 양분이 적을 경우
-				list.get(i).isAlive = false; // 나무 쥬금 ㅜㅜ
-			}else { // 안죽을 경우 자기 나이 만큼 양분을 먹고 나이가 증가한다.
-				map[tree.r][tree.c] = map[tree.r][tree.c] - list.get(i).age;
-				list.get(i).age++;
+				tree.isAlive = false; // 나무 쥬금 ㅜㅜ
+			}else { // 안죽을 경우 자기 나이 만큼 양분이 사라지고 나이가 증가한다.
+				map[tree.r][tree.c] = map[tree.r][tree.c] - tree.age;
+				tree.age++;
 			}
+			temp.offer(tree);
+		}
+		while(!temp.isEmpty()) {
+			queue.offer(temp.poll());
 		}
 	}
 	private static void summer() {
-		for(int i=0; i<list.size(); i++) {
-			Tree tree = list.get(i);
+		while(!queue.isEmpty()) {
+			Tree tree = queue.poll();
 			if(!tree.isAlive) { // 죽은 나무일 경우 나이의 절반이 양분으로 변함
 				map[tree.r][tree.c] = map[tree.r][tree.c] + tree.age/2; 
-				list.remove(i--); // 해당 나무를 삭제하고 i 1감소
+			}else {
+				temp.offer(tree);
 			}
 		}
+		while(!temp.isEmpty()) {
+			queue.offer(temp.poll());
+		}
 	}
+	
 	private static void fall() {
-		for(int i=0; i<list.size(); i++) {
-			Tree tree = list.get(i);
+		while(!queue.isEmpty()) {
+			Tree tree = queue.poll();
 			if(tree.age % 5 == 0) { // 5의 배수일 경우 새끼 깜
 				for(int d=0; d<8; d++) {
 					int nr = tree.r + dr[d];
 					int nc = tree.c + dc[d];
 					if(isIn(nr, nc)) {
-						list.add(new Tree(nr, nc, 1, true));
+						temp.offer(new Tree(nr, nc, 1, true));
 					}
 				}
 			}
+			temp.offer(tree);
+		}
+		while(!temp.isEmpty()) {
+			queue.offer(temp.poll());
 		}
 	}
 	private static void winter() {

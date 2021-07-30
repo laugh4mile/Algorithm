@@ -4,16 +4,16 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringReader;
+import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.StringTokenizer;
 
-public class BJ_G4_16235_나무재테크 {
+public class BJ_G4_16235_나무재테크3 {
 	static BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
 	static StringTokenizer tokens;
 	static int N,M,K,map[][], add[][]; // map 은 양분이다.
-	static List<Tree> list = new LinkedList<>();
+	static List<Tree> list = new ArrayList<>();
 	public static void main(String[] args) throws NumberFormatException, IOException {
 		input = new BufferedReader(new StringReader(src));
 		tokens = new StringTokenizer(input.readLine());
@@ -26,10 +26,12 @@ public class BJ_G4_16235_나무재테크 {
 			for(int c=0; c<N; c++) {
 				map[r][c] = 5; //가장 처음에 양분은 모든 칸에 5만큼 들어있다.
 			}	
+		}
+		for(int r=0; r<N; r++) {
 			tokens = new StringTokenizer(input.readLine());
 			for(int c=0; c<N; c++) {
 				add[r][c] = Integer.parseInt(tokens.nextToken());
-			}
+			}	
 		}
 		for(int m=0; m<M; m++) {
 			tokens = new StringTokenizer(input.readLine());
@@ -38,18 +40,17 @@ public class BJ_G4_16235_나무재테크 {
 			int age = Integer.parseInt(tokens.nextToken());
 			list.add(new Tree(r, c, age, true));
 		} // 입력 끝
+		Collections.sort(list); // 어린 나무순으로 정렬
 		
 		while(K-- > 0) {
 			spring();
-			summer();
+			summerAndfall();
 			if(list.size() == 0) break;
-			fall();
 			winter();
 		}
 		System.out.println(list.size());
 	}
 	private static void spring() {
-		Collections.sort(list); // 어린 나무순으로 정렬
 		for(int i=0; i<list.size(); i++) {
 			Tree tree = list.get(i);
 			if(map[tree.r][tree.c] < tree.age) { // 자기 나이보다 양분이 적을 경우
@@ -60,24 +61,21 @@ public class BJ_G4_16235_나무재테크 {
 			}
 		}
 	}
-	private static void summer() {
+	private static void summerAndfall() {
 		for(int i=0; i<list.size(); i++) {
 			Tree tree = list.get(i);
 			if(!tree.isAlive) { // 죽은 나무일 경우 나이의 절반이 양분으로 변함
 				map[tree.r][tree.c] = map[tree.r][tree.c] + tree.age/2; 
 				list.remove(i--); // 해당 나무를 삭제하고 i 1감소
+				continue;
 			}
-		}
-	}
-	private static void fall() {
-		for(int i=0; i<list.size(); i++) {
-			Tree tree = list.get(i);
 			if(tree.age % 5 == 0) { // 5의 배수일 경우 새끼 깜
 				for(int d=0; d<8; d++) {
 					int nr = tree.r + dr[d];
 					int nc = tree.c + dc[d];
 					if(isIn(nr, nc)) {
-						list.add(new Tree(nr, nc, 1, true));
+						list.add(0, new Tree(nr, nc, 1, true));
+						i++;
 					}
 				}
 			}

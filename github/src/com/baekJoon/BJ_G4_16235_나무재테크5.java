@@ -4,16 +4,16 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringReader;
+import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.StringTokenizer;
 
-public class BJ_G4_16235_나무재테크 {
+public class BJ_G4_16235_나무재테크5 {
 	static BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
 	static StringTokenizer tokens;
 	static int N,M,K,map[][], add[][]; // map 은 양분이다.
-	static List<Tree> list = new LinkedList<>();
+	static List<Tree> list = new ArrayList<>();
 	public static void main(String[] args) throws NumberFormatException, IOException {
 		input = new BufferedReader(new StringReader(src));
 		tokens = new StringTokenizer(input.readLine());
@@ -26,10 +26,12 @@ public class BJ_G4_16235_나무재테크 {
 			for(int c=0; c<N; c++) {
 				map[r][c] = 5; //가장 처음에 양분은 모든 칸에 5만큼 들어있다.
 			}	
+		}
+		for(int r=0; r<N; r++) {
 			tokens = new StringTokenizer(input.readLine());
 			for(int c=0; c<N; c++) {
 				add[r][c] = Integer.parseInt(tokens.nextToken());
-			}
+			}	
 		}
 		for(int m=0; m<M; m++) {
 			tokens = new StringTokenizer(input.readLine());
