@@ -40,15 +40,19 @@ public class BJ_G4_17135_캐슬디펜스 {
 				}
 			}	
 		}
-		for(int x[] : map) {
-			System.out.println(Arrays.toString(x));
-		}
+//		for(int x[] : map) {
+//			System.out.println(Arrays.toString(x));
+//		}
 		allocateArcher(0,0);
+//		archers.add(0);
+//		archers.add(2);
+//		archers.add(4);
+		defence(enemies, map);
+		System.out.println(maxKill);
 	}
 	
 	private static void allocateArcher(int start, int cnt) { // 궁수 배치
 		if(cnt == 3) {
-			System.out.println(archers);
 			defence(enemies, map);
 			return;
 		}
@@ -65,23 +69,50 @@ public class BJ_G4_17135_캐슬디펜스 {
 		// 2. 적을 죽인다. // kill++ 최대값이 곧 정답이다.
 		// 3. 적들이 1칸 전진한다. // 범위를 넘은 적은 놓친 적이다. miss++
 		// 4. 1~3을 적들이 존재하지 않으면 탈출. 혹은 total - kill < miss 이면 탈출.
+		List<Enemy> temp = new ArrayList<>(enemies);
+		int [][]tempMap = new int[N][M];
+		for(int r=0; r<N; r++) {
+			for(int c=0; c<M; c++) {
+				tempMap[r][c] = map[r][c];
+			}	
+		}
 		int remain = totalEnemy;
 		int miss = 0, kill = 0;
 		while(true) {
-			if(remain <= 0 || totalEnemy < miss + kill) {
+//			System.out.println(temp);
+//			System.out.println(kill);
+			if(kill > maxKill) {
+				maxKill = kill;
+			}
+			if(temp.isEmpty() || totalEnemy - maxKill < miss ) {
 				break;
 			}
-			for(int i=0; i<3; i++) {
+//			System.out.println(archers);
+			for(int i=0; i<archers.size(); i++) {
 				int archer = archers.get(i);
-				map = aim(archer, enemies, map); 
-			}
-			for(int r=0; r<N; r++) {
-				for(int c=0; c<N; c++) {
-					
-				}	
+				tempMap = aim(archer, temp, tempMap); 
 			}
 			
-			break;
+			for(int i=0; i<temp.size(); i++) {
+				Enemy cur = temp.get(i);
+				if(tempMap[cur.r][cur.c] == 3) {
+					tempMap[cur.r][cur.c] = 0;
+					temp.remove(i--);
+					kill++;
+					remain--;
+				}else {
+					int nr = cur.r + 1;
+					int nc = cur.c;
+					
+					if(isIn(nr,nc)) {
+						temp.get(i).r++;
+					}else {
+						temp.remove(i--);
+						miss++;
+						remain--;
+					}
+				}
+			}
 		}
 		
 	}
@@ -92,7 +123,9 @@ public class BJ_G4_17135_캐슬디펜스 {
 			Enemy front = enemies.get(i);
 			temp.add(new Enemy(front.r, front.c, Math.abs(front.r - N) + Math.abs(front.c - cur)));
 		}
-		map[temp.peek().r][temp.peek().c] = 3;
+		if(!temp.isEmpty() && temp.peek().d <= D) {
+			map[temp.peek().r][temp.peek().c] = 3;
+		}
 		return map;
 	}
 	
@@ -130,10 +163,10 @@ public class BJ_G4_17135_캐슬디펜스 {
 	}
 
 	static String src =
-			"5 5 1\r\n"
-			+ "0 0 0 0 0\r\n"
-			+ "0 0 0 0 0\r\n"
-			+ "0 0 0 0 0\r\n"
-			+ "0 0 0 0 0\r\n"
-			+ "1 1 1 1 1";
+			"5 5 2\r\n" + 
+			"0 0 0 0 0\r\n" + 
+			"0 0 0 0 0\r\n" + 
+			"0 0 0 0 0\r\n" + 
+			"1 1 1 1 1\r\n" + 
+			"0 0 0 0 0";
 }
