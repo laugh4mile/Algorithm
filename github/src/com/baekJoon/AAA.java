@@ -15,6 +15,7 @@ public class AAA {
 	static List<String> list4 = new ArrayList<>();
 	static List<Node> list5 = new ArrayList<>();
 	static List<Node> list6 = new ArrayList<>();
+	static List<Node> temp = new ArrayList<>();
 	
 	public static void main(String[] args) throws NumberFormatException, IOException {
 		setList();
@@ -30,6 +31,10 @@ public class AAA {
 		printList();
 		printList2();
 		printList3();
+		
+//		temp.add(new Node(0,0,0,false));
+//		temp.add(new Node(1,1,1,false));
+//		System.out.println(temp.contains(new Node(0,0,0,false)));
 	}
 	
 	//
