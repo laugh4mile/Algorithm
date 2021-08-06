@@ -36,26 +36,22 @@ public class BJ_G4_17140_이차원배열과연산 {
 //		}
 //		System.out.println();
 		int t = 0;
-		while(t<100) {
+		while(t<=100) {
 			if(r<N && c<M && map[r][c] == k) {
 				break;
 			}
 			if(map.length >= map[0].length) {
 				sortByRow();
-//				for(int x[] : map) {
-//					System.out.println(Arrays.toString(x));
-//				}
-//				System.out.println();
 			}else {
 				sortByCol();
-//				for(int x[] : map) {
-//					System.out.println(Arrays.toString(x));
-//				}
-//				System.out.println();
 			}
+//			for(int x[] : map) {
+//				System.out.println(Arrays.toString(x));
+//			}
+//			System.out.println();
 			t++;
 		}
-		if(t != 100) {
+		if(t <= 100) {
 			System.out.println(t);
 		}else {
 			System.out.println(-1);
@@ -165,8 +161,8 @@ public class BJ_G4_17140_이차원배열과연산 {
 		}
 	}
 	static String src =
-			"3 3 3\r\n"
-			+ "1 1 1\r\n"
-			+ "1 1 1\r\n"
-			+ "1 1 1";
+			"1 2 5\r\n" + 
+			"1 2 1\r\n" + 
+			"2 1 3\r\n" + 
+			"3 3 3";
 }
