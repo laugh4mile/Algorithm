@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -30,11 +29,13 @@ public class BJ_G5_17471_게리맨더링 {
 		}
 		for(int i=1; i<N+1; i++) {
 			tokens = new StringTokenizer(input.readLine());
+			tokens.nextToken();
 			while(tokens.hasMoreTokens()) {
 				graph[i].add(Integer.parseInt(tokens.nextToken()));
 			}
 		} // 입력 끝
-		result = new int[N+1];
+		
+		result = new int[N+1]; // 조합 결과를 담을 배열.
 		for(int i=1; i<=N/2; i++) {
 			grouping(1,0,i); 
 		}
@@ -45,12 +46,12 @@ public class BJ_G5_17471_게리맨더링 {
 		}
 	}
 
-	private static void grouping(int start, int cnt, int R) {
+	private static void grouping(int start, int cnt, int R) { // 1이면 1팀 0이면 0팀
 		if(cnt == R) {
-			System.out.println(Arrays.toString(result));
+//			System.out.println(Arrays.toString(result));
 			checkLink(); // 연결되어 있는지 확인.
-			System.out.println(minChai);
-			System.out.println();
+//			System.out.println(minChai);
+//			System.out.println();
 			return;
 		}
 		for(int i=start; i<=N; i++) {
@@ -62,11 +63,13 @@ public class BJ_G5_17471_게리맨더링 {
 
 	private static void checkLink() {
 		groups = new int[2];
-		boolean isCorrect = true;
+		boolean isConnected = true; // 연결상태가 정상인지 확인하는 변수
+		
+		// bfs를 2번 돌아 1팀과 0팀이 각각 연결된 상태인지 확인한다. 
 		for(int i=1; i<N+1; i++) {
 			if(result[i] == 1) {
 				if(!bfs(i, 1)) {
-					isCorrect = false;
+					isConnected = false;
 				}
 				break;
 			}
@@ -74,13 +77,13 @@ public class BJ_G5_17471_게리맨더링 {
 		for(int i=1; i<N+1; i++) {
 			if(result[i] == 0) {
 				if(!bfs(i, 0)) {
-					isCorrect = false;
+					isConnected = false;
 				}
 				break;
 			}
 		}
-		if(isCorrect) {
-			System.out.println(Arrays.toString(groups));
+		if(isConnected) {
+//			System.out.println(Arrays.toString(groups));
 			if(minChai > Math.abs(groups[0] - groups[1])) {
 				minChai = Math.abs(groups[0] - groups[1]);
 			}
@@ -115,12 +118,16 @@ public class BJ_G5_17471_게리맨더링 {
 	}
 
 	static String src =
-			"6\r\n"
-			+ "2 2 2 2 2 2\r\n"
-			+ "1 3\r\n"
-			+ "1 4\r\n"
-			+ "1 1\r\n"
-			+ "1 2\r\n"
-			+ "1 6\r\n"
-			+ "1 5";
+			"10\r\n" + 
+			"43 21 32 4 54 9 12 35 76 81\r\n" + 
+			"3 5 6 8\r\n" + 
+			"3 5 7 9\r\n" + 
+			"4 4 5 8 10\r\n" + 
+			"3 3 5 9\r\n" + 
+			"8 1 2 3 4 6 7 8 9\r\n" + 
+			"3 1 5 7\r\n" + 
+			"3 2 5 6\r\n" + 
+			"3 1 3 5\r\n" + 
+			"3 2 4 5\r\n" + 
+			"1 3";
 }
