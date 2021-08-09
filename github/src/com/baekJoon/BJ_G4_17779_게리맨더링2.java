@@ -21,23 +21,26 @@ public class BJ_G4_17779_게리맨더링2 {
 				map[r][c] = Integer.parseInt(tokens.nextToken());
 			}	
 		}
+
+		populration = new int[6];
+		temp = new int[N][N];
 		// 4중 포문밖에 답이 없을거같은데.. 
 		for(int d1=1; d1<N/2; d1++) {
 			for(int d2=1; d2<N/2; d2++) {
 				for(int r=0; r<N; r++) {
 					for(int c=0; c<N; c++) {
 						// 경계선의 꼭지점을 보고 유효한지 판별
-						temp = new int[N][N];
+						for(int i=0; i<N; i++) {
+							for(int j=0; j<N; j++) {
+								temp[i][j] = 0;
+							}
+						}
 						if(!isIn(r-d1, c+d1)) continue; // 상
 						if(!isIn(r-d1+d2, c+d1+d2)) continue; // 우
 						if(!isIn(r+d2, c+d2)) continue; // 하
 						section5(r,c,d1,d2);
-						section1(r,c,d1,d2);
-						section2(r,c,d1,d2);
-						section3(r,c,d1,d2);
-						section4(r,c,d1,d2);
-						
-						populration = new int[6];
+						section(r, c, d1, d2);
+						Arrays.fill(populration, 0);
 						getPopulation();
 						if(minChai > getMin()) {
 							minChai = getMin();
@@ -76,42 +79,23 @@ public class BJ_G4_17779_게리맨더링2 {
 		}
 	}
 
-	private static void section4(int r, int c, int d1, int d2) {
-		for(int i=r-d1+d2; i<N; i++) {
-			for(int j=c+d2; j<N; j++) {
+	private static void section(int r, int c, int d1, int d2) {
+		for(int i=0; i<N; i++) {
+			for(int j=0; j<N; j++) {
 				if(temp[i][j] != 0) continue;
-				temp[i][j] = 4;
+				if(i<r && j<=c+d1) {
+					temp[i][j] = 1;
+				}else if(i<=r-d1+d2 && j>c+d1) {
+					temp[i][j] = 2;
+				}else if(i>=r && j<c+d2) {
+					temp[i][j] = 3;
+				}else {
+					temp[i][j] = 4;
+				}
 			}
 		}
 	}
-
-	private static void section3(int r, int c, int d1, int d2) {
-		for(int i=r; i<N; i++) {
-			for(int j=0; j<c+d2; j++) {
-				if(temp[i][j] != 0) continue;
-				temp[i][j] = 3;
-			}
-		}
-	}
-
-	private static void section2(int r, int c, int d1, int d2) {
-		for(int i=0; i<=r-d1+d2; i++) {
-			for(int j=c+d1+1; j<N; j++) {
-				if(temp[i][j] != 0) continue;
-				temp[i][j] = 2;
-			}
-		}
-	}
-
-	private static void section1(int r, int c, int d1, int d2) {
-		for(int i=0; i<r; i++) {
-			for(int j=0; j<=c+d1; j++) {
-				if(temp[i][j] != 0) continue;
-				temp[i][j] = 1;
-			}
-		}
-	}
-
+	
 	private static void section5(int r, int c, int d1, int d2) {
 //		System.out.println(r+" "+c+" "+d1+" "+d2);
 		for(int i=r-d1; i<=r+d2; i++) { 
