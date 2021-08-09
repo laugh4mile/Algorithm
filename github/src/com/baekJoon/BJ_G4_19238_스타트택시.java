@@ -28,7 +28,7 @@ public class BJ_G4_19238_스타트택시 {
 			for(int c=0; c<N; c++) {
 				int map = Integer.parseInt(tokens.nextToken());
 				passanger[r][c] = map;
-				destination[r][c] = map;
+				destination[r][c] = map; // <- 여기가 문제인거 같다!!!!!!!!!!!!!!
 			}	
 		}
 		tokens = new StringTokenizer(input.readLine());
