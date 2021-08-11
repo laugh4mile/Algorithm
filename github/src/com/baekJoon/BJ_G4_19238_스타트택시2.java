@@ -47,9 +47,11 @@ public class BJ_G4_19238_스타트택시2 {
 		} // 입력 끝
 
 		boolean isFailed = false;
-		
+//		System.out.println(fuel);
+//		System.out.println();
 		for(int m=0; m<M; m++) {
 			findPass(); // 가장 가까운 승객 찾기
+//			System.out.println(fuel);
 			if(fuel<=0) {
 				isFailed = true;
 				break;
@@ -57,9 +59,15 @@ public class BJ_G4_19238_스타트택시2 {
 			passanger[taxiR][taxiC] = 0; // 해당 승객은 이제 제외함.
 			
 			findDest(cur); // cur = 승객 번호이자 도착번호
-			if(fuel<0) break; // 0은 봐줌
+//			System.out.println(fuel);
+			if(fuel<0) { // 0은 봐줌
+				isFailed = true;
+				break; 
+			}
 			fuel += plus;
 			plus = 0;
+//			System.out.println(fuel);
+//			System.out.println();
 		}
 		
 		for(int r=0; r<N; r++) {
@@ -70,7 +78,7 @@ public class BJ_G4_19238_스타트택시2 {
 				}
 			}	
 		}
-		
+//		System.out.println();
 		if(isFailed || dest.size() > 0) { // 목적지가 남아도 실패이다.
 			System.out.println(-1);
 		}else {
@@ -161,16 +169,15 @@ public class BJ_G4_19238_스타트택시2 {
 		}
 	}
 	static String src =
-			"6 4 15\r\n" + 
+			"6 3 6\r\n" + 
 			"0 0 1 0 0 0\r\n" + 
 			"0 0 1 0 0 0\r\n" + 
-			"0 0 0 0 0 0\r\n" + 
-			"0 0 0 0 0 0\r\n" + 
+			"0 0 0 1 0 0\r\n" + 
+			"0 0 0 1 0 0\r\n" + 
 			"0 0 0 0 1 0\r\n" + 
 			"0 0 0 1 0 0\r\n" + 
-			"6 5\r\n" + 
-			"2 2 5 6\r\n" + 
-			"5 4 1 6\r\n" + 
-			"4 2 3 5\r\n" + 
-			"1 6 5 4"; 
+			"1 1\r\n" + 
+			"2 2 5 1\r\n" + 
+			"5 4 1 2\r\n" + 
+			"4 2 3 1"; 
 }
