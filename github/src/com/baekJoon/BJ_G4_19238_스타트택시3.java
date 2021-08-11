@@ -7,10 +7,11 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
-public class BJ_G4_19238_스타트택시2 {
+public class BJ_G4_19238_스타트택시3 {
 	static BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
 	static StringTokenizer tokens;
 	static int N,M,fuel, passanger[][], taxiR,taxiC,cur,plus;
@@ -47,11 +48,8 @@ public class BJ_G4_19238_스타트택시2 {
 		} // 입력 끝
 
 		boolean isFailed = false;
-		System.out.println("초기 연료 : "+fuel);
-		System.out.println();
 		for(int m=0; m<M; m++) {
 			findPass(); // 가장 가까운 승객 찾기
-			System.out.println(fuel);
 			if(fuel<=0) {
 				isFailed = true;
 				break;
@@ -59,15 +57,12 @@ public class BJ_G4_19238_스타트택시2 {
 			passanger[taxiR][taxiC] = 0; // 해당 승객은 이제 제외함.
 			
 			findDest(cur); // cur = 승객 번호이자 도착번호
-			System.out.println(fuel);
 			if(fuel<0) { // 0은 봐줌
 				isFailed = true;
 				break; 
 			}
 			fuel += plus;
 			plus = 0;
-			System.out.println(fuel);
-			System.out.println();
 		}
 		
 		for(int r=0; r<N; r++) {
@@ -78,7 +73,6 @@ public class BJ_G4_19238_스타트택시2 {
 				}
 			}	
 		}
-		System.out.println();
 		if(isFailed || dest.size() > 0) { // 목적지가 남아도 실패이다.
 			System.out.println(-1);
 		}else {
@@ -92,7 +86,8 @@ public class BJ_G4_19238_스타트택시2 {
 				isVisited[r][c] = false;
 			}	
 		}
-		Queue<Node> queue = new LinkedList<>();
+		PriorityQueue<Node> queue = new PriorityQueue<>();
+//		Queue<Node> queue = new LinkedList<>();
 		queue.offer(new Node(taxiR, taxiC, 0));
 		isVisited[taxiR][taxiC] = true;
 		
@@ -157,7 +152,7 @@ public class BJ_G4_19238_스타트택시2 {
 	}
 	static int dr[] = {-1,0,0,1}; // 상,좌,우,하 <- 순서 중요
 	static int dc[] = {0,-1,1,0};
-	static class Node{
+	static class Node implements Comparable<Node>{
 		int r;
 		int c;
 		int d;
@@ -166,6 +161,16 @@ public class BJ_G4_19238_스타트택시2 {
 			this.r = r;
 			this.c = c;
 			this.d = d;
+		}
+		@Override
+		public int compareTo(Node o) {
+			if(this.d == o.d) {
+				if(this.r == o.r) {
+					return Integer.compare(this.c, o.c);
+				}
+				return Integer.compare(this.r, o.r);
+			}
+			return Integer.compare(this.d, o.d);
 		}
 	}
 	static String src =

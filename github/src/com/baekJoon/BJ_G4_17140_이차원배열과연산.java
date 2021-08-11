@@ -13,7 +13,7 @@ import java.util.StringTokenizer;
 public class BJ_G4_17140_이차원배열과연산 {
 	static BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
 	static StringTokenizer tokens;
-	static int r,c,k,N,M, map[][],temp[][];
+	static int r,c,k,N,M, map[][];
 	static List<Num> rows[], cols[];
 	public static void main(String[] args) throws NumberFormatException, IOException {
 		input = new BufferedReader(new StringReader(src));
@@ -31,10 +31,6 @@ public class BJ_G4_17140_이차원배열과연산 {
 				map[i][j] = Integer.parseInt(tokens.nextToken());
 			}	
 		}
-//		for(int x[] : map) {
-//			System.out.println(Arrays.toString(x));
-//		}
-//		System.out.println();
 		int t = 0;
 		while(t<=100) {
 			if(r<N && c<M && map[r][c] == k) {
@@ -45,10 +41,6 @@ public class BJ_G4_17140_이차원배열과연산 {
 			}else {
 				sortByCol();
 			}
-//			for(int x[] : map) {
-//				System.out.println(Arrays.toString(x));
-//			}
-//			System.out.println();
 			t++;
 		}
 		if(t <= 100) {
@@ -131,9 +123,6 @@ public class BJ_G4_17140_이차원배열과연산 {
 		for(int c=0; c<M; c++) {
 			int cnt = 0;
 			for(int r=0; r<cols[c].size(); r++) {
-//				if(cols[c].get(r).num == 0) { // 0의 개수를 쓸 필요는 없음
-//					break;
-//				}
 				map[cnt++][c] = cols[c].get(r).num;
 				map[cnt++][c] = cols[c].get(r).cnt;
 				if(r==49) break; // 49 맞나? 
