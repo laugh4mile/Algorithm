@@ -3,7 +3,7 @@ package com.codingtest.bro.toss;
 import java.io.IOException;
 
 public class Q6_계단을오르는방법 {
-	static int numOfStairs = 70;
+	static int numOfStairs = 3;
 	
 	
 	public static void main(String[] args) throws NumberFormatException, IOException {

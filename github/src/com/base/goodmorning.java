@@ -19,8 +19,8 @@ public class goodmorning {
 		}
 		
 //		permutation(0); 
-//		combination(0,0);
-		subSet(0);
+		combination(0,0);
+//		subSet(0);
 //		System.out.println(ccnt);
 		System.out.println(cc);
 	}
