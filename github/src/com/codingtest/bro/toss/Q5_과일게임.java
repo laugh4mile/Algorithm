@@ -15,7 +15,7 @@ public class Q5_과일게임 {
 
 
 	private static int[] solution(int[] fruitWeights, int k) {
-		int [] answer;
+		int [] answer; 
 		int N = fruitWeights.length;
 		TreeSet<Integer> set = new TreeSet<>(Collections.reverseOrder());
 		for(int i=0; i<=N-k; i++) {
