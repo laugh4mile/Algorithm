@@ -3,7 +3,6 @@ package com.baekJoon;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.StringReader;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -12,10 +11,10 @@ import java.util.StringTokenizer;
 public class BJ_G5_1107_리모컨 {
 	static BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
 	static StringTokenizer tokens;
-	static int channel[] = new int[1000000], N;
+	static int channel[] = new int[1000001], N;
 	static boolean keys[];
 	public static void main(String[] args) throws NumberFormatException, IOException {
-		input = new BufferedReader(new StringReader(src));
+		//input = new BufferedReader(new StringReader(src));
 		N = Integer.parseInt(input.readLine());
 		keys = new boolean[10]; // 0,1,2,3,4,5,6,7,8,9
 		int b = Integer.parseInt(input.readLine());
@@ -25,20 +24,19 @@ public class BJ_G5_1107_리모컨 {
 		for(int i=0; i<b; i++) {
 			keys[Integer.parseInt(tokens.nextToken())] = false;
 		}
-		if(N == 0) {
-			System.out.println(1);
-		}else if(N == 100) {
-			System.out.println(0);
-		}else {
-//			bfs();
-			System.out.println(channel[N]);
-		}
+		
+		bfs();
+		System.out.println(channel[N]);
 	}
 	private static void bfs() {
 		Queue<Node> queue = new LinkedList<>();
-		queue.offer(new Node(0, 1, false));
 		queue.offer(new Node(100, 0, true));
-		channel[100] = 0;
+		for(int i=0; i<10; i++) {
+			if(keys[i]) {
+				queue.offer(new Node(i, 1, false));
+			}
+		}
+		
 		
 		while(!queue.isEmpty()) {
 			Node front = queue.poll();
@@ -46,7 +44,7 @@ public class BJ_G5_1107_리모컨 {
 				channel[front.num] = front.cnt;
 				break;
 			}
-			if(channel[front.num] >= front.cnt) {
+			if(channel[front.num] > front.cnt) {
 				channel[front.num] = front.cnt;
 			}else {
 				continue;
@@ -56,7 +54,6 @@ public class BJ_G5_1107_리모컨 {
 					if(keys[i]) {
 						String str = Integer.toString(front.num) + i; 
 						int next = Integer.parseInt(str);
-//						System.out.println(next);
 						if(isIn(next)) {
 							queue.offer(new Node(next, front.cnt+1, false));
 						}
@@ -87,10 +84,10 @@ public class BJ_G5_1107_리모컨 {
 		}
 	}
 	static boolean isIn(int num) {
-		return (num>=0 && num<1000000);
+		return (num>=0 && num<1000001);
 	}
 	static String src =
-			"11\r\n"
+			"500000\r\n"
 			+ "8\r\n"
 			+ "0 2 3 4 6 7 8 9";
 }
