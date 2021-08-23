@@ -3,6 +3,7 @@ package com.baekJoon;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.StringReader;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -12,17 +13,20 @@ public class BJ_G5_1107_리모컨 {
 	static BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
 	static StringTokenizer tokens;
 	static int channel[] = new int[1000001], N;
-	static boolean keys[];
+	static boolean keys[], isVisited[][] = new boolean[1000001][2];
 	public static void main(String[] args) throws NumberFormatException, IOException {
-		//input = new BufferedReader(new StringReader(src));
+		input = new BufferedReader(new StringReader(src));
 		N = Integer.parseInt(input.readLine());
 		keys = new boolean[10]; // 0,1,2,3,4,5,6,7,8,9
 		int b = Integer.parseInt(input.readLine());
-		tokens = new StringTokenizer(input.readLine());
 		Arrays.fill(keys, true);
 		Arrays.fill(channel,Integer.MAX_VALUE);
-		for(int i=0; i<b; i++) {
-			keys[Integer.parseInt(tokens.nextToken())] = false;
+		
+		if(b != 0) {
+			tokens = new StringTokenizer(input.readLine());
+			for(int i=0; i<b; i++) {
+				keys[Integer.parseInt(tokens.nextToken())] = false;
+			}
 		}
 		
 		bfs();
@@ -31,9 +35,11 @@ public class BJ_G5_1107_리모컨 {
 	private static void bfs() {
 		Queue<Node> queue = new LinkedList<>();
 		queue.offer(new Node(100, 0, true));
+		isVisited[100][1] = true;
 		for(int i=0; i<10; i++) {
 			if(keys[i]) {
 				queue.offer(new Node(i, 1, false));
+				isVisited[i][0] = true;
 			}
 		}
 		
@@ -46,24 +52,25 @@ public class BJ_G5_1107_리모컨 {
 			}
 			if(channel[front.num] > front.cnt) {
 				channel[front.num] = front.cnt;
-			}else {
-				continue;
 			}
 			if(!front.flag) {
 				for(int i=0; i<10; i++) {
 					if(keys[i]) {
 						String str = Integer.toString(front.num) + i; 
 						int next = Integer.parseInt(str);
-						if(isIn(next)) {
+						if(isIn(next) && !isVisited[next][0]) {
+							isVisited[next][0] = true;
 							queue.offer(new Node(next, front.cnt+1, false));
 						}
 					}
 				}
 			}
-			if(isIn(front.num+1)) {
+			if(isIn(front.num+1) && !isVisited[front.num+1][1]) {
+				isVisited[front.num+1][1] = true;
 				queue.offer(new Node(front.num+1, front.cnt+1, true));
 			}
-			if(front.num != 0) {
+			if(front.num != 0 && !isVisited[front.num-1][1]) {
+				isVisited[front.num-1][1] = true;
 				queue.offer(new Node(front.num-1, front.cnt+1, true));
 			}
 		}
@@ -87,7 +94,8 @@ public class BJ_G5_1107_리모컨 {
 		return (num>=0 && num<1000001);
 	}
 	static String src =
-			"500000\r\n"
-			+ "8\r\n"
-			+ "0 2 3 4 6 7 8 9";
+			"101\r\n"
+			+ "0\r\n"
+			+ "1";
+			
 }
