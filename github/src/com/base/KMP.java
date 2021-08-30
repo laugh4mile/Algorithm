@@ -1,5 +1,7 @@
 package com.base;
 
+import java.util.Arrays;
+
 public class KMP {
     static String target = "banana";
     static String pattern = "ana";
@@ -72,6 +74,7 @@ public class KMP {
                 }
             }
         }
+//        System.out.println(Arrays.toString(pi));
         return pi;
     }
 }
