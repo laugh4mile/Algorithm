@@ -3,20 +3,23 @@ package com.base;
 import java.util.Arrays;
 
 public class KMP2 {
-    static String target = "ababacabacaabacaaba";
-    static String pattern = "abacaaba";
-
+    static String target = "abcabdabcd";
+    static String pattern = "abcd";
     public static void main(String[] args) {
 //    	getPi();
         kmp();
     }
-
+    
     static void kmp() {
         int patternSize = pattern.length();
         int targetSize= target.length();
         int[] pi = getPi();
+        System.out.println(target);
+        System.out.println(pattern);
+        System.out.println(Arrays.toString(pi));
         int j = 0;
         for(int i=0; i<targetSize; i++) {
+        	System.out.println(j+" , "+ i);
         	while(j>0 && target.charAt(i) != pattern.charAt(j)) {
         		j = pi[j-1];
         	}
