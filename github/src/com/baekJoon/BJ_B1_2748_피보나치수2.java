@@ -5,32 +5,23 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringReader;
 
-public class BJ_B1_2839_설탕배달 {
+public class BJ_B1_2748_피보나치수2 {
 	static BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
 
 	public static void main(String[] args) throws NumberFormatException, IOException {
 		input = new BufferedReader(new StringReader(src));
-		int N = Integer.parseInt(input.readLine());
-		int n = N;
-		int answer = 0;
-		while(n>0) {
-			if(n%5 == 0) {
-				answer++;
-				n -= 5;
-			}else if(n%3 == 0) {
-				answer++;
-				n -= 3;
-			}else if(n>5) {
-				n -= 5;
-				answer++;
-			}else {
-				answer = -1;
-				break;
-			}
+		int n = Integer.parseInt(input.readLine());
+		
+		long arr[] = new long[n+1];
+		arr[0] = 0;
+		arr[1] = 1;
+		for(int i=2; i<n+1; i++) {
+			arr[i] = arr[i-1] + arr[i-2];
 		}
-		System.out.println(answer);
+		System.out.println(arr[n]);
 	}
 
 	static String src =
-			"8";
+
+			"90";
 }
