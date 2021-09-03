@@ -7,7 +7,7 @@ import java.io.StringReader;
 import java.util.Arrays;
 import java.util.StringTokenizer;
 
-public class BJ_G5_19597_문자열뒤집기 {
+public class BJ_G5_19597_문자열뒤집기2 {
 	static BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
 	static StringTokenizer tokens;
 
@@ -29,57 +29,53 @@ public class BJ_G5_19597_문자열뒤집기 {
 	private static String solve(String[] words) {
 		int answer[] = new int[words.length];
 		String preStr = words[0];
+		if(preStr.compareTo(words[1]) < 0) {
+			
+		}
 		String reverseStr = "";
 		int cnt = 0;
 		for(int i=1; i<words.length; i++) {
 			String curStr = words[i];
-			System.out.println("preStr : "+preStr+"    curStr : "+curStr + "         i : "+i);
-			StringBuilder reverse = new StringBuilder(curStr);
-			reverseStr = reverse.reverse().toString();
+			reverseStr = new StringBuilder(curStr).reverse().toString();
+			
 			if(preStr.compareTo(curStr) < 0) {
 				preStr = curStr;
 				answer[i] = 0;
-			}else if(preStr.compareTo(reverseStr) < 0) {
+			}
+			
+			else if(preStr.compareTo(reverseStr) < 0) {
+//				System.out.println(preStr+" "+reverseStr);
 				preStr = reverseStr;
 				answer[i] = 1;
-			}else { // 바꿔도 안바꿔도 기존보다 작으면 i를 거슬러 올라가며 맞을때 까지 preStr을 바꿔야한다.
-				if(cnt == 5) {
-					break;
-				}
-				while(i>0) {
-					if(i == 1) {
-						reverse = new StringBuilder(words[0]);
-						preStr = reverse.reverse().toString();
+			}
+			
+			else { // 바꿔도 안바꿔도 기존보다 작을 경우
+				preStr = new StringBuilder(words[i-1]).reverse().toString();
+				for(int j=i-1; j>=0; j--) {
+					if(j==0) {
 						answer[0] = 1;
-						words[0] = preStr;
-						i=0;
-						System.out.println("zzzzzzzzzz");
-//						cnt ++;
 						break;
 					}
-					curStr = words[i-1];
-					reverse = new StringBuilder(curStr);
-					reverseStr = reverse.reverse().toString();
-					preStr = words[i-2];
-					System.out.println(preStr + " " + curStr + " " + reverseStr);
-					if(preStr.compareTo(reverseStr) < 0) {
-						System.out.println("tqtqtqtqtqtqtqtqtqtq");
-						preStr = reverseStr;
-						answer[i-1] = 1;
-						words[i-1] = reverseStr;
+					reverseStr = new StringBuilder(words[j]).reverse().toString();
+					answer[j] = 1;
+					if(words[j-1].compareTo(reverseStr) < 0) {
+						i--;
 						break;
 					}
-					i--;
 				}
 			}
 		}
-		System.out.println();
-		System.out.println();
-		System.out.println(Arrays.toString(words));
+//		System.out.println(Arrays.toString(words));
+//		System.out.println(Arrays.toString(answer));
 		return Arrays.toString(answer).replaceAll("[^a-zA-Z0-9]", "");
 	}
 	static String src =
-			"3\r\n"
+			"7\r\n"
+			+ "4\r\n"
+			+ "BF\r\n"
+			+ "BE\r\n"
+			+ "EF\r\n"
+			+ "FG\r\n"
 			+ "4\r\n"
 			+ "CBA\r\n"
 			+ "CBB\r\n"
@@ -94,5 +90,30 @@ public class BJ_G5_19597_문자열뒤집기 {
 			+ "BAA\r\n"
 			+ "BCA\r\n"
 			+ "CCA\r\n"
-			+ "ADA";
+			+ "ADA\r\n"
+			+ "7\r\n"
+			+ "AAA\r\n"
+			+ "BAA\r\n"
+			+ "BCA\r\n"
+			+ "CCA\r\n"
+			+ "ADA\r\n"
+			+ "ABD\r\n"
+			+ "GBE\r\n"
+			+ "9\r\n"
+			+ "AAA\r\n"
+			+ "BAA\r\n"
+			+ "BCA\r\n"
+			+ "CCA\r\n"
+			+ "ADA\r\n"
+			+ "ABD\r\n"
+			+ "CDE\r\n"
+			+ "BFE\r\n"
+			+ "EGF\r\n"
+			+ "6\r\n"
+			+ "BAA\r\n"
+			+ "AB\r\n"
+			+ "BCA\r\n"
+			+ "BB\r\n"
+			+ "FHE\r\n"
+			+ "EGF";
 }
