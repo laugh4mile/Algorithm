@@ -12,7 +12,7 @@ public class BJ_S5_1010_다리놓기 {
 	static BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
 	static BufferedWriter output = new BufferedWriter(new OutputStreamWriter(System.out));
 	static StringTokenizer tokens;
-
+	static int arr[][] = new int[30][30];
 	public static void main(String[] args) throws NumberFormatException, IOException {
 		input = new BufferedReader(new StringReader(src));
 		int T = Integer.parseInt(input.readLine());
@@ -20,24 +20,17 @@ public class BJ_S5_1010_다리놓기 {
 			tokens = new StringTokenizer(input.readLine());
 			int N = Integer.parseInt(tokens.nextToken());
 			int M = Integer.parseInt(tokens.nextToken());
-			answer = 0;
-			combi(0, 0, N, M);
-			System.out.println(answer);
+			output.append(combi(M,N)+"\n");
 		}
+		output.close();
 	}
-	static int answer;
-	private static void combi(int start, int cnt, int N, int M) {
-		if(cnt == N) {
-			answer++;
-			return;
-		}
-		for(int i=start; i<M; i++) {
-			combi(i, cnt+1, N, M);
-		}
+	private static int combi(int n, int r) {
+		if(arr[n][r] > 0) return arr[n][r];
+		if(n==r || r==0) return arr[n][r] = 1;
+		return arr[n][r] = combi(n-1, r-1) + combi(n-1, r);
 	}
 
 	static String src =
-
 			"3\r\n" + 
 			"2 2\r\n" + 
 			"1 5\r\n" + 
