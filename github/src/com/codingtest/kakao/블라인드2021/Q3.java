@@ -100,6 +100,13 @@ public class Q3 {
 			this.car = car;
 			this.fee = fee;
 		}
+		
+		
+		@Override
+		public String toString() {
+			return "Car [car=" + car + ", fee=" + fee + "]";
+		}
+
 
 		@Override
 		public int compareTo(Car o) {
