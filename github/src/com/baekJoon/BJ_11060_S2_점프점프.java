@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.StringReader;
+import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class BJ_11060_S2_점프점프 {
@@ -22,19 +23,28 @@ public class BJ_11060_S2_점프점프 {
 		for(int i=1; i<N+1; i++) {
 			arr[i] = Integer.parseInt(tokens.nextToken());
 		}
+		Arrays.fill(dp, Integer.MAX_VALUE);
 		dp[1] = 0;
-		for(int i=1; i<N+1; i++) {
-			for(int j=0; j<arr[i]; j++) {
-//				if()
+		outer : for(int i=1; i<N+1; i++) {
+			for(int j=i+1; j<i+1+arr[i]; j++) {
+				if(dp[i] == Integer.MAX_VALUE) {
+					break outer;
+				}
+				if(dp[j] > dp[i]+1){
+					dp[j] = dp[i]+1;
+				}
 			}
 		}
-//		for(int i=1; i<11; i++) {
-//			System.out.print(dp[i]+" ");
-//		}
+		if(dp[N] == Integer.MAX_VALUE) {
+			System.out.println(-1);
+		}else {
+			System.out.println(dp[N]);
+		}
+		
 	}
 
 	static String src =
 
 			"10\r\n" + 
-			"1 2 0 1 3 2 1 5 4 2";
+			"1 0 0 1 3 2 1 5 4 2";
 }
