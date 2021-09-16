@@ -44,5 +44,5 @@ public class BJ_S1_10844_쉬운계단수 {
         return cnt;
     }
 
-    static String src = "2";
+    static String src = "100";
 }
