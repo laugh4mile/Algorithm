@@ -11,20 +11,18 @@ public class BJ_S1_11057_오르막수2 {
 	public static void main(String[] args) throws NumberFormatException, IOException {
 		input = new BufferedReader(new StringReader(src));
 		int N = Integer.parseInt(input.readLine());
-		long dp[][] = new long[N+1][10];
+		long dp[][] = new long[1001][10];
 		long answer = 0;
 		for(int i=0; i<10; i++) {
 			dp[0][i] = 1;
-			dp[i][1] = 1;
+			dp[i][0] = 1;
 		}
 		for(int r=1; r<=N; r++) {
-			for(int c=1; c<=10; c++) {
-				dp[r][c] = dp[r][c-1] + dp[r-1][c];
+			for(int c=1; c<10; c++) {
+				dp[r][c] = (dp[r][c-1] + dp[r-1][c]) %10007;
 			}	
 		}
-		for(int i=0; i<10; i++) {
-			answer += dp[N][i];
-		}
+		answer = dp[N][9];
 		System.out.println(answer%10007);
 	}
 
