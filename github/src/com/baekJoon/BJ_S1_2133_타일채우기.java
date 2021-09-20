@@ -12,6 +12,7 @@ public class BJ_S1_2133_타일채우기 {
 		input = new BufferedReader(new StringReader(src));
 		int N = Integer.parseInt(input.readLine());
 		int[] dp = new int[3*N+1]; 
+		System.out.println("jdk 문제 없나?");
 	}
 
 	static String src =
