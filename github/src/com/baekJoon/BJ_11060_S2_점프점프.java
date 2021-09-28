@@ -19,6 +19,11 @@ public class BJ_11060_S2_점프점프 {
 		int N = Integer.parseInt(input.readLine());
 		int dp[] = new int[N+101];
 		int arr[] = new int[N+1];
+		if(dp[N] == Integer.MAX_VALUE) {
+			System.out.println(-1);
+		}else {
+			System.out.println(dp[N]);
+		}
 		tokens = new StringTokenizer(input.readLine());
 		for(int i=1; i<N+1; i++) {
 			arr[i] = Integer.parseInt(tokens.nextToken());
@@ -35,11 +40,7 @@ public class BJ_11060_S2_점프점프 {
 				}
 			}
 		}
-		if(dp[N] == Integer.MAX_VALUE) {
-			System.out.println(-1);
-		}else {
-			System.out.println(dp[N]);
-		}
+		
 		
 	}
 
