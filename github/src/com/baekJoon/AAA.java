@@ -4,8 +4,11 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 public class AAA {
 	static BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
@@ -16,28 +19,37 @@ public class AAA {
 	static List<Node> list5 = new ArrayList<>();
 	static List<Node> list6 = new ArrayList<>();
 	static List<Node> temp = new ArrayList<>();
+	static Map<String, Integer> map = new HashMap<>();
 	
 	public static void main(String[] args) throws NumberFormatException, IOException {
-		setList();
-		setList2();
-		setList3();
-//		iterPractice();
-		copyList();
-		copyList2();
-		copyList3();
-		changeCopyList();
-		changeCopyList2();
-		changeCopyList3();
-		printList();
-		printList2();
-		printList3();
+//		setList();
+//		setList2();
+//		setList3();
+////		iterPractice();
+//		copyList();
+//		copyList2();
+//		copyList3();
+//		changeCopyList();
+//		changeCopyList2();
+//		changeCopyList3();
+//		printList();
+//		printList2();
+//		printList3();
+		maptest();
 		
-//		temp.add(new Node(0,0,0,false));
-//		temp.add(new Node(1,1,1,false));
-//		System.out.println(temp.contains(new Node(0,0,0,false)));
 	}
 	
-	//
+	private static void maptest() {
+		map.put("1번", 1);
+		map.put("3번", 3);
+		map.put("5번", 5);
+		map.put("6번", 6);
+		
+		for(Entry<String, Integer> entry : map.entrySet()) {
+			System.out.println(entry.getKey());
+			System.out.println(entry.getValue());
+		}
+	}
 	private static void setList() {
 		for(int i=0; i<5; i++) {
 			list.add(i);
