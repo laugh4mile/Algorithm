@@ -8,8 +8,8 @@ public class goodmorning {
 	static int result[];
 	static boolean isSelected[];
 	public static void main(String[] args) {
-		N = 6;
-		R = 2;
+		N = 8;
+		R = 8;
 		num = new int [N];
 		result = new int[R];
 		isSelected = new boolean[N];
@@ -17,12 +17,11 @@ public class goodmorning {
 		for(int i=0; i<N; i++) {
 			num[i] = i+1;
 		}
-		
-//		permutation(0); 
+//		
+		permutation(0); 
 //		combination(0,0);
-		subSet(0);
-//		System.out.println(ccnt);
-		System.out.println(cc);
+//		subSet(0);
+		System.out.println(ccnt);
 	}
 	private static void subSet(int cnt) { 
 		if(cnt == N) {
@@ -62,7 +61,8 @@ public class goodmorning {
 	
 	private static void permutation(int cnt) {
 		if(cnt == R) {
-			System.out.println(Arrays.toString(result));
+//			System.out.println(Arrays.toString(result));
+			ccnt++;
 			return;
 		}
 		for(int i=0; i<N; i++) {
