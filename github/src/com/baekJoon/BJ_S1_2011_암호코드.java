@@ -11,6 +11,7 @@ public class BJ_S1_2011_암호코드 {
 	public static void main(String[] args) throws NumberFormatException, IOException {
 		input = new BufferedReader(new StringReader(src));
 		int answer = solution(input.readLine());
+		
 		System.out.println(answer);
 	}
 
