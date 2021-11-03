@@ -33,9 +33,7 @@ public class BJ_S1_2302_극장좌석 {
 				dp[i][0] = dp[i-2][0] + dp[i-2][1];
 			}
 		}
-//		for(int x[] : dp) {
-//			System.out.println(Arrays.toString(x));
-//		}
+
 		System.out.println(dp[N][0] + dp[N][1]);
 		
 	}
