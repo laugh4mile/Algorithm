@@ -7,16 +7,16 @@ import java.io.StringReader;
 import java.util.Arrays;
 import java.util.StringTokenizer;
 
-public class BJ_S1_10835_카드게임 {
+public class BJ_S1_10835_카드게임2 {
 	static BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
 	static StringTokenizer tokens, tokens2;
-
+	static int A[], B[], dp[][], N;
 	public static void main(String[] args) throws NumberFormatException, IOException {
 		input = new BufferedReader(new StringReader(src));
-		int N = Integer.parseInt(input.readLine());
-		int A[] = new int [N];
-		int B[] = new int [N];
-		int dp[][] = new int[N][N];
+		N = Integer.parseInt(input.readLine());
+		A = new int [N];
+		B = new int [N];
+		dp = new int[N][N];
 		tokens = new StringTokenizer(input.readLine());
 		tokens2 = new StringTokenizer(input.readLine());
 		for(int i=0; i<N; i++) {
@@ -25,48 +25,27 @@ public class BJ_S1_10835_카드게임 {
 			A[i] = a;
 			B[i] = b;
 		}
-		
-		for(int r=0; r<N; r++) {
-			if((r>0 && dp[r-1][0] != 0)) {
-				dp[r][0] = dp[r-1][0];
-			}else {
-				if(A[r] > B[0]) {
-					dp[r][0] = B[0];
-				}
-			}
-		}
-		int sum = 0;
-		for(int c=0; c<N; c++) {
-			if(A[0] > B[c]) {
-				sum += B[c];
-				dp[0][c] = sum;
-			}else {
-				dp[0][c] = sum;
-			}
-		}
-		for(int r=1; r<N; r++) {
-			boolean flag = false;
-			for(int c=1; c<N; c++) {
-				
-				if(!flag) {
-					dp[r][c] = Math.max(dp[r-1][c], dp[r][c-1] + B[c]);
-				}else {
-					dp[r][c] = Math.max(dp[r][c-1] ,dp[r-1][c]);
-				}
+		for(int i=0; i<N; i++) {
+			for(int j=0; j<N; j++) {
+				dp[i][j] = -1;
 			}	
 		}
-		for(int x[] : dp) {
+		solve(0, 0);	
+		
+		for(int x[] :dp) {
 			System.out.println(Arrays.toString(x));
 		}
-		System.out.println();
+	}
+	private static int solve(int i, int j) {
+		if(i==N || j==N) return 0;
+		if(dp[i][j] != -1) return dp[i][j];
 		
-		int answer = 0;
-		for(int i=0; i<N; i++) {
-			if(answer < dp[N-1][i]) {
-				answer = dp[N-1][i];
-			}
+		dp[i][j] = Math.max(solve(i+1, j), solve(i+1, j+1));
+		
+		if(A[i] > B[j]) {
+			return Math.max(dp[i][j], solve(i, j+1) + B[j]);
 		}
-		System.out.println(answer);
+		return dp[i][j];
 	}
 	static String src =
 			"4\r\n"
