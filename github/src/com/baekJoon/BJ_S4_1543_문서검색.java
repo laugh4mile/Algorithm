@@ -14,25 +14,24 @@ public class BJ_S4_1543_문서검색 {
 		char[] word = input.readLine().toCharArray();
 		
 		int answer = 0;
-		for(int i=0; i<text.length; i++) {
+		for(int i=0; i<text.length - word.length+1; i++) {
 			boolean isMatched = true;
 			for(int j=0; j<word.length; j++) {
-				if(i+j<text.length && text[i+j] == word[j]) {
+				if(text[i+j] == word[j]) {
 				}else {
 					isMatched = false;
 					break;
 				}
 			}
 			if(isMatched) {
-				System.out.println(i);
 				answer++;
-				i += word.length;
+				i += word.length-1;
 			}
 		}
 		System.out.println(answer);
 	}
 
 	static String src =
-			"aaaaaaa\r\n" + 
-			"aa";
+			"ababababa\r\n" + 
+			"aba";
 }
