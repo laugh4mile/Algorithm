@@ -1,7 +1,7 @@
 package com.codingtest.street11;
 
 public class Q3 {
-	static int[] A = {1,2,2,4,4,4};
+	static int[] A = {1,2,2,4,4,4,5};
 	public static void main(String[] args) {
 		System.out.println(solution(A));
 	}
