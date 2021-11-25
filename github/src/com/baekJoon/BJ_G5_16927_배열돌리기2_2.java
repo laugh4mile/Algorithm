@@ -1,9 +1,11 @@
 package com.baekJoon;
 
 import java.io.*;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.StringTokenizer;
 
-public class BJ_G5_16927_배열돌리기2 {
+public class BJ_G5_16927_배열돌리기2_2 {
     static BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
     static BufferedWriter output = new BufferedWriter(new OutputStreamWriter(System.out));
     static StringTokenizer tokens;
@@ -27,43 +29,41 @@ public class BJ_G5_16927_배열돌리기2 {
         int er = R-1;
         int ec = C-1;
 
+        Queue<Integer> queue = new LinkedList<>();
         while(true){
             if(sr>=er || sc>=ec){
                 break;
             }
             int size = 2*(er-sr)+2*(ec-sc);
-            int edge[] = new int[size];
-            int result[] = new int[size];
+
             int idx=0;
             for(int c=sc; c<ec; c++){
-                edge[idx++] = map[sr][c];
+                queue.offer(map[sr][c]);
             }
             for(int r=sr; r<er; r++){
-                edge[idx++] = map[r][ec];
+                queue.offer(map[r][ec]);
             }
             for(int c=ec; c>=sc+1; c--){
-                edge[idx++] = map[er][c];
+                queue.offer(map[er][c]);
             }
             for(int r=er; r>=sr+1; r--){
-                edge[idx++] = map[r][sc];
+                queue.offer(map[r][sc]);
+            }
+            for(int i=0; i<move%size; i++){
+                queue.offer(queue.poll());
             }
 
-            for(int i=0; i<size; i++){
-                result[i] = edge[(i+move) % size];
-            }
-
-            idx = 0;
             for(int c=sc; c<ec; c++){
-                map[sr][c] = result[idx++];
+                map[sr][c] = queue.poll();
             }
             for(int r=sr; r<er; r++){
-                map[r][ec] = result[idx++];
+                map[r][ec] = queue.poll();
             }
             for(int c=ec; c>=sc+1; c--){
-                map[er][c] = result[idx++];
+                map[er][c] = queue.poll();
             }
             for(int r=er; r>=sr+1; r--){
-                map[r][sc] = result[idx++];
+                map[r][sc] = queue.poll();
             }
             sr++;
             sc++;
