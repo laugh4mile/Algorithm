@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public class Q3 {
-    static int n = 5, k=16;
+    static int n = 50, k=200;
     public static void main(String[] args) {
         System.out.println(Arrays.toString(solution(n,k)));
     }
