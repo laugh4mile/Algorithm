@@ -27,7 +27,7 @@ public class BJ_G4_2573_빙산_2 {
 
 		for(int r=0; r<N; r++){
 			for(int c=0; c<M; c++){
-
+				
 			}
 		}
 	}
