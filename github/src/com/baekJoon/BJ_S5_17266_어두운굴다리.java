@@ -26,15 +26,15 @@ public class BJ_S5_17266_어두운굴다리 {
             distance = Math.max(distance, N-arr[M-1]);
         }
 
-        for(int i=2; i<M; i++){
-            distance = Math.max(distance, (arr[i] - arr[i-1])/2);
+        for(int i=1; i<M; i++){
+            distance = (int) Math.max(distance, Math.ceil((double)(arr[i] - arr[i - 1])/2));
         }
 
         System.out.println(distance);
     }
 
     static String src =
-            "5\n" +
+            "10\n" +
                     "2\n" +
-                    "0 1";
+                    "0 9";
 }
