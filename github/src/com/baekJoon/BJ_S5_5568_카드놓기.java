@@ -1,7 +1,8 @@
 package com.baekJoon;
 
 import java.io.*;
-import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.StringTokenizer;
 
 public class BJ_S5_5568_카드놓기 {
@@ -10,6 +11,7 @@ public class BJ_S5_5568_카드놓기 {
     static StringTokenizer tokens;
     static int N, K,arr[], result[];
     static boolean isSelected[];
+    static Set<String> set = new HashSet<>();
     public static void main(String[] args) throws Exception{
         input = new BufferedReader(new StringReader(src));
         N = Integer.parseInt(input.readLine());
@@ -20,14 +22,16 @@ public class BJ_S5_5568_카드놓기 {
         for(int i=0; i<N; i++){
             arr[i] = Integer.parseInt(input.readLine());
         }
-        System.out.println(Arrays.toString(arr));
+//        System.out.println(Arrays.toString(arr));
         permutation(0);
+        System.out.println(set.size());
 
     }
 
     private static void permutation(int cnt) {
         if(cnt == K){
-            System.out.println(Arrays.toString(result));
+            getNum(result);
+//            System.out.println(Arrays.toString(result));
             return;
         }
         for(int i=0; i<N; i++){
@@ -40,11 +44,23 @@ public class BJ_S5_5568_카드놓기 {
         }
     }
 
+    private static void getNum(int[] result) {
+        StringBuilder sb = new StringBuilder();
+        for(int i=0; i<result.length; i++){
+            sb.append(result[i]);
+        }
+        if (!set.contains(sb.toString())){
+            set.add(sb.toString());
+        }
+    }
+
     static String src =
-            "4\n" +
-            "2\n" +
-            "1\n" +
-            "2\n" +
-            "12\n" +
-            "1";
+            "6\n" +
+                    "3\n" +
+                    "72\n" +
+                    "2\n" +
+                    "12\n" +
+                    "7\n" +
+                    "2\n" +
+                    "1";
 }
