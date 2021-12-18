@@ -21,7 +21,7 @@ public class goodmorning {
 		permutation(0); 
 //		combination(0,0);
 //		subSet(0);
-		System.out.println(ccnt);
+//		System.out.println(ccnt);
 	}
 	private static void subSet(int cnt) { 
 		if(cnt == N) {
@@ -61,7 +61,7 @@ public class goodmorning {
 	
 	private static void permutation(int cnt) {
 		if(cnt == R) {
-//			System.out.println(Arrays.toString(result));
+			System.out.println(Arrays.toString(result));
 			ccnt++;
 			return;
 		}
