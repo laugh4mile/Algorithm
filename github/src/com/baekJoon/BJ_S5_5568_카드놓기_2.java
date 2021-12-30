@@ -39,11 +39,11 @@ public class BJ_S5_5568_카드놓기_2 {
         }
         for(int i=0; i<N; i++){
             if(isSelected[i]) continue;
+
             isSelected[i] = true;
             result[cnt] = arr[i];
             permutation(cnt+1);
             isSelected[i] = false;
-
         }
     }
 
