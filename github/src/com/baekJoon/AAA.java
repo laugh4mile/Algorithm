@@ -79,7 +79,7 @@ public class AAA {
 			list6.add(new Node(front));
 		}
 //		list6 = new ArrayList<>(list5);
-//		list6 = list5;
+//		list6 = list5;sdfsdf
 	}
 	//
 	private static void changeCopyList() {
