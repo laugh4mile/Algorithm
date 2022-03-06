@@ -2,6 +2,10 @@
 # Created by https://www.toptal.com/developers/gitignore/api/windows,eclipse,java
 # Edit at https://www.toptal.com/developers/gitignore?templates=windows,eclipse,java
 
+### 인텔리제이~ ###
+*.iml
+.idea/
+
 ### Eclipse ###
 .metadata
 bin/
