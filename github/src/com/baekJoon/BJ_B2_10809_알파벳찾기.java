@@ -2,9 +2,6 @@ package com.baekJoon;
 
 import java.io.*;
 import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.StringTokenizer;
 
 public class BJ_B2_10809_알파벳찾기 {
     static BufferedReader input = new BufferedReader(new InputStreamReader(System.in));

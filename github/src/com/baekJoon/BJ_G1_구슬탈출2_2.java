@@ -1,7 +1,6 @@
 package com.baekJoon;
 
 import java.io.*;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.StringTokenizer;
@@ -57,9 +56,9 @@ public class BJ_G1_구슬탈출2_2 {
 
         Node redBall = new Node(rr, rc);
         Node blueBall = new Node(br, bc);
-        for(int d=0; d<4; d++){ // 4방향으로 전부 기울여 보자
-            moveBoard(redBall, blueBall);
-        }
+        moveBoard(redBall, blueBall);
+//        for(int d=0; d<4; d++){ // 4방향으로 전부 기울여 보자
+//        }
         System.out.println(cnt);
     }
 
