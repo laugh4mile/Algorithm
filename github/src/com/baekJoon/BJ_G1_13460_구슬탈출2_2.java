@@ -1,7 +1,6 @@
 package com.baekJoon;
 
 import java.io.*;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.StringTokenizer;
@@ -18,11 +17,12 @@ import java.util.StringTokenizer;
  * 3. 파란구슬 빠지면 빠꾸
  */
 
-public class BJ_G1_구슬탈출2 {
+public class BJ_G1_13460_구슬탈출2_2 {
     static BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
     static BufferedWriter output = new BufferedWriter(new OutputStreamWriter(System.out));
     static StringTokenizer tokens;
-    static int R, C, rr, rc, br, bc, or, oc, cnt;
+    static int R, C, rr, rc, br, bc, or, oc, cnt = -1;
+    static boolean isVisited[][][][];
     static char map[][];
     public static void main(String[] args) throws Exception{
         input = new BufferedReader(new StringReader(src));
@@ -30,7 +30,7 @@ public class BJ_G1_구슬탈출2 {
         R = Integer.parseInt(tokens.nextToken());
         C = Integer.parseInt(tokens.nextToken());
         map = new char[R][C];
-
+        isVisited = new boolean[R][C][R][C];
         for(int r=0; r<R; r++){
             String line = input.readLine();
             for(int c=0; c<C; c++){
@@ -53,67 +53,81 @@ public class BJ_G1_구슬탈출2 {
             }
         }
 
-        for(char[] x : map){
-            System.out.println(Arrays.toString(x));
-        }
+
         Node redBall = new Node(rr, rc);
         Node blueBall = new Node(br, bc);
-        for(int d=0; d<4; d++){ // 4방향으로 전부 기울여 보자
-            moveBoard(redBall, blueBall, 0, d);
-        }
+        moveBoard(redBall, blueBall);
+//        for(int d=0; d<4; d++){ // 4방향으로 전부 기울여 보자
+//        }
         System.out.println(cnt);
     }
 
-    private static void moveBoard(Node redBall, Node blueBall, int moveCount, int dir) {
-        System.out.println(redBall+" " + blueBall);
-        if(moveCount > 1){
-            return;
-        }
+    private static void moveBoard(Node redBall, Node blueBall) {
+        Queue<Balls> queue = new LinkedList<>();
+        queue.offer(new Balls(redBall, blueBall, 0));
 
-        if(dir == 0){ // 상
-            if(redBall.r < blueBall.r){ // 더 위엣놈 먼저 굴림
-                redBall = moveBall(redBall, blueBall, 0);
-                blueBall = moveBall(blueBall,  redBall, 0);
-            }else{
-                blueBall = moveBall(blueBall, redBall, 0);
-                redBall = moveBall(redBall, blueBall, 0);
+        while (!queue.isEmpty()){
+            Balls front = queue.poll();
+
+            if(front.blue.r == 0 && front.blue.c == 0){
+                continue;
             }
-        }else if(dir == 1){ // 하
-            if(redBall.r > blueBall.r){ // 더 아랫놈 먼저 굴림
-                redBall = moveBall(redBall, blueBall, 1);
-                blueBall = moveBall(blueBall, redBall, 1);
-            }else{
-                blueBall = moveBall(blueBall, redBall, 1);
-                redBall = moveBall(redBall, blueBall, 1);
+            if(front.red.r == 0 && front.red.c == 0){
+                cnt = front.cnt;
+                break;
             }
-        }else if(dir == 2){ // 좌
-            if(redBall.c < blueBall.c){ // 더 왼쪽놈 먼저 굴림
-                redBall = moveBall(redBall, blueBall, 2);
-                blueBall = moveBall(blueBall, redBall, 2);
-            }else{
-                blueBall = moveBall(blueBall, redBall, 2);
-                redBall = moveBall(redBall, blueBall, 2);
+            if(front.cnt > 10){
+                break;
             }
-        }else if(dir == 3){ // 우
-            if(redBall.c > blueBall.c){ // 더 오른쪽놈 먼저 굴림
-                redBall = moveBall(redBall, blueBall, 3);
-                blueBall = moveBall(blueBall, redBall, 3);
-            }else{
-                blueBall = moveBall(blueBall, redBall, 3);
-                redBall = moveBall(redBall, blueBall, 3);
+
+            if(!isVisited[front.red.r][front.red.c][front.blue.r][front.blue.c]){
+                isVisited[front.red.r][front.red.c][front.blue.r][front.blue.c] = true;
+                for(int d=0; d<4; d++){
+                    queue.offer(getNextBalls(front, d));
+                }
             }
-        }
-        if(blueBall.r == or && blueBall.c == oc){
-            return;
-        }
-        if(redBall.r == or && redBall.c == oc){
-            cnt = moveCount;
-            return;
-        }
-        for(int d=0; d<4; d++){
-            moveBoard(redBall, blueBall,moveCount+1, d);
         }
     }
+
+    private static Balls getNextBalls(Balls balls, int dir) {
+        Node redBall = balls.red;
+        Node blueBall = balls.blue;
+        if(dir == 0){
+            if(redBall.r < blueBall.r){
+                redBall = moveBall(redBall, blueBall, dir);
+                blueBall = moveBall(blueBall, redBall, dir);
+            }else{
+                blueBall = moveBall(blueBall, redBall, dir);
+                redBall = moveBall(redBall, blueBall, dir);
+            }
+        }else if(dir == 1){
+            if(redBall.r < blueBall.r){
+                blueBall = moveBall(blueBall, redBall, dir);
+                redBall = moveBall(redBall, blueBall, dir);
+            }else{
+                redBall = moveBall(redBall, blueBall, dir);
+                blueBall = moveBall(blueBall, redBall, dir);
+            }
+        }else if(dir == 2){
+            if(redBall.c < blueBall.c){
+                redBall = moveBall(redBall, blueBall, dir);
+                blueBall = moveBall(blueBall, redBall, dir);
+            }else{
+                blueBall = moveBall(blueBall, redBall, dir);
+                redBall = moveBall(redBall, blueBall, dir);
+            }
+        }else {
+            if(redBall.c < blueBall.c){
+                blueBall = moveBall(blueBall, redBall, dir);
+                redBall = moveBall(redBall, blueBall, dir);
+            }else{
+                redBall = moveBall(redBall, blueBall, dir);
+                blueBall = moveBall(blueBall, redBall, dir);
+            }
+        }
+        return new Balls(redBall, blueBall, balls.cnt+1);
+    }
+
     private static Node moveBall(Node moveBall, Node fixBall, int dir){ // 공 움직이는 함수.
         Queue<Node> queue = new LinkedList<>();
         queue.offer(new Node(moveBall.r, moveBall.c));
@@ -121,7 +135,7 @@ public class BJ_G1_구슬탈출2 {
         while(!queue.isEmpty()){
             Node front = queue.poll();
             if(front.r == or && front.c == oc){ // 구멍에 빠질 경우
-                return front;
+                return new Node(0,0);
             }
 
             int nr = front.r + dr[dir];
@@ -143,6 +157,27 @@ public class BJ_G1_구슬탈출2 {
     }
     static int dr[] = {-1,1,0,0}; // 상하좌우
     static int dc[] = {0,0,-1,1};
+
+    static class Balls{
+        Node red;
+        Node blue;
+        int cnt;
+
+        public Balls(Node red, Node blue, int cnt) {
+            this.red = red;
+            this.blue = blue;
+            this.cnt = cnt;
+        }
+
+        @Override
+        public String toString() {
+            return "Balls{" +
+                    "red=" + red +
+                    ", blue=" + blue +
+                    ", cnt=" + cnt +
+                    '}';
+        }
+    }
     static class Node{
         int r;
         int c;
@@ -163,9 +198,9 @@ public class BJ_G1_구슬탈출2 {
 
     static String src =
             "5 5\n" +
-            "#####\n" +
-            "#..B#\n" +
-            "#.#.#\n" +
-            "#RO.#\n" +
-            "#####";
+                    "#####\n" +
+                    "#..B#\n" +
+                    "#.#.#\n" +
+                    "#RO.#\n" +
+                    "#####";
 }
