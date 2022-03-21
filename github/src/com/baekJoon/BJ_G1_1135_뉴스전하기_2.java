@@ -7,8 +7,8 @@ public class BJ_G1_1135_뉴스전하기_2 {
     static BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
     static BufferedWriter output = new BufferedWriter(new OutputStreamWriter(System.out));
     static StringTokenizer tokens;
-    static int N, nodeCnt[], max;
-    static List<Node> graph[];
+    static int N, nodeCnt[];
+    static List<Integer> graph[];
 
     public static void main(String[] args) throws IOException {
         input = new BufferedReader(new StringReader(src));
@@ -23,37 +23,30 @@ public class BJ_G1_1135_뉴스전하기_2 {
         for(int i=0; i<N; i++){
             int parent = Integer.parseInt(tokens.nextToken());
             if (i == 0) continue;
-            graph[parent].add(new Node(i, 0));
+            graph[parent].add(i);
         }
 
-        dfs(0);
+        System.out.println(dfs(0));
 //      System.out.println(Arrays.toString(nodeCnt));
-        System.out.println(max);
     }
 
     static int dfs(int cur){
+        List<Integer> list = new ArrayList<>();
+
         for(int i=0; i<graph[cur].size(); i++){
-            graph[cur].get(i).time = dfs(graph[cur].get(i).node);
+            list.add(dfs(graph[cur].get(i)));
         }
-        return 0;
-    }
-
-    static class Node implements Comparable<Node>{
-        int node;
-        int time;
-
-        public Node(int node, int time) {
-            this.node = node;
-            this.time = time;
+        Collections.sort(list, Collections.reverseOrder());
+        int max = 0;
+        for(int i=0; i<list.size(); i++){
+            if(max < list.get(i)+i+1){
+                max = list.get(i)+i+1;
+            }
         }
-
-        @Override
-        public int compareTo(Node o) {
-            return Integer.compare(o.time, this.time);
-        }
+        return max;
     }
 
     static String src =
-            "24\n" +
-                    "-1 0 0 1 1 1 2 2 3 3 4 4 5 5 6 7 7 8 12 13 14 16 16 16";
+            "3\n" +
+                    "-1 0 0";
 }
