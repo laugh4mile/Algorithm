@@ -12,6 +12,7 @@ public class BJ_G4_4179_불 {
     static int R, C;
     static char map[][];
     static boolean isVisited[][][];
+    static Queue<Node> queue;
 
     public static void main(String[] args) throws IOException {
         input = new BufferedReader(new StringReader(src));
@@ -21,74 +22,59 @@ public class BJ_G4_4179_불 {
         map = new char[R][C];
         isVisited = new boolean[2][R][C];
 
-        int startR = 0;
-        int startC = 0;
-
-        int fireR = 0;
-        int fireC = 0;
+        queue = new LinkedList<>();
+        Queue<Node> fire = new LinkedList<>();
         for(int r=0; r<R; r++){
             String line = input.readLine();
             for(int c=0; c<C; c++){
                 map[r][c] = line.charAt(c);
                 if(map[r][c] == 'J'){
-                    startR = r;
-                    startC = c;
+                    queue.offer(new Node(r, c, 'J', 1));
+                    isVisited[0][r][c] = true;
                 }
                 if(map[r][c] == 'F'){
-                    fireR = r;
-                    fireC = c;
+                    fire.offer(new Node(r, c, 'F', 1));
+                    isVisited[1][r][c] = true;
                 }
             }
         }
 
-        escape(startR, startC, fireR, fireC);
+        while (!fire.isEmpty()){
+            queue.offer(fire.poll());
+        }
+        escape();
     }
 
-    private static void escape(int startR, int startC, int fireR, int fireC) {
-        Queue<Node> queue = new LinkedList<>();
-        queue.offer(new Node(startR,startC, 'J', 1)); // 지훈이를 queue에 먼저 넣어야 함!
-        queue.offer(new Node(fireR,fireC, 'F', 1));
-        isVisited[0][startR][startC] = true;
-        isVisited[1][fireR][fireC] = true;
-
-        int nr = 0;
-        int nc = 0;
-        Node front;
+    private static void escape() {
         while (!queue.isEmpty()) {
-            front = queue.poll();
+            Node front = queue.poll();
+
             if(front.JorF == 'J'){
-                isVisited[0][front.r][front.c] = true;
-            }else isVisited[1][front.r][front.c] = true;
-            if((front.r == 0 || front.r == R-1 || front.c == 0 || front.c == C-1) && front.JorF == 'J'){
-                boolean flag = false;
+                if(isVisited[1][front.r][front.c]) continue; // 불에 탐ㅜㅜ
                 for(int d=0; d<4; d++){
-                    nr = front.r + dr[d];
-                    nc = front.c + dc[d];
-                    if(isIn(nr,nc) && isVisited[1][nr][nc]){
-                        flag = true;
-                        break;
+                    int nr = front.r + dr[d];
+                    int nc = front.c + dc[d];
+                    if(!isIn(nr,nc)){
+                        System.out.println(front.time);
+                        return;
                     }
-                }
-                if(!flag){
-                    System.out.println(front.time);
-                    return;
-                }
-            }
 
-            for(int d=0; d<4; d++){
-                nr = front.r + dr[d];
-                nc = front.c + dc[d];
-                if(front.JorF == 'J'){
                     if(isIn(nr,nc) && !isVisited[0][nr][nc] && !isVisited[1][nr][nc] && map[nr][nc] == '.'){
-                        queue.offer(new Node(nr,nc,front.JorF,front.time+1));
+                        isVisited[0][nr][nc] = true;
+                        queue.offer(new Node(nr,nc, front.JorF, front.time+1));
                     }
-                }else{
+                }
+            }else{
+                for(int d=0; d<4; d++){
+                    int nr = front.r + dr[d];
+                    int nc = front.c + dc[d];
+
                     if(isIn(nr,nc) && !isVisited[1][nr][nc] && map[nr][nc] != '#'){
-                        queue.offer(new Node(nr,nc,front.JorF,front.time+1));
+                        isVisited[1][nr][nc] = true;
+                        queue.offer(new Node(nr,nc, front.JorF, front.time+1));
                     }
                 }
             }
-
         }
         System.out.println("IMPOSSIBLE");
     }
@@ -105,6 +91,16 @@ public class BJ_G4_4179_불 {
             this.JorF = JorF;
             this.time = time;
         }
+
+        @Override
+        public String toString() {
+            return "Node{" +
+                    "r=" + r +
+                    ", c=" + c +
+                    ", JorF=" + JorF +
+                    ", time=" + time +
+                    '}';
+        }
     }
 
     static int dr[] = {0,0,-1,1};
@@ -115,9 +111,9 @@ public class BJ_G4_4179_불 {
     }
 
     static String src =
-            "4 5\n" +
-            "#####\n" +
-            "#J..#\n" +
-            "#...#\n" +
-            "#...F";
+            "4 4\n" +
+                    "####\n" +
+                    "#JF#\n" +
+                    "#..#\n" +
+                    "#..#";
 }
