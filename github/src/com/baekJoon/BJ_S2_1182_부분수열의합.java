@@ -5,7 +5,6 @@ import java.util.StringTokenizer;
 
 public class BJ_S2_1182_부분수열의합 {
     static BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
-    static BufferedWriter output = new BufferedWriter(new OutputStreamWriter(System.out));
     static StringTokenizer tokens;
     static int N, S, arr[], answer;
     public static void main(String[] args) throws IOException {
