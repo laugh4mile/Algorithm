@@ -5,7 +5,6 @@ import java.util.*;
 
 public class BJ_G1_1981_배열에서이동 {
     static BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
-    static BufferedWriter output = new BufferedWriter(new OutputStreamWriter(System.out));
     static StringTokenizer tokens;
     static int N, map[][];
     static boolean isVisited[][];
@@ -111,10 +110,8 @@ public class BJ_G1_1981_배열에서이동 {
     }
 
     static String src =
-            "5\n" +
-                    "1 1 3 6 8\n" +
-                    "1 2 2 5 5\n" +
-                    "4 4 0 3 3\n" +
-                    "8 0 2 3 4\n" +
-                    "4 3 0 2 1";
+            "3\n" +
+                    "5 0 100\n" +
+                    "10 5 0\n" +
+                    "100 0 5";
 }
