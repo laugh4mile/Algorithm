@@ -102,8 +102,8 @@ public class BJ_G1_1981_배열에서이동 {
         }
     }
 
-    static int dr[] = {0,0,-1,1};
-    static int dc[] = {-1,1,0,0};
+    static int dr[] = {-1,1,0,0};
+    static int dc[] = {0,0,-1,1};
 
     static boolean isIn(int r, int c){
         return (r>=0 && c>=0 && r<N && c<N);
@@ -111,7 +111,7 @@ public class BJ_G1_1981_배열에서이동 {
 
     static String src =
             "3\n" +
-                    "5 0 100\n" +
-                    "10 5 0\n" +
-                    "100 0 5";
+            "5 8 1\n" +
+            "4 5 1\n" +
+            "4 8 5";
 }
