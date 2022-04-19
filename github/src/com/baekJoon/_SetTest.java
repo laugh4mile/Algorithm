@@ -11,6 +11,10 @@ public class _SetTest {
         set.add(new Node(1,1,1));
         set.add(new Node(1,1,1));
         System.out.println(set);
+        int a = 0;
+        int b = 1;
+        System.out.println(a^1);
+        System.out.println(b^1);
     }
 
     static class Node{

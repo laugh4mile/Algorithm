@@ -72,34 +72,28 @@ public class BJ_G1_18809_Gaaaaaaaaaarden {
         int flowers = 0;
         while(!queue.isEmpty()){
             Node front = queue.poll();
-//            if(isVisited[front.r][front.c][0] && isVisited[front.r][front.c][1]){
-//                continue;
-//            }
+            if(isVisited[front.r][front.c][0] == isVisited[front.r][front.c][1]){
+                continue;
+            }
             for(int d=0; d<4; d++){
                 int nr = front.r + dr[d];
                 int nc = front.c + dc[d];
 
                 if(isIn(nr,nc) && isVisited[nr][nc][front.color] == 0 && map[nr][nc] != 0){
                     isVisited[nr][nc][front.color] = front.move+1;
-                    if(isVisited[nr][nc][front.color^1] == isVisited[nr][nc][front.color]){
-
+                    if(isVisited[nr][nc][front.color^1] == isVisited[nr][nc][front.color]){ // 꽃이 만들어지는 경우 -> queue에 안담음
+                        flowers++;
+                    }else{ // 꽃이 안 만들어지는 경우 -> queue에 담음
+                       queue.offer(new Node(nr, nc, front.color, front.move+1));
                     }
-                    queue.offer(new Node(nr, nc, front.color, front.move+1));
                 }
             }
         }
 
-        for(int r=0; r<N; r++){
-            for(int c=0; c<M; c++){
-                if (isVisited[r][c][0] && isVisited[r][c][1]) flowers++;
-            }
-        }
         if(max < flowers){
             System.out.println(list);
-            System.out.println(flowers);
             max = flowers;
         }
-
     }
 
     static class Node{
@@ -134,10 +128,21 @@ public class BJ_G1_18809_Gaaaaaaaaaarden {
     }
 
     static String src =
-            "5 7 3 2\n" +
-            "1 0 1 2 1 2 1\n" +
-            "1 1 1 0 1 0 2\n" +
-            "2 1 0 0 1 1 1\n" +
-            "1 0 2 1 2 1 0\n" +
-            "0 2 1 1 0 1 2";
+            "16 13 3 3\n" +
+                    "2 1 1 1 0 0 0 0 0 1 1 0 0\n" +
+                    "1 0 2 0 0 0 0 0 0 2 0 1 1\n" +
+                    "0 1 0 1 0 1 0 1 0 2 0 1 0\n" +
+                    "0 0 0 1 0 2 1 0 0 0 0 1 1\n" +
+                    "0 0 0 0 2 1 1 0 0 0 0 1 0\n" +
+                    "0 1 0 0 0 1 2 0 1 0 0 0 0\n" +
+                    "1 1 0 0 0 0 1 0 0 1 0 0 0\n" +
+                    "0 0 1 0 0 0 0 1 0 0 1 0 0\n" +
+                    "0 0 0 1 2 0 0 0 0 1 1 0 0\n" +
+                    "0 0 1 1 1 0 0 0 1 0 1 0 0\n" +
+                    "0 0 2 0 0 0 1 0 0 0 0 0 0\n" +
+                    "0 0 0 0 1 0 0 0 0 0 0 0 0\n" +
+                    "0 0 0 0 1 0 1 0 0 0 0 1 1\n" +
+                    "0 0 0 0 0 0 1 0 0 1 1 0 0\n" +
+                    "0 0 0 1 1 0 1 2 0 1 0 0 1\n" +
+                    "1 1 0 0 1 0 0 1 0 0 0 0 1";
 }
