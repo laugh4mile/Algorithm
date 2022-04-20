@@ -23,7 +23,7 @@ public class BJ_G1_18809_Gaaaaaaaaaarden {
             for(int c=0; c<M; c++){
                 map[r][c] = Integer.parseInt(tokens.nextToken());
                 if(map[r][c] == 2){
-                    list.add(new Node(r,c,-1, 0));
+                    list.add(new Node(r,c,-1, 1)); // color -1: 없음, 0: Green, 1: Red
                 }
             }
         }
@@ -62,7 +62,7 @@ public class BJ_G1_18809_Gaaaaaaaaaarden {
     }
 
     private static void bfs() {
-        isVisited = new int[N][M][2];
+        isVisited = new int[N][M][2]; // isVisited[r][c][color] : r,c 에 color색이 몇번의 이동으로 방문했는지. 0은 미방문
         Queue<Node> queue = new LinkedList<>();
         for(int i=0; i<list.size(); i++){
             if(list.get(i).color == -1) continue;
@@ -70,9 +70,12 @@ public class BJ_G1_18809_Gaaaaaaaaaarden {
             isVisited[list.get(i).r][list.get(i).c][list.get(i).color] = 1;
         }
         int flowers = 0;
+//        System.out.println("bfs 시작~~~");
         while(!queue.isEmpty()){
             Node front = queue.poll();
+//            System.out.println(front);
             if(isVisited[front.r][front.c][0] == isVisited[front.r][front.c][1]){
+//                flowers++;
                 continue;
             }
             for(int d=0; d<4; d++){
@@ -81,11 +84,12 @@ public class BJ_G1_18809_Gaaaaaaaaaarden {
 
                 if(isIn(nr,nc) && isVisited[nr][nc][front.color] == 0 && map[nr][nc] != 0){
                     isVisited[nr][nc][front.color] = front.move+1;
-                    if(isVisited[nr][nc][front.color^1] != 0){
+                    if(isVisited[nr][nc][front.color^1] != 0){ // 다른색이 칠해져 있을 경우
                         if(isVisited[nr][nc][front.color] == isVisited[nr][nc][front.color^1]) { // 꽃이 만들어지는 경우 -> queue에 안담음
+//                            System.out.println(nr + " " + nc);
                             flowers++;
                         }
-                    }else{
+                    }else{ // 다른색이 안 칠해져 있을경우
                         queue.offer(new Node(nr, nc, front.color, front.move+1));
                     }
                 }
@@ -93,15 +97,6 @@ public class BJ_G1_18809_Gaaaaaaaaaarden {
         }
 
         if(max < flowers){
-//            System.out.println(list);
-            for(int i=0; i<N; i++){
-                for(int j=0; j<M; j++){
-                    System.out.print(isVisited[i][j][0]+" ");
-                }
-                System.out.println();
-            }
-
-            System.out.println();
             max = flowers;
         }
     }
@@ -138,21 +133,18 @@ public class BJ_G1_18809_Gaaaaaaaaaarden {
     }
 
     static String src =
-            "16 13 3 3\n" +
-                    "2 1 1 1 0 0 0 0 0 1 1 0 0\n" +
-                    "1 0 2 0 0 0 0 0 0 2 0 1 1\n" +
-                    "0 1 0 1 0 1 0 1 0 2 0 1 0\n" +
-                    "0 0 0 1 0 2 1 0 0 0 0 1 1\n" +
-                    "0 0 0 0 2 1 1 0 0 0 0 1 0\n" +
-                    "0 1 0 0 0 1 2 0 1 0 0 0 0\n" +
-                    "1 1 0 0 0 0 1 0 0 1 0 0 0\n" +
-                    "0 0 1 0 0 0 0 1 0 0 1 0 0\n" +
-                    "0 0 0 1 2 0 0 0 0 1 1 0 0\n" +
-                    "0 0 1 1 1 0 0 0 1 0 1 0 0\n" +
-                    "0 0 2 0 0 0 1 0 0 0 0 0 0\n" +
-                    "0 0 0 0 1 0 0 0 0 0 0 0 0\n" +
-                    "0 0 0 0 1 0 1 0 0 0 0 1 1\n" +
-                    "0 0 0 0 0 0 1 0 0 1 1 0 0\n" +
-                    "0 0 0 1 1 0 1 2 0 1 0 0 1\n" +
-                    "1 1 0 0 1 0 0 1 0 0 0 0 1";
+            "13 17 2 4\n" +
+                    "1 1 1 1 1 1 1 2 1 1 1 1 1 1 1 1 0\n" +
+                    "1 1 0 0 1 1 1 1 1 1 0 1 1 1 1 1 1\n" +
+                    "1 0 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1\n" +
+                    "1 1 1 1 1 1 1 1 1 0 1 1 2 1 1 1 1\n" +
+                    "1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1\n" +
+                    "0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1\n" +
+                    "1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1\n" +
+                    "1 1 1 1 1 1 0 1 1 1 0 1 0 1 1 1 1\n" +
+                    "1 1 1 1 1 1 1 2 1 1 1 1 1 1 0 1 1\n" +
+                    "1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1\n" +
+                    "1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1\n" +
+                    "2 1 1 1 1 1 2 1 1 1 1 2 1 1 1 1 1\n" +
+                    "2 1 1 1 1 1 1 1 1 1 1 1 1 1 2 1 1";
 }

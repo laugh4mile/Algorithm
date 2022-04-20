@@ -56,7 +56,7 @@ public class BJ_G2_12100_2048Easy {
                 temp[r][c] = map[r][c];
             }
         }
-
+        Stack<Integer> stack = new Stack<>();
         Deque<Block> deque = new LinkedList<>();
         int size = 0;
         if(d==0){ // 상
