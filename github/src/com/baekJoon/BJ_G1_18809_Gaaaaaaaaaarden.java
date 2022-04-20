@@ -81,17 +81,27 @@ public class BJ_G1_18809_Gaaaaaaaaaarden {
 
                 if(isIn(nr,nc) && isVisited[nr][nc][front.color] == 0 && map[nr][nc] != 0){
                     isVisited[nr][nc][front.color] = front.move+1;
-                    if(isVisited[nr][nc][front.color^1] == isVisited[nr][nc][front.color]){ // 꽃이 만들어지는 경우 -> queue에 안담음
-                        flowers++;
-                    }else{ // 꽃이 안 만들어지는 경우 -> queue에 담음
-                       queue.offer(new Node(nr, nc, front.color, front.move+1));
+                    if(isVisited[nr][nc][front.color^1] != 0){
+                        if(isVisited[nr][nc][front.color] == isVisited[nr][nc][front.color^1]) { // 꽃이 만들어지는 경우 -> queue에 안담음
+                            flowers++;
+                        }
+                    }else{
+                        queue.offer(new Node(nr, nc, front.color, front.move+1));
                     }
                 }
             }
         }
 
         if(max < flowers){
-            System.out.println(list);
+//            System.out.println(list);
+            for(int i=0; i<N; i++){
+                for(int j=0; j<M; j++){
+                    System.out.print(isVisited[i][j][0]+" ");
+                }
+                System.out.println();
+            }
+
+            System.out.println();
             max = flowers;
         }
     }
