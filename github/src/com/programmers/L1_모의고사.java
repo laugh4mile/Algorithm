@@ -1,6 +1,6 @@
 package com.programmers;
 
-public class 프로그래머스_L1_모의고사 {
+public class L1_모의고사 {
 	public int[] solution(int[] answers) {
         int[] answer = {};
         int[] supo1 = {1,2,3,4,5};

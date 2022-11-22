@@ -1,12 +1,6 @@
 package com.programmers;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
-
-public class 프로그래머스_L3_네트워크 {
+public class L3_네트워크 {
 	public int solution(int n, int[][] computers) {
         int answer = 0;
         boolean[] isVisited = new boolean[n];

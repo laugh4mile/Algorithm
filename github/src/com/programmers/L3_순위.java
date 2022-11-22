@@ -1,12 +1,11 @@
 package com.programmers;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
-public class 프로그래머스_L3_순위 {
+public class L3_순위 {
 	static List<Integer> list1[];
     static List<Integer> list2[];
     static boolean isVisited[];

@@ -2,7 +2,7 @@ package com.programmers;
 
 import java.util.Arrays;
 
-public class 프로그래머스_L2_전화번호목록 {
+public class L2_전화번호목록 {
 	public boolean solution(String[] phone_book) {
         boolean answer = true;
         Arrays.sort(phone_book);

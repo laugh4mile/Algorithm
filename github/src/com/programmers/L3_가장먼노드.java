@@ -26,7 +26,7 @@ import java.util.Queue;
  * [출력사항]
  */
 
-public class 프로그래머스_L3_가장먼노드 {
+public class L3_가장먼노드 {
 	static BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
 	static int n = 6, depth=0;
 	static int [][] edge = {{3, 6}, {4, 3}, {3, 2}, {1, 3}, {1, 2}, {2, 4}, {5, 2}};
