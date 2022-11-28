@@ -18,7 +18,7 @@ public class goodmorning {
 			num[i] = i+1;
 		}
 //		
-		permutation(0); 
+		permutation(0);
 //		combination(0,0);
 //		subSet(0);
 //		System.out.println(ccnt);
@@ -68,7 +68,7 @@ public class goodmorning {
 		for(int i=0; i<N; i++) {
 			if(isSelected[i]) continue;
 			
-			result[cnt] = num[i];
+			result[cnt] = i+1;
 			isSelected[i] = true;
 			permutation(cnt+1);
 			isSelected[i] = false;
