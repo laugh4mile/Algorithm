@@ -8,7 +8,7 @@ public class goodmorning {
 	static int result[];
 	static boolean isSelected[];
 	public static void main(String[] args) {
-		N = 3;
+		N = 5;
 		R = 3;
 		num = new int [N];
 		result = new int[R];
@@ -19,8 +19,8 @@ public class goodmorning {
 		}
 //		
 //		permutation(0);
-//		combination(0,0);
-		subSet(0);
+		combination(0,0);
+//		subSet(0);
 //		System.out.println(ccnt);
 	}
 	private static void subSet(int cnt) { 
