@@ -20,6 +20,8 @@ public class BJ_G2_17136_색종이붙이기 {
                 map[r][c] = Integer.parseInt(tokens.nextToken());
             }
         }
+
+//        asd
 //        for(int i=5; i>0; i--){
 //            check_NxN(i);
 //        }
