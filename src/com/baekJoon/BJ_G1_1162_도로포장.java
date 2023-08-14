@@ -3,16 +3,15 @@ package com.baekJoon;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.StringReader;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.PriorityQueue;
-import java.util.StringTokenizer;
+import java.util.*;
 
 public class BJ_G1_1162_도로포장 {
     static BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
     static StringTokenizer tokens;
-    static int N, M, K, dist[][];
+    static int N, M, K;
+    static long distance[][];
     static List<Node> graph[];
+    static boolean isVisited[][];
 
     public static void main(String[] args) throws Exception{
         input = new BufferedReader(new StringReader(src));
@@ -21,14 +20,20 @@ public class BJ_G1_1162_도로포장 {
         M = Integer.parseInt(tokens.nextToken());
         K = Integer.parseInt(tokens.nextToken());
         graph = new List[N+1];
-        dist = new int[N+1][K+1];
-        for(int i=1; i<N+1; i++){
-            graph[i] = new ArrayList<>();
-            for(int j=1; j<K+1; j++){
-                dist[i][j] = Integer.MAX_VALUE;
+        distance = new long[K+2][N+1];
+        isVisited = new boolean[K+2][N+1];
+//        for(int i=0;)
+        for(int c=0; c<N+1; c++){
+            graph[c] = new ArrayList<>();
+            for(int r=0; r<K+2; r++){
+                distance[r][c] = Long.MAX_VALUE;
             }
-            dist[i][0] = 0;
         }
+//        for(int x[] : distance){
+//            System.out.println(Arrays.toString(x));
+//        }
+//        System.out.println();
+
         for(int i=0; i<M; i++){
             tokens = new StringTokenizer(input.readLine());
             int from = Integer.parseInt(tokens.nextToken());
@@ -38,21 +43,30 @@ public class BJ_G1_1162_도로포장 {
             graph[to].add(new Node(from, time));
         }
 
-        dijkstra(1);
+        for(int t=1; t<K+2; t++){
+            distance[t][1] = 0;
+            dijkstra(1, t);
+        }
+//        for(int x[] : distance){
+//            System.out.println(Arrays.toString(x));
+//        }
+        System.out.println(distance[K+1][N]);
     }
 
-    private static void dijkstra(int start) {
+    private static void dijkstra(int start, int t) {
         PriorityQueue<Node> pq = new PriorityQueue<>();
         pq.offer(new Node(start, 0));
-
         while(!pq.isEmpty()){
             Node front = pq.poll();
+            if(isVisited[t][front.destCity]) continue;
+            isVisited[t][front.destCity] = true;
             List<Node> childs = graph[front.destCity];
             for(int i=0; i<childs.size(); i++){
                 Node child = childs.get(i);
-                if(dist[child.destCity][0] > dist[front.destCity][0] + child.time){
-                    dist[child.destCity][0] = dist[front.destCity][0] + child.time;
-                    pq.offer(child);
+                long temp = Math.min(distance[t][front.destCity] + child.time, distance[t-1][front.destCity]);
+                if(!isVisited[t][child.destCity] && distance[t][child.destCity] > temp){
+                    distance[t][child.destCity] = temp;
+                    pq.offer(new Node(child.destCity, distance[t][child.destCity]));
                 }
             }
         }
@@ -60,16 +74,16 @@ public class BJ_G1_1162_도로포장 {
 
     static class Node implements Comparable<Node>{
         int destCity;
-        int time;
+        long time;
 
-        public Node(int destCity, int time){
+        public Node(int destCity, long time){
             this.destCity = destCity;
             this.time = time;
         }
 
         @Override
         public int compareTo(Node o){
-            return Integer.compare(this.time, o.time);
+            return Long.compare(this.time, o.time);
         }
     }
     static String src =
