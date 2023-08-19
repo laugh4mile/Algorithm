@@ -20,7 +20,8 @@ public class BJ_G3_22345_누적거리 {
         }
 
         for(int i=0; i<Q; i++){
-            
+            int x = Integer.parseInt(input.readLine());
+
         }
     }
 
