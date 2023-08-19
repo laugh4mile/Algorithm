@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.PriorityQueue;
 import java.util.StringTokenizer;
 
-public class BJ_G4_27979_볼링아르바이트 {
+public class BJ_G4_27979_볼링장아르바이트 {
     static BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
     static BufferedWriter output = new BufferedWriter(new OutputStreamWriter(System.out));
     static StringTokenizer tokens;
