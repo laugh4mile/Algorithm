@@ -4,72 +4,54 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class BJ_G2_1525_퍼즐 {
     static BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
     static StringTokenizer tokens;
-    static int N;
+    static int move[]={-1,1,-3,3}; // 좌, 우, 상, 하
     static Set<String> set = new HashSet<>();
-    static char map[][];
     public static void main(String[] args) throws Exception{
         input = new BufferedReader(new StringReader(src));
-        int zr = 0, zc = 0;
-        N = 3;
-        map = new char[N][N];
-        for(int r=0; r<N; r++){
+        String initial = "";
+        int zeroIdx = -1;
+        for(int r=0; r<3; r++){
             tokens = new StringTokenizer(input.readLine());
-            for(int c=0; c<N; c++){
-                map[r][c] = tokens.nextToken().charAt(0);
-                if(map[r][c] == '0'){
-                    zr = r;
-                    zc = c;
+            for(int c=0; c<3; c++){
+                char num = tokens.nextToken().charAt(0);
+                initial += num;
+                if(num == '0'){
+                    zeroIdx = r*3+c;
                 }
             }
         }
-        System.out.println(bfs(zr, zc, map));
+        System.out.println(bfs(initial, zeroIdx));
     }
 
-    static String arrToStr(char[][] arr){
-        return String.valueOf(arr[0])+String.valueOf(arr[1])+String.valueOf(arr[2]);
-    }
-
-    static int dr[] = {0,0,1,-1};
-    static int dc[] = {1,-1,0,0};
-
-    static boolean isIn(int r, int c){
-        return (r>=0 && c>=0 && r<N && c<N);
-    }
-
-    private static int bfs(int zr, int zc, char[][] map) {
+    private static int bfs(String initial, int zeroIdx) {
         Queue<Node> queue = new LinkedList<>();
-        queue.offer(new Node(zr, zc, map, 0));
-        set.add(arrToStr(map));
-//        int test = 0;
+        queue.offer(new Node(initial, zeroIdx, 0));
+        set.add(initial);
+
         while (!queue.isEmpty()) {
-//            if(test++ > 10) break;
             Node front = queue.poll();
-//            System.out.println(arrToStr(front.map) + " " + front.r + " " + front.c+" "+front.cnt);
-            if(arrToStr(front.map).equals("123456780")){
+            if(front.str.equals("123456780")){
                 return front.cnt;
             }
-            for(int d=0; d<4; d++){
-                int nr = front.r + dr[d];
-                int nc = front.c + dc[d];
-                if(isIn(nr, nc)){
-                    char[][] tmpMap = new char[N][N];
-                    for(int r=0; r<N; r++){
-                        for(int c=0; c<N; c++){
-                            tmpMap[r][c] = front.map[r][c];
-                        }
-                    }
-                    char tmp = tmpMap[front.r][front.c];
-                    tmpMap[front.r][front.c] = tmpMap[nr][nc];
-                    tmpMap[nr][nc] = tmp;
-                    String strMap = arrToStr(tmpMap);
-                    if(!set.contains(strMap)){
-                        set.add(strMap);
-                        queue.offer(new Node(nr, nc, tmpMap, front.cnt+1));
+            for(int i=0; i<4; i++){
+                if(front.zeroIdx%3 == 2 && i==1){
+                    continue;
+                }else if(front.zeroIdx%3 == 0 && i==0){
+                    continue;
+                }
+                int nextZeroIdx = front.zeroIdx + move[i];
+                if(isIn(nextZeroIdx)){
+                    char ch = front.str.charAt(nextZeroIdx);
+                    String temp = front.str.replace('0','t');
+                    temp = temp.replace(ch,'0');
+                    temp = temp.replace('t',ch);
+                    if(!set.contains(temp)){
+                        set.add(temp);
+                        queue.offer(new Node(temp, nextZeroIdx, front.cnt+1));
                     }
                 }
             }
@@ -78,22 +60,32 @@ public class BJ_G2_1525_퍼즐 {
     }
 
     static class Node{
-        int r;
-        int c;
-        char[][] map;
-
+        String str;
         int cnt;
+        int zeroIdx;
 
-        public Node(int r, int c, char[][] map, int cnt) {
-            this.r = r;
-            this.c = c;
-            this.map = map;
+        public Node(String str, int zeroIdx, int cnt) {
+            this.str = str;
+            this.zeroIdx = zeroIdx;
             this.cnt = cnt;
+        }
+
+        @Override
+        public String toString() {
+            return "Node{" +
+                    "str='" + str + '\'' +
+                    ", cnt=" + cnt +
+                    ", zeroIdx=" + zeroIdx +
+                    '}';
         }
     }
 
+    static boolean isIn(int i){
+        return (i>=0 && i<9);
+    }
+
     static String src =
-            "3 6 0\n" +
-                    "8 1 2\n" +
-                    "7 4 5";
+            "6 4 7\n" +
+            "8 5 0\n" +
+            "3 2 1";
 }
