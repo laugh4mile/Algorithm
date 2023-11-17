@@ -9,7 +9,7 @@ import java.io.StringReader;
 import java.util.Arrays;
 import java.util.StringTokenizer;
 
-public class BJ_11060_S2_점프점프 {
+public class BJ_S2_11060_점프점프 {
 	static BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
 	static BufferedWriter output = new BufferedWriter(new OutputStreamWriter(System.out));
 	static StringTokenizer tokens;
