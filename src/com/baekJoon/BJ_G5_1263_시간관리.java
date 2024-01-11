@@ -17,7 +17,7 @@ public class BJ_G5_1263_시간관리 {
         input = new BufferedReader(new StringReader(src));
 
         int N = Integer.parseInt(input.readLine());
-
+        //현수야 이직하려고?
         List<Node> list = new ArrayList<>();
         for(int i=0; i<N; i++){
             tokens = new StringTokenizer(input.readLine());
