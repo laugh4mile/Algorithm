@@ -59,9 +59,9 @@ public class goodmorning {
 		}
 		for(int i=0; i<N; i++) {
 			if(isSelected[i]) continue;
-			if(cnt > 0 && result[cnt-1] > i+1){
-				continue;
-			}
+//			if(cnt > 0 && result[cnt-1] > i+1){
+//				continue;
+//			}
 			
 			result[cnt] = i+1;
 			isSelected[i] = true;
