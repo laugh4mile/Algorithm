@@ -18,8 +18,8 @@ public class goodmorning {
 			num[i] = i+1;
 		}
 //		
-//		permutation(0);
-		combination(0,0);
+		permutation(0);
+//		combination(0,0);
 //		subSet(0);
 //		System.out.println(ccnt);
 	}
