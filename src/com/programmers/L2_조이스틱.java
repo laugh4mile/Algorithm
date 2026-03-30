@@ -56,26 +56,6 @@ public class L2_조이스틱 {
         }
 
         // 방문되지 않았으면 방문처리 후 상하 카운트
-        if(!isVisited[cur]){
-            isVisited[cur] = true;
-            if(cnt[cur] != 0){
-                nums--;
-                sum += cnt[cur];
-            }
-            if(d == 1){
-                cur = (cur+d) % cnt.length;
-            }else{
-                if(cur == 0){
-                    cur = cnt.length-1;
-                }else{
-                    cur += d;
-                }
-            }
-
-            solve(cur, nums, cnt, sum+1, d, isVisited);
-            solve(cur, nums, cnt, sum+1, d * -1, isVisited);
-        }else{
-        }
 
     }
 
