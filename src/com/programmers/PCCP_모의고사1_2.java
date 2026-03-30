@@ -25,7 +25,7 @@ public class PCCP_모의고사1_2 {
     private static void permutation(int cnt) {
         if(cnt == R){
             int sum = 0;
-            for(int i=0; i<result.length; i++){
+            for (int i = 0; i < result.length; i++){
                 sum += temp[result[i]][i];
             }
             if(max < sum){
