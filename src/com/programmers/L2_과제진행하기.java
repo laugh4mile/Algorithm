@@ -1,82 +1,74 @@
 package com.programmers;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Stack;
 
 public class L2_과제진행하기 {
-    public static String[] solution(String[][] plans) {
+    public String[] solution(String[][] plans) {
         String[] answer = new String[plans.length];
 
-        ArrayList<Task> list = new ArrayList<>();
+        ArrayList<Node> list = new ArrayList<>();
         for(int i=0; i<plans.length; i++){
-            int hh = Integer.parseInt(plans[i][1].substring(0,2));
-            int mm = Integer.parseInt(plans[i][1].substring(3,5));
-            list.add(new Task(plans[i][0], hh*60+mm, Integer.parseInt(plans[i][2])));
+            String name = plans[i][0];
+            int start = Integer.parseInt(plans[i][1].substring(0,2)) * 60 + Integer.parseInt(plans[i][1].substring(3));
+            int playtime = Integer.parseInt(plans[i][2]);
+
+            list.add(new Node(name, start, playtime));
         }
 
-        Collections.sort(list);
+        Collections.sort(list, new Comparator<Node>(){
+            @Override
+            public int compare(Node o1, Node o2){
+                return Integer.compare(o1.start, o2.start);
+            }
+        });
 
-        System.out.println(list);
+        Stack<Node> stack = new Stack<>();
+        int cur = 0;
+        int remain = 0;
+        int cnt = 0;
 
-        int idx = 0;
-        Stack<Task> stack = new Stack<>();
         for(int i=0; i<list.size(); i++){
+            cur = list.get(i).start;
             if(stack.isEmpty()){
                 stack.push(list.get(i));
             }else{
-                int extraTime = list.get(i).start - stack.peek().start;
+                remain = cur - stack.peek().start;
 
-                while(!stack.isEmpty() && extraTime > 0){
-                    extraTime -= stack.peek().playtime;
-
-                    if(extraTime >= 0){
-                        answer[idx++] = stack.pop().name;
+                // stack에 쌓인 과제 처리
+                while(!stack.isEmpty() && remain > 0){
+                    Node peek = stack.pop();
+                    if(remain >= peek.playtime){
+                        answer[cnt++] = peek.name;
+                        remain -= peek.playtime;
                     }else{
-                        Task top = stack.pop();
-                        stack.push(new Task(top.name, list.get(i).start, extraTime * -1));
+                        peek.playtime = peek.playtime - remain;
+                        stack.push(peek);
+                        remain = 0;
                     }
                 }
                 stack.push(list.get(i));
             }
         }
-//        System.out.println(stack);
-
         while(!stack.isEmpty()){
-            answer[idx++] = stack.pop().name;
+            answer[cnt++] = stack.pop().name;
         }
+
+
         return answer;
     }
 
-    static class Task implements Comparable<Task>{
+    class Node{
         String name;
         int start;
         int playtime;
 
-        public Task(String name, int start, int playtime){
+        public Node(String name, int start, int playtime){
             this.name = name;
             this.start = start;
             this.playtime = playtime;
         }
-
-        @Override
-        public int compareTo(Task o){
-            return Integer.compare(this.start, o.start);
-        }
-
-        @Override
-        public String toString() {
-            return "Task{" +
-                    "name='" + name + '\'' +
-                    ", start=" + start +
-                    ", playtime=" + playtime +
-                    '}';
-        }
-    }
-
-    public static void main(String[] args) {
-        String[][] plans = {{"korean", "11:40", "30"}, {"english", "12:10", "20"}, {"math", "12:30", "40"}};
-        System.out.println(Arrays.toString(solution(plans)));
-        System.out.println();
-        String[][] plans2 = {{"science", "12:40", "50"}, {"music", "12:20", "40"}, {"history", "14:00", "30"}, {"computer", "12:30", "100"}};
-        System.out.println(Arrays.toString(solution(plans2)));
     }
 }

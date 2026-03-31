@@ -2,60 +2,52 @@ package com.programmers;
 
 import java.util.Stack;
 
-class L2_괄호회전하기 {
-    public static int solution(String s) {
+public class L2_괄호회전하기 {
+    public int solution(String s) {
         int answer = 0;
-        outer:for(int i=0; i<s.length(); i++){
-            Stack<Character> stack = new Stack<>();
-            System.out.println(s);
-            for(int j=0; j<s.length(); j++) {
-                if (stack.isEmpty()) {
-                    if (s.charAt(j) == ']' || s.charAt(j) == '}' || s.charAt(j) == ')') {
-                        s = s.substring(1).concat(s.charAt(0)+"");
-                        continue outer;
-                    } else {
-                        stack.push(s.charAt(j));
-                    }
-                } else {
-                    if (s.charAt(j) == '[' || s.charAt(j) == '{' || s.charAt(j) == '(') {
-                        stack.push(s.charAt(j));
-                    } else {
-                        if (stack.peek() == '[') {
-                            if (s.charAt(j) == ']') {
-                                stack.pop();
-                            } else {
-                                s = s.substring(1).concat(s.charAt(0)+"");
-                                continue outer;
-                            }
-                        } else if (stack.peek() == '{') {
-                            if (s.charAt(j) == '}') {
-                                stack.pop();
-                            } else {
-                                s = s.substring(1).concat(s.charAt(0)+"");
-                                continue outer;
-                            }
-                        } else if (stack.peek() == '(') {
-                            if (s.charAt(j) == ')') {
-                                stack.pop();
-                            } else {
-                                s = s.substring(1).concat(s.charAt(0)+"");
-                                continue outer;
-                            }
+
+        String ns = "";
+        Stack<Character> stack = new Stack<>();
+
+        for(int i=0; i<s.length()-1; i++){
+
+            ns = s.substring(i) + s.substring(0, i);
+            stack.clear();
+            boolean flag = false;
+
+            for(int j=0; j<ns.length(); j++){
+                char c = ns.charAt(j);
+                if(c == '(' || c == '{' || c == '['){
+                    stack.push(c);
+                    flag = true;
+                }else{
+                    if(c == ')'){
+                        if(stack.isEmpty() || stack.peek() != '('){
+                            continue;
+                        }else{
+                            stack.pop();
+                        }
+                    }else if(c == '}'){
+                        if(stack.isEmpty() || stack.peek() != '{'){
+                            continue;
+                        }else{
+                            stack.pop();
+                        }
+                    }else{
+                        if(stack.isEmpty() || stack.peek() != '['){
+                            continue;
+                        }else{
+                            stack.pop();
                         }
                     }
                 }
             }
-            if(stack.isEmpty()) {
-                System.out.println("!!");
+
+            if(flag && stack.isEmpty()){
+                // System.out.println(ns);
                 answer++;
             }
-            s = s.substring(1).concat(s.charAt(0)+"");
         }
-
         return answer;
-    }
-
-    public static void main(String[] args) {
-        System.out.println(solution("[](){}"	));
     }
 }
