@@ -4,16 +4,15 @@ import java.util.*;
 
 public class L2_배달 {
 
-    static List<Node> graph[];
-    static int shortestPath[];
-    static boolean isVisited[];
-    public static int solution(int N, int[][] road, int K) {
+
+    List<Node> graph[];
+    int distance[];
+    public int solution(int N, int[][] road, int K) {
         int answer = 0;
         graph = new List[N+1];
-        isVisited = new boolean[N+1];
-        shortestPath = new int[N+1];
+        distance = new int[N+1];
         for(int i=1; i<=N; i++){
-            shortestPath[i] = Integer.MAX_VALUE;
+            distance[i] = Integer.MAX_VALUE;
             graph[i] = new ArrayList<>();
         }
 
@@ -24,54 +23,43 @@ public class L2_배달 {
             graph[from].add(new Node(to, val));
             graph[to].add(new Node(from, val));
         }
+        distance[1] = 0;
         dijkstra(1);
-        System.out.println(Arrays.toString(shortestPath));
-        for(int i=1; i<N+1; i++){
-            if(shortestPath[i]<=K) answer++;
-        }
-        return answer;
+
+        System.out.println(Arrays.toString(distance));
+
+        return (int) Arrays.stream(distance)
+                .filter(x -> x <= K)
+                .count()-1;
     }
 
-    private static void dijkstra(int start) {
-        Queue<Integer> queue = new LinkedList<>();
-        queue.offer(start);
-        shortestPath[start] = 0;
+    private void dijkstra(int start) {
+        PriorityQueue<Integer> pq = new PriorityQueue<>();
+        pq.offer(start);
 
-        while(!queue.isEmpty()){
-            int cur = queue.poll();
+        while(!pq.isEmpty()){
+            int front = pq.poll();
 
-            if(!isVisited[cur]){
-                isVisited[cur] = true;
-                List<Node> childs = graph[cur];
-                for(int i=0; i<childs.size(); i++){
-                    Node child = childs.get(i);
-                    if(shortestPath[child.node] > shortestPath[cur] + child.val){
-                        shortestPath[child.node] = shortestPath[cur] + child.val;
-                        queue.offer(child.node);
-                    }
+            List<Node> childs = graph[front];
+            for(int i=0; i<childs.size(); i++){
+                Node child = childs.get(i);
+
+                if(distance[child.t] > distance[front] + child.l){
+                    distance[child.t] = distance[front] + child.l;
+                    pq.offer(child.t);
                 }
             }
         }
 
     }
 
-    static class Node{
-        int node;
-        int val;
+    class Node{
+        int t;
+        int l;
 
-        public Node(int node, int val){
-            this.node = node;
-            this.val = val;
+        public Node(int t, int l){
+            this.t = t;
+            this.l = l;
         }
-    }
-
-    public static void main(String[] args) {
-        int N = 5;
-        int[][] road ={{1,2,1},{2,3,3},{5,2,2},{1,4,2},{5,3,1},{5,4,2}};
-        int K = 3;
-
-        int[][] road2 ={{1,2,1},{1,3,2},{2,3,2},{3,4,3},{3,5,2},{3,5,3},{5,6,1}};
-        System.out.println(solution(N,road,K));
-        System.out.println(solution(6,road2,4));
     }
 }
