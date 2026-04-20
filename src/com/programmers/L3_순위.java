@@ -6,56 +6,59 @@ import java.util.List;
 import java.util.Queue;
 
 public class L3_순위 {
-	static List<Integer> list1[];
-    static List<Integer> list2[];
-    static boolean isVisited[];
-    static int sum[];
-    
+    List[] graph;
+    List[] graph2;
+    boolean[] isVisited;
     public int solution(int n, int[][] results) {
         int answer = 0;
-        list1 = new List[n+1];
-        list2 = new List[n+1];
-        sum = new int[n+1];
-        
+
+        graph = new List[n+1];
+        graph2 = new List[n+1];
+
         for(int i=0; i<n+1; i++){
-            list1[i] = new ArrayList<>();
-            list2[i] = new ArrayList<>();
+            graph[i] = new ArrayList<Integer>();
+            graph2[i] = new ArrayList<Integer>();
         }
-        
+
         for(int i=0; i<results.length; i++){
-            list1[results[i][0]].add(results[i][1]);
-            list2[results[i][1]].add(results[i][0]);
+            int from = results[i][0];
+            int to   = results[i][1];
+
+            graph[from].add(to);
+            graph2[to].add(from);
         }
-        
+
         for(int i=1; i<n+1; i++){
             isVisited = new boolean[n+1];
-            bfs(i, list1);
+            int a = bfs(i, graph);
             isVisited = new boolean[n+1];
-            bfs(i, list2);
-            if(sum[i] == n-1){
+            int b = bfs(i, graph2);
+            if(a+b-1 == n){
                 answer++;
             }
         }
+
         return answer;
     }
-    static void bfs(int num, List<Integer> list[]){
+
+    private int bfs(int start, List<Integer> graph[]){
         Queue<Integer> queue = new LinkedList<>();
-        queue.offer(num);
-        isVisited[num] = true;
+        queue.offer(start);
+        isVisited[start] = true;
         int cnt = 0;
-        
+
         while(!queue.isEmpty()){
-            Integer front = queue.poll();
-            List<Integer> childs = list[front];
+            cnt++;
+            int front = queue.poll();
+            List<Integer> childs = graph[front];
             for(int i=0; i<childs.size(); i++){
-                Integer child = childs.get(i);
+                int child = childs.get(i);
                 if(!isVisited[child]){
-                    queue.offer(child);
                     isVisited[child] = true;
-                    cnt++;
+                    queue.offer(child);
                 }
             }
         }
-        sum[num] += cnt;
+        return cnt;
     }
 }
