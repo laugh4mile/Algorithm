@@ -4,57 +4,54 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 class L2_게임맵최단거리 {
-    static int R, C;
-    public static int solution(int[][] maps) {
-        R = maps.length;
-        C = maps[0].length;
-        boolean isVisited[][] = new boolean[R][C];
-        int answer = -1;
-        Queue<Node> queue = new LinkedList<>();
-        queue.offer(new Node(0,0,1));
-        isVisited[0][0] = true;
-        while (!queue.isEmpty()){
-            Node front = queue.poll();
-            System.out.println(front.r +" "+front.c);
-            if(front.r == R-1 && front.c == C-1){
-                answer = front.cnt;
-                break;
-            }
-            for(int d=0; d<4; d++){
-                int nr = front.r + dr[d];
-                int nc = front.c + dc[d];
-                if(isIn(nr,nc) && !isVisited[nr][nc] && maps[nr][nc] == 1){
-                    isVisited[nr][nc] = true;
-                    queue.offer(new Node(nr,nc,front.cnt+1));
-                }
-            }
-        }
-        return answer;
-    }
+    int dr[] = {0,0,-1,1};
+    int dc[] = {-1,1,0,0};
 
-    static int dr[] = {0,0,-1,1};
-    static int dc[] = {-1,1,0,0};
-
-
-    static class Node{
-        int r;
-        int c;
-        int cnt;
-
-        public Node(int r, int c, int cnt) {
-            this.r = r;
-            this.c = c;
-            this.cnt = cnt;
-        }
-    }
-
-    static boolean isIn(int r, int c){
+    boolean isIn(int r, int c, int R, int C){
         return (r>=0 && c>=0 && r<R && c<C);
     }
 
-    public static void main(String[] args) {
-        int[][] maps = {{1,0,1,1,1},{1,0,1,0,1},{1,0,1,1,1},{1,1,1,0,1},{0,0,0,0,1}};
-        System.out.println(solution(maps));
+    boolean[][] isVisited;
+    int R,C;
+
+    public int solution(int[][] maps) {
+        int answer = 0;
+
+        R = maps.length;
+        C = maps[0].length;
+
+        isVisited = new boolean[R][C];
+
+        answer = bfs(maps);
+
+        return answer;
     }
 
+    int bfs(int[][] map){
+        Queue<int[]> queue = new LinkedList<>();
+        queue.offer(new int[]{0,0,1});
+        isVisited[0][0] = true;
+        int sum = -1;
+
+        while(!queue.isEmpty()){
+            int[] front = queue.poll();
+
+            if(front[0] == R-1 && front[1] == C-1){
+                sum = front[2];
+                break;
+            }
+
+            for(int d=0; d<4; d++){
+                int nr = front[0] + dr[d];
+                int nc = front[1] + dc[d];
+
+                if(isIn(nr, nc, R, C) && !isVisited[nr][nc] && map[nr][nc] != 0){
+                    queue.offer(new int[]{nr,nc,front[2]+1});
+                    isVisited[nr][nc] = true;
+                }
+            }
+        }
+
+        return sum;
+    }
 }

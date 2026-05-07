@@ -3,107 +3,81 @@ package com.programmers;
 import java.util.*;
 
 class L3_베스트앨범 {
-    public static int[] solution(String[] genres, int[] plays) {
+    Map<String, Integer> priority = new HashMap<>();
+    public int[] solution(String[] genres, int[] plays) {
         int[] answer = {};
-        Map<String, Integer> map = new HashMap<>(); // 해당 장르의 재생 수
-        List<Node> list = new ArrayList<>();
-        Map<String, List<Node>> map2 = new HashMap<>(); // 해당 장르의 노래목록
+        Map<String, Integer> map = new HashMap<>();
+        List<Music> musicList = new ArrayList<>();
 
-        for(int i=0; i<genres.length; i++){
-            if(map.get(genres[i]) == null){
-                map.put(genres[i],plays[i]);
+        int size = genres.length;
+        for(int i=0; i<size; i++){
+            String g = genres[i];
+            int p = plays[i];
+            musicList.add(new Music(i, g, p));
+
+            if(map.get(g) == null){
+                map.put(g, p);
             }else{
-                map.replace(genres[i],map.get(genres[i])+plays[i]);
+                map.put(g, map.get(g)+p);
             }
-            list.add(new Node(i, genres[i], plays[i]));
         }
-        List<Genre> sequence = new ArrayList<>();
-        for (String s : map.keySet()) {
-            sequence.add(new Genre(s, map.get(s)));
-        }
-        Collections.sort(sequence);
 
+        List<Music> list = new ArrayList<>();
+        for(Map.Entry<String, Integer> entry : map.entrySet()){
+            list.add(new Music(0, entry.getKey(), entry.getValue()));
+        }
+        Collections.sort(list);
+
+        int idx = 0;
         for(int i=0; i<list.size(); i++){
-            if(map2.get(list.get(i).genre) == null){
-                List<Node> temp = new ArrayList<>();
-                map2.put(list.get(i).genre, temp);
-                map2.get(list.get(i).genre).add(list.get(i));
-            }else{
-                map2.get(list.get(i).genre).add(list.get(i));
+            if(priority.get(list.get(i).genre) == null){
+                priority.put(list.get(i).genre, idx++);
             }
         }
 
-        for (String s : map2.keySet()) {
-            Collections.sort(map2.get(s));
-            System.out.println(s+" "+map2.get(s));
-        }
-        List<Integer> answerList = new ArrayList<>();
-        for(int i=0; i<map2.size(); i++){
-            answerList.add(map2.get(sequence.get(i).genre).get(0).no);
-            if(map2.get(sequence.get(i).genre).size() > 1){
-                answerList.add(map2.get(sequence.get(i).genre).get(1).no);
+        Collections.sort(musicList);
+
+        Map<String, Integer> count = new HashMap<>();
+        for(int i=0; i<musicList.size(); i++){
+            String g = musicList.get(i).genre;
+            if(count.get(g) == null){
+                count.put(g, 1);
+            }else if(count.get(g) == 1){
+                count.put(g, 2);
+            }else{
+                musicList.remove(i--);
             }
         }
-        answer = new int[answerList.size()];
-        for (int i=0; i<answerList.size(); i++) {
-            answer[i] = answerList.get(i);
+
+        answer = new int[musicList.size()];
+
+        for(int i=0; i<musicList.size(); i++){
+            answer[i] = musicList.get(i).no;
         }
+
         return answer;
     }
-    static class Genre implements Comparable<Genre>{
-        String genre;
-        Integer cnt;
 
-        public Genre(String genre, Integer cnt) {
-            this.genre = genre;
-            this.cnt = cnt;
-        }
-
-        @Override
-        public int compareTo(Genre o) {
-            return Integer.compare(o.cnt, this.cnt);
-        }
-
-        @Override
-        public String toString() {
-            return "Genre{" +
-                    "genre='" + genre + '\'' +
-                    ", cnt=" + cnt +
-                    '}';
-        }
-    }
-    static class Node implements Comparable<Node>{
+    class Music implements Comparable<Music>{
         int no;
         String genre;
-        int plays;
+        int play;
 
-        public Node(int no, String genre, int plays) {
+        public Music(int no, String genre, int play){
             this.no = no;
             this.genre = genre;
-            this.plays = plays;
+            this.play = play;
         }
 
         @Override
-        public int compareTo(Node o){
-            if(this.plays == o.plays){
-                return Integer.compare(this.no,o.no);
+        public int compareTo(Music o){
+            if(priority.get(this.genre) == priority.get(o.genre)){
+                if(this.play == o.play){
+                    return Integer.compare(this.no, o.no);
+                }
+                return Integer.compare(o.play, this.play);
             }
-            return Integer.compare(o.plays,this.plays);
+            return Integer.compare(priority.get(this.genre), priority.get(o.genre));
         }
-
-        @Override
-        public String toString() {
-            return "Node{" +
-                    "no=" + no +
-                    ", genre='" + genre + '\'' +
-                    ", plays=" + plays +
-                    '}';
-        }
-    }
-
-    public static void main(String[] args) {
-        String[] genres = {"classic", "pop", "classic", "classic", "pop"};
-        int[] plays = {500, 600, 150, 800, 2500};
-        System.out.println(Arrays.toString(solution(genres,plays)));
     }
 }

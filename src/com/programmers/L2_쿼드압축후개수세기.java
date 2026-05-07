@@ -3,48 +3,57 @@ package com.programmers;
 import java.util.Arrays;
 
 class L2_쿼드압축후개수세기 {
-    static int[] answer = new int[2];
-    public static int[] solution(int[][] arr) {
+    int z, o;
+    public int[] solution(int[][] arr) {
+        int[] answer = new int[2];
 
-//        for (int []x : arr){
-//            System.out.println(Arrays.toString(x));
-//        }
         int N = arr.length;
 
-        divide(arr,0,0,N,N,N);
-
+        /*
+        1. 2차원 배열을 탐색 search(arr, r, c, size);
+        2. size가 1이면 리턴
+        3-1. 0이든 1이든 같은값이 나오면 PASS
+        3-2. 다른값이 나오면 search()를 4개 쪼개서 ㄱㄱ
+       */
+        search(arr, 0, 0, N);
+        answer[0] = z;
+        answer[1] = o;
         return answer;
     }
 
-    private static void divide(int[][] arr, int sR, int sC, int eR, int eC, int N) {
-        boolean isEqual = true;
-        int val = arr[sR][sC];
-        outer:for(int r=sR; r<eR; r++){
-            for(int c=sC; c<eC; c++){
-                if(arr[r][c] != val) {
-                    isEqual = false;
-                    break outer;
-                }
-            }
-        }
-        if(isEqual){
-            if(val == 0){
-                answer[0]++;
+    void search(int[][] arr, int sr, int sc, int size){
+        int first = arr[sr][sc];
+        if(size == 1){
+            // System.out.println(sr+" "+sc+" "+size);
+            if(first == 0){
+                z++;
             }else{
-                answer[1]++;
+                o++;
             }
             return;
         }
+        int sum = 0;
+        boolean flag = true;
+        outer : for(int r=sr; r<sr+size; r++){
+            for(int c=sc; c<sc+size; c++){
+                if(arr[r][c] != first){
+                    flag = false;
+                    break;
+                }
+            }
+        }
 
-        divide(arr,sR,sC,sR+N/2,sC+N/2, N/2);
-        divide(arr, sR,sC+N/2,sR+N/2, eC,N/2);
-        divide(arr, sR+N/2,sC,eR, sC+N/2,N/2);
-        divide(arr, sR+N/2,sC+N/2,eR, eC,N/2);
-    }
-
-
-    public static void main(String[] args) {
-        int[][] arr = {{1,1,1,1,1,1,1,1},{0,1,1,1,1,1,1,1},{0,0,0,0,1,1,1,1},{0,1,0,0,1,1,1,1},{0,0,0,0,0,0,1,1},{0,0,0,0,0,0,0,1},{0,0,0,0,1,0,0,1},{0,0,0,0,1,1,1,1}};
-        System.out.println(Arrays.toString(solution(arr)));
+        if(flag){
+            if(first == 0){
+                z++;
+            }else{
+                o++;
+            }
+        }else{
+            search(arr, sr, sc, size/2);
+            search(arr, sr+size/2, sc, size/2);
+            search(arr, sr, sc+size/2, size/2);
+            search(arr, sr+size/2, sc+size/2, size/2);
+        }
     }
 }
