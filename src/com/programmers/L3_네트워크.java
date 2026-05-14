@@ -1,25 +1,40 @@
+// https://school.programmers.co.kr/learn/courses/30/lessons/43162
 package com.programmers;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 public class L3_네트워크 {
-	public int solution(int n, int[][] computers) {
+    boolean[] isVisited;
+    public int solution(int n, int[][] computers) {
         int answer = 0;
-        boolean[] isVisited = new boolean[n];
-        for(int i=0; i<computers.length; i++){
+
+        isVisited = new boolean[n];
+
+        for(int i=0; i<n; i++){
             if(!isVisited[i]){
+                System.out.println();
                 answer++;
-                dfs(computers, isVisited, i);
+                bfs(i, computers);
             }
-                
         }
-        
         return answer;
     }
-    
-    public void dfs(int[][] computers, boolean [] isVisited, int start){
-        isVisited[start] = true;
-        for(int i=0; i<computers.length; i++){
-            if(!isVisited[i] && computers[start][i] == 1){
-                dfs(computers, isVisited, i);
+
+    void bfs(int cur, int[][] map){
+        Queue<Integer> queue = new LinkedList<>();
+        queue.offer(cur);
+        isVisited[cur] = true;
+
+        while(!queue.isEmpty()){
+            int front = queue.poll();
+            int[] childs = map[front];
+            for(int i=0; i<childs.length; i++){
+                int child = childs[i];
+                if(!isVisited[i] && child == 1){
+                    isVisited[i] = true;
+                    queue.offer(i);
+                }
             }
         }
     }
