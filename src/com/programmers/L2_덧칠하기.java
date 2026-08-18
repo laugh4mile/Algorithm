@@ -1,24 +1,24 @@
+// PGM - 161989 덧칠하기
+// 그리디
+// https://school.programmers.co.kr/learn/courses/30/lessons/161989
 package com.programmers;
 
-public class L2_덧칠하기 {
-    public static int solution(int n, int m, int[] section) {
-        int answer = 0;
-        int cur = 0;
+import java.util.HashSet;
+import java.util.Set;
 
+public class L2_덧칠하기 {
+    public int solution(int n, int m, int[] section) {
+        int answer = 0;
+        Set<Integer> set = new HashSet();
         for(int i=0; i<section.length; i++){
-            if(section[i] > cur){
+            int sec = section[i];
+            if(!set.contains(sec)){
                 answer++;
-                cur = section[i]+m-1;
+                for(int j=0; j<m; j++){
+                    set.add(sec+j);
+                }
             }
         }
-
         return answer;
-    }
-
-    public static void main(String[] args) {
-        int n = 8;
-        int m = 4;
-        int[] section = {2,3,6};
-        System.out.println(solution(n,m,section));
     }
 }
