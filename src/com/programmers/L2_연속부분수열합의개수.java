@@ -1,31 +1,42 @@
+// https://school.programmers.co.kr/learn/courses/30/lessons/131701?language=java
 package com.programmers;
 
 import java.util.HashSet;
 import java.util.Set;
 
 class L2_연속부분수열합의개수 {
-    public static int solution(int[] elements) {
+    public int solution(int[] elements) {
         int answer = 0;
+
+        int size = elements.length;
+        int[] temp = new int[size*2];
         Set<Integer> set = new HashSet<>();
-        int[] temp = new int[elements.length*2-1];
-        for(int i=0; i<temp.length; i++){
-            temp[i] = elements[i%elements.length];
+
+        for(int i=0; i<size; i++){
+            temp[i] = elements[i];
+            temp[i+size] = elements[i];
+            set.add(elements[i]);
         }
-//        System.out.println(Arrays.toString(temp));
-        for(int size=1; size<elements.length; size++){ // 부분수열의 길이가 i 일때 합. 총길이는 1개 라서 필요없을듯
-            for(int i=0; i<elements.length; i++){ // 시작 idx
-                int sum = 0;
-                for(int j=i; j<i+size; j++){
-                    sum += temp[j];
-                }
-                set.add(sum);
+
+        // System.out.println(Arrays.toString(temp));
+
+        int[] sum = new int[size*2];
+
+        sum[0] = temp[0];
+        for(int i=1; i<size*2; i++){
+            sum[i] = sum[i-1] + temp[i];
+        }
+        // System.out.println(Arrays.toString(sum));
+
+        for(int i=0; i<size; i++){
+            for(int j=1; j<=size; j++){
+                set.add(sum[i+j]-sum[i]);
             }
         }
-        return set.size()+1;
-    }
 
-    public static void main(String[] args) {
-        int[] elements = {7,9,1,1,4};
-        System.out.println(solution(elements));
+        answer = set.size();
+
+
+        return answer;
     }
 }
