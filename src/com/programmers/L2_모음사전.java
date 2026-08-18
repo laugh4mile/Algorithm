@@ -1,36 +1,30 @@
+// PGM - 84512 L2_모음사전
+// 완전탐색
+// https://school.programmers.co.kr/learn/courses/30/lessons/84512?language=java
 package com.programmers;
 
-import java.util.ArrayList;
-import java.util.List;
-
 class L2_모음사전 {
-    static List<String> list;
-    static char[] arr = {'A','E','I','O','U'};
-    public static int solution(String word) {
-        int answer = 0;
-        list = new ArrayList<>();
-        for(int i=0; i<arr.length; i++){
-            dfs(0, arr[i], "");
-        }
-//        System.out.println(list);
-        answer = list.indexOf(word);
+    int cnt, answer;
+
+    public int solution(String word) {
+        solve("", new char[]{'A','E','I','O','U'}, word);
+
         return answer;
     }
 
-    private static void dfs(int cnt, char ch, String word) {
-        list.add(word);
-        if(cnt == 5){
+    void solve(String cur, char[] aeiou, String word){
+        if(cur.equals(word)){
+            answer = cnt;
             return;
         }
-        for(int i=0; i<arr.length; i++){
-//            word = word+arr[i];
-            dfs(cnt+1, arr[i], word+arr[i]);
-//            word = word.substring(0,word.length()-1);
-        }
-    }
+        cnt++;
 
-    public static void main(String[] args) {
-        String word = "I";
-        System.out.println(solution(word));
+        if(cur.length() == 5){
+            return;
+        }
+
+        for(int i=0; i<5; i++){
+            solve(cur + aeiou[i], aeiou, word);
+        }
     }
 }
