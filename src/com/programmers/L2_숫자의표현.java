@@ -1,25 +1,29 @@
+// PGM - 12924 L2_숫자의표현
+// 투포인터
+// https://school.programmers.co.kr/learn/courses/30/lessons/12924?language=java
 package com.programmers;
 
 class L2_숫자의표현 {
-    public static int solution(int n) {
+    public int solution(int n) {
         int answer = 0;
 
-        for(int i=1; i<n+1; i++){
-            int sum = 0;
-            for(int j=i; j<n+1; j++){
-                sum += j;
-                if(sum == n){
-                    answer++;
-                }else if(sum > n){
-                    sum = 0;
-                    break;
-                }
+        int start = 1;
+        int end = 1;
+
+        int sum = 1;
+
+        while(end < n){
+            // System.out.println(sum);
+            if(sum == n){
+                answer++;
+                sum += ++end;
+            }else if(sum < n){
+                sum += ++end;
+            }else{
+                sum -= start++;
             }
         }
-        return answer;
-    }
 
-    public static void main(String[] args) {
-        System.out.println(solution(15));
+        return answer+1;
     }
 }
