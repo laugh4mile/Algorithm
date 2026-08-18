@@ -1,38 +1,41 @@
+// PGM - 49993 스킬트리
+// 그래프
+// https://school.programmers.co.kr/learn/courses/30/lessons/49993
 package com.programmers;
 
+import java.util.HashMap;
+import java.util.Map;
+
 class L2_스킬트리 {
-    public static int solution(String skill, String[] skill_trees) {
+    public int solution(String skill, String[] skill_trees) {
         int answer = 0;
-        for(int i=0; i< skill_trees.length; i++){
-            if(isAble(skill, skill_trees[i])) answer++;
+
+        Map<Character, Integer> map = new HashMap<>();
+
+        for(int i=0; i<skill.length(); i++){
+            char c = skill.charAt(i);
+            map.put(c, i+1);
         }
-        return answer;
-    }
 
-    private static boolean isAble(String skill, String skill_tree) {
-        int pre = Integer.MAX_VALUE;
-        boolean isExist = false;
-        for(int i=skill.length()-1; i>=0; i--){
-            if (skill_tree.contains(skill.charAt(i)+"")){
-                isExist = true;
+        outer: for(int i=0; i<skill_trees.length; i++){
+            int cnt = 1;
+            for(int j=0; j<skill_trees[i].length(); j++){
+                char c = skill_trees[i].charAt(j);
+                // System.out.println(c);
 
-                if(skill_tree.indexOf(skill.charAt(i)+"") < pre){
-                    pre = skill_tree.indexOf(skill.charAt(i)+"");
-                }else{
-                    return false;
-                }
-            }else{
-                if(isExist){
-                    return false;
+                if(map.get(c) != null){
+                    if(map.get(c) == cnt){
+                        cnt++;
+                    }else{
+                        // System.out.println();
+                        continue outer;
+                    }
                 }
             }
+            answer++;
+            System.out.println();
         }
-        return true;
-    }
 
-    public static void main(String[] args) {
-        String skill = "CBD";
-        String[] skill_trees = {"BACDE", "CBADF", "AECB", "BDA"};
-        System.out.println(solution(skill, skill_trees));
+        return answer;
     }
 }
